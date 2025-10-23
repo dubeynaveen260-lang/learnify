@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="LTjjUgLcAd5U-sNcXDDKOlRN5kB8qx8-8eeprTe8Sl0" />
+    <meta name="fragment" content="!">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Primary Meta Tags -->
+    <title>Learnify - Free Online Learning Platform for BCA, BBA, B.Tech & More | India</title>
+    <meta name="title" content="Learnify - Free Online Learning Platform for BCA, BBA, B.Tech & More | India">
+    <meta name="description" content="Learnify is a free online learning platform for Indian students. Learn BCA, BBA, B.Tech, Agriculture, Commerce, Arts with Hindi video tutorials, AI assistance, quizzes, and gamification. Track your progress and compete on leaderboards!">
+    <meta name="keywords" content="online learning, free education, BCA courses, BBA courses, B.Tech courses, Agriculture courses, Commerce courses, Arts courses, Hindi tutorials, AI study assistant, student platform India, gamified learning, online quizzes, study roadmap, educational platform">
+    <meta name="author" content="Naveen Dubey and Team">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://learnifywithus.vercel.app/">
+    <meta property="og:title" content="Learnify - Free Online Learning Platform for Students">
+    <meta property="og:description" content="Learn BCA, BBA, B.Tech, Agriculture, Commerce, Arts with AI assistance, quizzes, and gamification. Free for all Indian students!">
+    <meta property="og:image" content="https://learnifywithus.vercel.app/images/og-image.jpg">
+    <meta property="og:site_name" content="Learnify">
+    <meta property="og:locale" content="en_IN">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://learnifywithus.vercel.app/">
+    <meta property="twitter:title" content="Learnify - Free Online Learning Platform">
+    <meta property="twitter:description" content="Learn BCA, BBA, B.Tech with AI assistance, quizzes, and gamification. Free for all students!">
+    <meta property="twitter:image" content="https://learnifywithus.vercel.app/images/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://learnifywithus.vercel.app/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Learnify",
+      "description": "Free online learning platform for Indian students with courses in BCA, BBA, B.Tech, Agriculture, Commerce, and Arts",
+      "url": "https://learnifywithus.vercel.app",
+      "logo": "https://learnifywithus.vercel.app/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/learnify",
+        "https://twitter.com/learnify",
+        "https://www.linkedin.com/company/learnify"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "email": "support@learnify.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "category": "Education",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen (sidebar modal, hidden by default) -->
+    <div id="loginScreen" class="auth-screen" style="display:none;">
+        <div class="auth-container">
+            <span class="close-auth" onclick="document.getElementById('loginScreen').style.display='none'">&times;</span>
+            <div class="auth-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Learnify</h1>
+                <p>Your personalized learning journey starts here</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="showTab('login')">Login</button>
+                <button class="auth-tab" onclick="showTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <a href="#" class="forgot-password" onclick="showResetPassword()">Forgot Password?</a>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="signupName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-graduation-cap"></i>
+                    <select id="signupCourse" required>
+                        <option value="">Select Your Course</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BTech">B.Tech</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Password (min 6 characters)" required>
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('signupPassword', this)"></i>
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Reset Screen -->
+    <div id="resetScreen" class="auth-screen" style="display:none;">
+        <div class="auth-container">
+            <span class="close-auth" onclick="backToLogin()">&times;</span>
+            <div class="auth-logo">
+                <i class="fas fa-key"></i>
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive a reset link</p>
+            </div>
+            <form id="resetForm" class="auth-form active">
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="resetEmail" placeholder="Email" required>
+                </div>
+                <button type="submit" class="btn-primary">Send Reset Link</button>
+                <a href="#" class="back-to-login" onclick="backToLogin()">Back to Login</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application (shown by default) -->
+    <div id="mainApp">
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Learnify</span>
+            </div>
+
+            <!-- User Profile Section -->
+            <div class="user-profile" onclick="showProfile()">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Guest</div>
+                    <div class="user-level" id="userLevel">Not logged in</div>
+                </div>
+            </div>
+
+            <!-- XP Progress Bar -->
+            <div class="xp-container">
+                <div class="xp-label">
+                    <span>XP</span>
+                    <span id="xpText">0 / 100</span>
+                </div>
+                <div class="xp-bar">
+                    <div class="xp-progress" id="xpProgress" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('roadmap')">
+                    <i class="fas fa-map"></i>
+                    <span>Course Roadmap</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('resources')">
+                    <i class="fas fa-book"></i>
+                    <span>Resources</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('ai-assistant')">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('quizzes')">
+                    <i class="fas fa-clipboard-question"></i>
+                    <span>Quizzes</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('leaderboard')">
+                    <i class="fas fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('community')">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('achievements')">
+                    <i class="fas fa-award"></i>
+                    <span>Achievements</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('cgpa-calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>CGPA Calculator</span>
+                </a>
+            </nav>
+
+            <!-- Login/Logout Button -->
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="authButton" onclick="toggleAuth()">
+                    <i class="fas fa-sign-in-alt" id="authIcon"></i>
+                    <span id="authText">Login</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="streak-display">
+                    <i class="fas fa-fire"></i>
+                    <span id="streakDays">0</span> Day Streak
+                </div>
+                <div class="daily-quote" id="dailyQuote">
+                    "The expert in anything was once a beginner."
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="content-section active">
+                <h1>Welcome back, <span id="dashboardUserName">Student</span>! 🎉</h1>
+                
+                <!-- Guest User Notice -->
+                <div id="guestNotice" class="guest-notice" style="display:none;">
+                    <div style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 25px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                        <h2 style="margin-bottom: 15px;">👋 Welcome to Learnify!</h2>
+                        <p style="margin-bottom: 20px; opacity: 0.95;">You're browsing as a guest. Login or create an account to track your progress, earn XP, and unlock all features!</p>
+                        <button onclick="document.getElementById('loginScreen').style.display='flex'" class="btn-primary" style="background: white; color: var(--primary-color); font-weight: 600; padding: 12px 30px;">
+                            <i class="fas fa-sign-in-alt"></i> Login or Sign Up
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-value" id="totalXP">0</div>
+                        <div class="stat-label">Total XP</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-value" id="completedTopics">0</div>
+                        <div class="stat-label">Topics Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="stat-value" id="quizzesTaken">0</div>
+                        <div class="stat-label">Quizzes Taken</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-percentage"></i>
+                        <div class="stat-value" id="avgAccuracy">0%</div>
+                        <div class="stat-label">Avg Accuracy</div>
+                    </div>
+                </div>
+
+                <!-- Progress Chart -->
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Your Progress</h3>
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Next Steps</h3>
+                        <div id="nextSteps" class="next-steps-list">
+                            <div class="next-step-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <p>Complete your course roadmap to get personalized suggestions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal of the Week -->
+                <div class="card">
+                    <h3>🎯 Goal of the Week</h3>
+                    <div class="goal-tracker">
+                        <input type="text" id="weeklyGoal" placeholder="Set your goal for this week...">
+                        <button onclick="saveWeeklyGoal()" class="btn-primary">Save Goal</button>
+                    </div>
+                    <div id="currentGoal" class="current-goal"></div>
+                </div>
+            </section>
+
+            <!-- Course Roadmap Section -->
+            <section id="roadmapSection" class="content-section">
+                <h1>📚 Course Roadmap</h1>
+                <p class="section-desc">Track your learning journey through structured courses</p>
+                
+                <div class="course-selector">
+                    <label>Select Course:</label>
+                    <select id="courseSelect" onchange="loadRoadmap()">
+                        <option value="">Choose a course</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BTech">B.Tech</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                </div>
+
+                <div id="roadmapContainer" class="roadmap-container">
+                    <!-- Roadmap will be dynamically loaded here -->
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resourcesSection" class="content-section">
+                <h1>📖 Learning Resources</h1>
+                <p class="section-desc">Curated notes, tutorials, and study materials from trusted sources</p>
+                
+                <div class="resource-filters">
+                    <input type="text" id="resourceSearch" placeholder="Search resources..." onkeyup="filterResources()">
+                    <select id="resourceCourseFilter" onchange="filterResources()">
+                        <option value="all">All Courses</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BTech">B.Tech</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                    <select id="resourceSemesterFilter" onchange="filterResources()">
+                        <option value="all">All Semesters</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                    <select id="resourceFilter" onchange="filterResources()">
+                        <option value="all">All Types</option>
+                        <option value="pdf">PDF Documents</option>
+                        <option value="notes">Notes & Tutorials</option>
+                    </select>
+                </div>
+
+                <div id="resourcesGrid" class="resources-grid">
+                    <!-- Resources will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- AI Assistant Section -->
+            <section id="ai-assistantSection" class="content-section">
+                <h1>🤖 AI Study Assistant</h1>
+                <p class="section-desc">Get instant explanations, summaries, and study help</p>
+                
+                <div class="ai-container">
+                    <div class="ai-features">
+                        <button class="ai-feature-btn" onclick="setAIMode('explain')">
+                            <i class="fas fa-lightbulb"></i>
+                            Explain Topic
+                        </button>
+                        <button class="ai-feature-btn" onclick="setAIMode('notes')">
+                            <i class="fas fa-note-sticky"></i>
+                            Generate Notes
+                        </button>
+                        <button class="ai-feature-btn" onclick="setAIMode('examples')">
+                            <i class="fas fa-code"></i>
+                            Get Examples
+                        </button>
+                        <button class="ai-feature-btn" onclick="setAIMode('summarize')">
+                            <i class="fas fa-file-lines"></i>
+                            Summarize
+                        </button>
+                    </div>
+
+                    <div class="ai-chat-container">
+                        <div id="aiChat" class="ai-chat">
+                            <div class="ai-message bot">
+                                <i class="fas fa-robot"></i>
+                                <div class="message-content">
+                                    <p>Hi! I'm your AI study assistant. Ask me anything about your course topics, and I'll help you understand them better! 📚</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-input-container">
+                            <input type="text" id="aiInput" placeholder="Ask me anything..." onkeypress="handleAIEnter(event)">
+                            <button onclick="sendAIMessage()" class="btn-send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quizzes Section -->
+            <section id="quizzesSection" class="content-section">
+                <h1>📝 Quizzes & Challenges</h1>
+                <p class="section-desc">Test your knowledge and earn XP</p>
+                
+                <div class="quiz-options">
+                    <div class="quiz-card" onclick="startQuiz('topic')">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Topic Quiz</h3>
+                        <p>Test specific topics</p>
+                    </div>
+                    <div class="quiz-card" onclick="startQuiz('subject')">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Subject Quiz</h3>
+                        <p>Complete subject assessment</p>
+                    </div>
+                    <div class="quiz-card" onclick="startQuiz('random')">
+                        <i class="fas fa-shuffle"></i>
+                        <h3>Random Challenge</h3>
+                        <p>Mixed questions</p>
+                    </div>
+                    <div class="quiz-card" onclick="startQuiz('compete')">
+                        <i class="fas fa-users"></i>
+                        <h3>Compete</h3>
+                        <p>Challenge friends</p>
+                    </div>
+                </div>
+
+                <div id="quizContainer" class="quiz-container" style="display:none;">
+                    <!-- Quiz will be loaded here -->
+                </div>
+
+                <div class="quiz-history">
+                    <h3>Recent Quiz Results</h3>
+                    <div id="quizHistory" class="quiz-history-list">
+                        <!-- Quiz history will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Section -->
+            <section id="leaderboardSection" class="content-section">
+                <h1>🏆 Leaderboard</h1>
+                <p class="section-desc">See how you rank among peers</p>
+                
+                <div class="leaderboard-filters">
+                    <button class="filter-btn active" onclick="filterLeaderboard('global')">Global</button>
+                    <button class="filter-btn" onclick="filterLeaderboard('course')">My Course</button>
+                    <button class="filter-btn" onclick="filterLeaderboard('month')">This Month</button>
+                </div>
+
+                <div id="leaderboardContainer" class="leaderboard-container">
+                    <!-- Leaderboard will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Community Section -->
+            <section id="communitySection" class="content-section">
+                <h1>👥 Community</h1>
+                <p class="section-desc">Connect, discuss, and learn together</p>
+                
+                <div class="community-tabs">
+                    <button class="community-tab active" onclick="showCommunityTab('discussions')">Discussions</button>
+                    <button class="community-tab" onclick="showCommunityTab('qa')">Q&A</button>
+                    <button class="community-tab" onclick="showCommunityTab('groups')">Study Groups</button>
+                </div>
+
+                <div id="discussionsTab" class="community-content active">
+                    <button class="btn-primary" onclick="createNewDiscussion()">
+                        <i class="fas fa-plus"></i> New Discussion
+                    </button>
+                    <div id="discussionsList" class="discussions-list">
+                        <!-- Discussions will be loaded here -->
+                    </div>
+                </div>
+
+                <div id="qaTab" class="community-content">
+                    <button class="btn-primary" onclick="askQuestion()">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </button>
+                    <div id="questionsList" class="questions-list">
+                        <!-- Q&A will be loaded here -->
+                    </div>
+                </div>
+
+                <div id="groupsTab" class="community-content">
+                    <button class="btn-primary" onclick="createStudyGroup()">
+                        <i class="fas fa-users"></i> Create Group
+                    </button>
+                    <div id="studyGroupsList" class="study-groups-list">
+                        <!-- Study groups will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section id="achievementsSection" class="content-section">
+                <h1>🏅 Achievements & Badges</h1>
+                <p class="section-desc">Unlock badges and track your accomplishments</p>
+                
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Achievements will be loaded here -->
+                </div>
+            </section>
+
+            <!-- CGPA Calculator Section -->
+            <section id="cgpa-calculatorSection" class="content-section">
+                <h1>🧮 CGPA Calculator</h1>
+                <p class="section-desc">Calculate your SGPA, CGPA, and equivalent percentage</p>
+                
+                <div class="card">
+                    <div class="cgpa-calculator-container">
+                        <div class="semester-selector">
+                            <label for="numSemesters">Number of Semesters:</label>
+                            <select id="numSemesters" onchange="generateSemesterInputs()">
+                                <option value="">Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+
+                        <div id="semesterInputsContainer" class="semester-inputs-container">
+                            <!-- Semester inputs will be generated here -->
+                        </div>
+
+                        <div class="cgpa-actions">
+                            <button onclick="calculateCGPA()" class="btn-primary" style="width: auto; padding: 12px 30px;">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                            <button onclick="resetCGPACalculator()" class="btn-primary" style="width: auto; padding: 12px 30px; background: var(--warning-color);">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+
+                        <div id="cgpaResults" class="cgpa-results" style="display: none;">
+                            <h3>📊 Results</h3>
+                            <div class="cgpa-result-grid">
+                                <div class="result-card">
+                                    <div class="result-label">Overall CGPA</div>
+                                    <div class="result-value" id="overallCGPA">0.00</div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-label">Equivalent Percentage</div>
+                                    <div class="result-value" id="equivalentPercentage">0.00%</div>
+                                </div>
+                            </div>
+                            <div id="semesterWiseSGPA" class="semester-wise-sgpa">
+                                <!-- Semester-wise SGPA will be displayed here -->
+                            </div>
+                            <button onclick="downloadCGPAResult()" class="btn-primary" style="width: auto; padding: 12px 30px; margin-top: 20px;">
+                                <i class="fas fa-download"></i> Download Result
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-content">
+                    <p>Made with ❤️ by <strong>Naveen Dubey and Team</strong></p>
+                    <p class="footer-year">© 2025 Learnify - Empowering Learners Everywhere</p>
+                </div>
+            </footer>
+
+            <!-- Profile Modal -->
+            <div id="profileModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeProfile()">&times;</span>
+                    <h2>Profile</h2>
+                    
+                    <div class="profile-info">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h3 id="profileName">Student Name</h3>
+                            <p id="profileEmail">email@example.com</p>
+                            <p id="profileCourse">Course: BCA</p>
+                            <div class="profile-stats">
+                                <div>
+                                    <strong id="profileLevel">Level 1</strong>
+                                    <span>Level</span>
+                                </div>
+                                <div>
+                                    <strong id="profileXP">0</strong>
+                                    <span>Total XP</span>
+                                </div>
+                                <div>
+                                    <strong id="profileBadges">0</strong>
+                                    <span>Badges</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-edit">
+                        <h3>Update Profile</h3>
+                        <form id="profileUpdateForm">
+                            <input type="text" id="updateName" placeholder="Full Name">
+                            <select id="updateCourse">
+                                <option value="">Select Course</option>
+                                <option value="BCA">BCA</option>
+                                <option value="BBA">BBA</option>
+                                <option value="BTech">B.Tech</option>
+                                <option value="Agriculture">Agriculture</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts</option>
+                            </select>
+                            <button type="submit" class="btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <!-- Chart.js for Progress Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/roadmap.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/community.js"></script>
+    <script src="js/cgpa-calculator.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

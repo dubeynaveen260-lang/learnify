@@ -1,0 +1,142 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i)"
+        },
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "course": {
+          ".validate": "newData.isString()"
+        },
+        "xp": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "level": {
+          ".validate": "newData.isNumber() && newData.val() >= 1"
+        },
+        "badges": {
+          ".validate": "newData.hasChildren()"
+        },
+        "completedTopics": {
+          ".validate": "newData.hasChildren()"
+        },
+        "streak": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "lastLoginDate": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    },
+    "discussions": {
+      ".read": "auth != null",
+      "$discussionId": {
+        ".write": "auth != null && (!data.exists() || data.child('authorId').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['title', 'subject', 'content', 'authorId', 'authorName', 'timestamp'])",
+        "title": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+        },
+        "subject": {
+          ".validate": "newData.isString()"
+        },
+        "content": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 5000"
+        },
+        "authorId": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "authorName": {
+          ".validate": "newData.isString()"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        },
+        "replies": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "likes": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        }
+      }
+    },
+    "discussionReplies": {
+      ".read": "auth != null",
+      "$discussionId": {
+        "$replyId": {
+          ".write": "auth != null",
+          ".validate": "newData.hasChildren(['content', 'authorId', 'authorName', 'timestamp'])",
+          "content": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
+          },
+          "authorId": {
+            ".validate": "newData.val() === auth.uid"
+          },
+          "authorName": {
+            ".validate": "newData.isString()"
+          },
+          "timestamp": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          }
+        }
+      }
+    },
+    "questions": {
+      ".read": "auth != null",
+      "$questionId": {
+        ".write": "auth != null && (!data.exists() || data.child('authorId').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['title', 'details', 'authorId', 'authorName', 'timestamp'])",
+        "title": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+        },
+        "details": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 5000"
+        },
+        "authorId": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "authorName": {
+          ".validate": "newData.isString()"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        },
+        "answers": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "votes": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    },
+    "studyGroups": {
+      ".read": "auth != null",
+      "$groupId": {
+        ".write": "auth != null && (!data.exists() || data.child('creatorId').val() === auth.uid || data.child('members/' + auth.uid).exists())",
+        ".validate": "newData.hasChildren(['name', 'description', 'creatorId', 'creatorName', 'timestamp'])",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "description": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+        },
+        "creatorId": {
+          ".validate": "newData.isString()"
+        },
+        "creatorName": {
+          ".validate": "newData.isString()"
+        },
+        "members": {
+          ".validate": "newData.hasChildren()"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        }
+      }
+    }
+  }
+}

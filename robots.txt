@@ -1,0 +1,24 @@
+# Learnify - Robots.txt
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /css/
+Allow: /js/
+
+# Sitemap location
+Sitemap: https://learnifywithus.vercel.app/sitemap.xml
+
+# Disallow test files and configuration
+Disallow: /test-*.html
+Disallow: /*.json
+Disallow: /server.js
+Disallow: /.env
+
+# Allow JavaScript and CSS for proper rendering
+Allow: /*.js
+Allow: /*.css
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

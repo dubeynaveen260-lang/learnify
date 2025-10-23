@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Homepage - Main entry point -->
+  <url>
+    <loc>https://learnifywithus.vercel.app/</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Note: Single Page Application (SPA) - All content accessible via main page -->
+  <!-- Google can index the main page and discover all features through interactive navigation -->
+
+</urlset>
