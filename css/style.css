@@ -589,6 +589,29 @@ body {
     gap: 20px;
 }
 
+.info-note {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.info-note i {
+    color: var(--primary-color);
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.info-note span {
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
 .subject-card {
     background: var(--card-bg);
     border-radius: 15px;

@@ -7,85 +7,328 @@
 const COURSE_ROADMAPS = {
     "BCA": {
         name: "Bachelor of Computer Applications",
-        subjects: [
+        semesters: [
             {
-                id: "programming",
-                name: "Programming Fundamentals",
-                topics: [
+                semester: 1,
+                name: "Semester 1",
+                subjects: [
                     {
-                        id: "intro-programming",
-                        name: "Introduction to Programming",
+                        id: "computer-fundamentals",
+                        name: "Computer Fundamentals",
+                        description: "Introduction to computers, hardware, software, and basic IT concepts",
                         videos: [
-                            { title: "Programming Basics - Hindi", url: "https://youtu.be/urWwn0MTzb4?si=mjsV9HlrNP0nnulA" },
-                            { title: "Computer Programming Fundamentals - Hindi", url: "https://youtu.be/kYam6NoxbFE?si=-5_299ND6p5OXIFa" }
+                            { title: "Computer Fundamentals Complete Course ", url: "https://youtu.be/agaLaSafbwc?si=usSY807W4dTUUa60 " },
+                            { title: "Computer Basics in Hindi - Knowledge Gate", url: "https://www.youtube.com/watch?v=cJy8i9K65Gg" },
+                            { title: "Introduction to Computers - Gate Smashers", url: "https://www.youtube.com/watch?v=pTdSs8kQY1Y" }
                         ]
                     },
                     {
-                        id: "c-programming",
-                        name: "C Programming",
+                        id: "programming-c",
+                        name: "Programming in C",
+                        description: "C programming from basics to advanced concepts with practical examples",
                         videos: [
-                            { title: "C Programming Complete Course - Hindi", url: "https://youtu.be/aZb0iu4uGwA?si=PjCf_mGJwPEpcvgg" },
-                            { title: "C Programming Tutorial - Hindi", url: "https://youtu.be/irqbmMNs2Bo?si=XNIIALZk1ABqpPga" }
+                            { title: "C Programming Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "C Language Complete Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
+                            { title: "C Programming in Hindi - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
                         ]
                     },
                     {
-                        id: "data-structures",
-                        name: "Data Structures",
+                        id: "mathematics-i",
+                        name: "Mathematics I",
+                        description: "Calculus, algebra, and mathematical foundations for computer applications",
                         videos: [
-                            { title: "Data Structures Full Course - Hindi", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
-                            { title: "DSA for Beginners - Hindi", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                            { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
+                            { title: "Calculus Complete Course - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
+                            { title: "Mathematics for BCA - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                        ]
+                    },
+                    {
+                        id: "digital-electronics",
+                        name: "Digital Electronics",
+                        description: "Logic gates, circuits, and digital systems fundamentals",
+                        videos: [
+                            { title: "Digital Electronics Full Course - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Digital Logic Design - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Logic Gates Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "communication-skills",
+                        name: "Communication Skills",
+                        description: "English communication, presentation, and soft skills for professionals",
+                        videos: [
+                            { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "English Speaking Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
                         ]
                     }
                 ]
             },
             {
-                id: "web-development",
-                name: "Web Development",
-                topics: [
+                semester: 2,
+                name: "Semester 2",
+                subjects: [
                     {
-                        id: "html-css",
-                        name: "HTML & CSS",
+                        id: "data-structures-c",
+                        name: "Data Structures in C",
+                        description: "Arrays, linked lists, stacks, queues, trees, and graphs implementation in C",
                         videos: [
-                            { title: "HTML CSS Complete Course - Hindi", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
-                            { title: "Web Development Tutorial - Hindi", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                            { title: "Data Structures Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "DSA Complete - Jenny's Lectures", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Data Structures in Hindi - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
                         ]
                     },
                     {
-                        id: "javascript",
-                        name: "JavaScript",
+                        id: "discrete-mathematics",
+                        name: "Discrete Mathematics",
+                        description: "Sets, relations, graph theory, combinatorics, and mathematical logic",
                         videos: [
-                            { title: "JavaScript Full Course - Hindi", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
-                            { title: "JavaScript Tutorial - Hindi", url: "https://www.youtube.com/watch?v=ER9SzCkoIyk" }
+                            { title: "Discrete Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
+                            { title: "Discrete Math Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Graph Theory - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
                         ]
                     },
                     {
-                        id: "react",
-                        name: "React.js",
+                        id: "dbms",
+                        name: "Database Management Systems (DBMS)",
+                        description: "SQL, relational databases, normalization, and transaction management",
                         videos: [
-                            { title: "React Course for Beginners - Hindi", url: "https://www.youtube.com/watch?v=RGKi6LSPDLU" },
-                            { title: "React Tutorial - Hindi", url: "https://www.youtube.com/watch?v=tiLWCNFzThE" }
+                            { title: "DBMS Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
+                            { title: "Database Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "SQL Tutorial - CodeWithHarry", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
+                        ]
+                    },
+                    {
+                        id: "operating-system",
+                        name: "Operating System",
+                        description: "Process management, memory, file systems, and scheduling algorithms",
+                        videos: [
+                            { title: "Operating System Full Course - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "OS Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Operating Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "environmental-studies",
+                        name: "Environmental Studies",
+                        description: "Ecology, pollution, and sustainable development concepts",
+                        videos: [
+                            { title: "Environmental Science - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Environment Studies in Hindi", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" }
                         ]
                     }
                 ]
             },
             {
-                id: "database",
-                name: "Database Management",
-                topics: [
+                semester: 3,
+                name: "Semester 3",
+                subjects: [
                     {
-                        id: "sql-basics",
-                        name: "SQL Fundamentals",
+                        id: "oop-cpp",
+                        name: "Object Oriented Programming (C++)",
+                        description: "Classes, objects, inheritance, polymorphism, and encapsulation in C++",
                         videos: [
-                            { title: "SQL Full Course - Hindi", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
-                            { title: "SQL Tutorial - Hindi", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" }
+                            { title: "C++ Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=yGB9jhsEsr8&list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL" },
+                            { title: "C++ OOP Complete - Apna College", url: "https://www.youtube.com/watch?v=z9bZufPHFLU&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Object Oriented Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=wN0x9eZLix4&list=PLdo5W4Nhv31YU5Wx1dopka58teWP9aCee" }
                         ]
                     },
                     {
-                        id: "dbms-concepts",
-                        name: "DBMS Concepts",
+                        id: "computer-networks",
+                        name: "Computer Networks",
+                        description: "OSI model, TCP/IP, networking protocols, and security",
                         videos: [
-                            { title: "DBMS Complete Course - Hindi", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" },
-                            { title: "Database Management - Hindi", url: "https://www.youtube.com/watch?v=dl00fOOYLOM" }
+                            { title: "Computer Networks - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Networking Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "CN Full Course - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "software-engineering",
+                        name: "Software Engineering",
+                        description: "SDLC, testing, project management, and software models",
+                        videos: [
+                            { title: "Software Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "SE Complete Course - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Software Engineering Basics - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "data-communication",
+                        name: "Data Communication",
+                        description: "Signals, transmission media, and communication systems",
+                        videos: [
+                            { title: "Data Communication - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "Communication Systems - Knowledge Gate", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" },
+                            { title: "Data Communication Fundamentals - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60" }
+                        ]
+                    },
+                    {
+                        id: "numerical-methods",
+                        name: "Numerical Methods",
+                        description: "Numerical analysis and computational techniques",
+                        videos: [
+                            { title: "Numerical Methods - Gate Smashers", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
+                            { title: "Numerical Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU" },
+                            { title: "Computational Methods - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
+                    {
+                        id: "java-programming",
+                        name: "Java Programming",
+                        description: "Java fundamentals, OOP concepts, and application development",
+                        videos: [
+                            { title: "Java Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=ntLJmHOJ0ME" },
+                            { title: "Java Complete - Apna College", url: "https://www.youtube.com/watch?v=yRpLlJmRo2w&list=PLfqMhTWNBTe3LtFWcvwpqTkUSlB32kJop" },
+                            { title: "Java Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=UmnCZ7-9yDY&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" }
+                        ]
+                    },
+                    {
+                        id: "web-technologies",
+                        name: "Web Technologies (HTML, CSS, JS)",
+                        description: "Frontend development with HTML, CSS, and JavaScript",
+                        videos: [
+                            { title: "Web Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "JavaScript Full Course - Apna College", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
+                            { title: "HTML CSS JS - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                        ]
+                    },
+                    {
+                        id: "computer-graphics",
+                        name: "Computer Graphics",
+                        description: "Graphics algorithms, 2D/3D transformations, and rendering",
+                        videos: [
+                            { title: "Computer Graphics - Gate Smashers", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Graphics Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" },
+                            { title: "CG Fundamentals - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" }
+                        ]
+                    },
+                    {
+                        id: "microprocessor",
+                        name: "Microprocessor",
+                        description: "8085/8086 architecture, assembly language, and interfacing",
+                        videos: [
+                            { title: "Microprocessor - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "8085 Microprocessor - Knowledge Gate", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" },
+                            { title: "Microprocessor Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60" }
+                        ]
+                    },
+                    {
+                        id: "management-information-systems",
+                        name: "Management Information Systems",
+                        description: "MIS concepts, business systems, and decision support",
+                        videos: [
+                            { title: "MIS Complete - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "Management Information Systems - Gate Smashers", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "MIS Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 5,
+                name: "Semester 5",
+                subjects: [
+                    {
+                        id: "python-programming",
+                        name: "Python Programming",
+                        description: "Python basics to advanced, libraries, and applications",
+                        videos: [
+                            { title: "Python Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=gfDE2a7MKjA" },
+                            { title: "Python Tutorial - Apna College", url: "https://www.youtube.com/watch?v=ERCMXc8x7mc" },
+                            { title: "Python Complete - College Wallah", url: "https://www.youtube.com/watch?v=vLqTf2b6GZw" }
+                        ]
+                    },
+                    {
+                        id: "data-analytics-ml",
+                        name: "Data Analytics / Machine Learning Basics",
+                        description: "Introduction to data science and ML concepts",
+                        videos: [
+                            { title: "Machine Learning - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "Data Analytics - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" },
+                            { title: "ML Fundamentals - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" }
+                        ]
+                    },
+                    {
+                        id: "cloud-computing",
+                        name: "Cloud Computing",
+                        description: "Cloud concepts, services, deployment models",
+                        videos: [
+                            { title: "Cloud Computing - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "Cloud Basics - Knowledge Gate", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+                            { title: "Cloud Services - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "project-management",
+                        name: "Project Management",
+                        description: "Project planning, execution, monitoring, control",
+                        videos: [
+                            { title: "Project Management - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "PM Fundamentals - Gate Smashers", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "Project Planning - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q" }
+                        ]
+                    },
+                    {
+                        id: "cyber-security",
+                        name: "Cyber Security",
+                        description: "Security principles, threats, cryptography",
+                        videos: [
+                            { title: "Cyber Security - CodeWithHarry", url: "https://www.youtube.com/watch?v=vPNkrJP1BQ0" },
+                            { title: "Information Security - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "Network Security - Knowledge Gate", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 6,
+                name: "Semester 6",
+                subjects: [
+                    {
+                        id: "artificial-intelligence",
+                        name: "Artificial Intelligence / Data Science",
+                        description: "AI concepts, algorithms, applications",
+                        videos: [
+                            { title: "Artificial Intelligence - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "AI Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "Data Science - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" }
+                        ]
+                    },
+                    {
+                        id: "big-data",
+                        name: "Big Data Concepts",
+                        description: "Hadoop, Spark, NoSQL databases",
+                        videos: [
+                            { title: "Big Data - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "Hadoop Tutorial - College Wallah", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" },
+                            { title: "Big Data Analytics - Knowledge Gate", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" }
+                        ]
+                    },
+                    {
+                        id: "internship-project",
+                        name: "Internship / Major Project",
+                        description: "Real-world project development and implementation",
+                        videos: [
+                            { title: "Project Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Internship Guidance - Apna College", url: "https://www.youtube.com/watch?v=yRpLlJmRo2w" },
+                            { title: "Portfolio Building - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                        ]
+                    },
+                    {
+                        id: "soft-skills-interview",
+                        name: "Soft Skills & Interview Preparation",
+                        description: "Communication, resume building, interview skills",
+                        videos: [
+                            { title: "Interview Preparation - Apna College", url: "https://www.youtube.com/watch?v=RGKi6LSPDLU" },
+                            { title: "Placement Prep - Love Babbar", url: "https://www.youtube.com/watch?v=tiLWCNFzThE" },
+                            { title: "Soft Skills - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" }
                         ]
                     }
                 ]
@@ -94,277 +337,1806 @@ const COURSE_ROADMAPS = {
     },
     "BBA": {
         name: "Bachelor of Business Administration",
-        subjects: [
+        semesters: [
             {
-                id: "management",
-                name: "Principles of Management",
-                topics: [
+                semester: 1,
+                name: "Semester 1",
+                subjects: [
                     {
-                        id: "intro-management",
-                        name: "Introduction to Management",
+                        id: "principles-of-management",
+                        name: "Principles of Management",
+                        description: "Fundamentals of management, planning, organizing, leading, and controlling",
                         videos: [
-                            { title: "Management Principles - Hindi", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
-                            { title: "Business Management Basics - Hindi", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" }
+                            { title: "Management Principles - CodeWithHarry", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Business Management Basics - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Management Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "business-economics",
+                        name: "Business Economics",
+                        description: "Micro and macro economics concepts applied to business",
+                        videos: [
+                            { title: "Business Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Economics for Business - Knowledge Gate", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Micro Economics - College Wallah", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
+                        ]
+                    },
+                    {
+                        id: "business-communication",
+                        name: "Business Communication",
+                        description: "Effective communication skills for business environment",
+                        videos: [
+                            { title: "Business Communication - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Professional Communication - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Communication Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                        ]
+                    },
+                    {
+                        id: "financial-accounting",
+                        name: "Financial Accounting",
+                        description: "Accounting principles, financial statements, and bookkeeping",
+                        videos: [
+                            { title: "Financial Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=YFJYorzF3M0" },
+                            { title: "Accounting Basics - Knowledge Gate", url: "https://www.youtube.com/watch?v=G6tJH84HW1A" },
+                            { title: "Accounting Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=g93jf17WqO4" }
+                        ]
+                    },
+                    {
+                        id: "business-mathematics",
+                        name: "Business Mathematics",
+                        description: "Mathematical concepts and techniques for business applications",
+                        videos: [
+                            { title: "Business Mathematics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Math for Business - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU" },
+                            { title: "Quantitative Methods - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 2",
+                subjects: [
+                    {
+                        id: "marketing-management",
+                        name: "Marketing Management",
+                        description: "Marketing concepts, strategies, and consumer behavior",
+                        videos: [
+                            { title: "Marketing Management - CodeWithHarry", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "Marketing Strategy - Knowledge Gate", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "Consumer Behavior - College Wallah", url: "https://www.youtube.com/watch?v=nxGO_jbM9dU" }
                         ]
                     },
                     {
                         id: "organizational-behavior",
                         name: "Organizational Behavior",
+                        description: "Individual and group behavior in organizational settings",
                         videos: [
-                            { title: "Organizational Behavior Course - Hindi", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
-                            { title: "OB Fundamentals - Hindi", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "marketing",
-                name: "Marketing Management",
-                topics: [
-                    {
-                        id: "marketing-basics",
-                        name: "Marketing Fundamentals",
-                        videos: [
-                            { title: "Marketing Principles - Hindi", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
-                            { title: "Marketing Strategy - Hindi", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                            { title: "Organizational Behavior - Gate Smashers", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "OB Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Workplace Psychology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
                         ]
                     },
                     {
-                        id: "digital-marketing",
-                        name: "Digital Marketing",
+                        id: "business-law",
+                        name: "Business Law",
+                        description: "Legal framework for business operations and contracts",
                         videos: [
-                            { title: "Digital Marketing Full Course - Hindi", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
-                            { title: "Online Marketing - Hindi", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" }
+                            { title: "Business Law - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Commercial Law - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Legal Environment - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "cost-accounting",
+                        name: "Cost Accounting",
+                        description: "Cost concepts, costing methods, and cost control",
+                        videos: [
+                            { title: "Cost Accounting - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Cost Management - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Costing Techniques - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "environmental-management",
+                        name: "Environmental Management",
+                        description: "Environmental issues and sustainable business practices",
+                        videos: [
+                            { title: "Environmental Management - College Wallah", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Sustainability - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Green Business - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
                         ]
                     }
                 ]
             },
             {
-                id: "accounting",
-                name: "Financial Accounting",
-                topics: [
+                semester: 3,
+                name: "Semester 3",
+                subjects: [
                     {
-                        id: "accounting-basics",
-                        name: "Accounting Fundamentals",
+                        id: "human-resource-management",
+                        name: "Human Resource Management",
+                        description: "HR planning, recruitment, training, and performance management",
                         videos: [
-                            { title: "Accounting Principles - Hindi", url: "https://www.youtube.com/watch?v=YFJYorzF3M0" },
-                            { title: "Financial Accounting Basics - Hindi", url: "https://www.youtube.com/watch?v=G6tJH84HW1A" }
+                            { title: "HR Management - CodeWithHarry", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Human Resources - Knowledge Gate", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Personnel Management - College Wallah", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "financial-management",
+                        name: "Financial Management",
+                        description: "Financial planning, investment decisions, and capital structure",
+                        videos: [
+                            { title: "Financial Management - Gate Smashers", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Corporate Finance - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Financial Planning - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "production-operations-management",
+                        name: "Production & Operations Management",
+                        description: "Production planning, quality control, and supply chain management",
+                        videos: [
+                            { title: "Operations Management - College Wallah", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Production Planning - Gate Smashers", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" },
+                            { title: "Supply Chain - Knowledge Gate", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" }
+                        ]
+                    },
+                    {
+                        id: "research-methodology",
+                        name: "Research Methodology",
+                        description: "Research design, data collection, and analysis techniques",
+                        videos: [
+                            { title: "Research Methods - Jenny's Lectures", url: "https://www.youtube.com/watch?v=dl00fOOYLOM" },
+                            { title: "Business Research - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" },
+                            { title: "Data Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" }
+                        ]
+                    },
+                    {
+                        id: "computer-applications-business",
+                        name: "Computer Applications in Business",
+                        description: "Business software, databases, and information systems",
+                        videos: [
+                            { title: "Business Computing - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "IT for Business - Apna College", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" },
+                            { title: "Business Software - College Wallah", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
+                    {
+                        id: "consumer-behavior",
+                        name: "Consumer Behavior",
+                        description: "Consumer decision-making process and market research",
+                        videos: [
+                            { title: "Consumer Behavior - Gate Smashers", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Market Psychology - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Buying Decisions - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "entrepreneurship-development",
+                        name: "Entrepreneurship Development",
+                        description: "Entrepreneurial skills, business planning, and startup management",
+                        videos: [
+                            { title: "Entrepreneurship - CodeWithHarry", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Startup Guide - Apna College", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Business Creation - Love Babbar", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
+                        ]
+                    },
+                    {
+                        id: "management-information-systems",
+                        name: "Management Information Systems",
+                        description: "Information systems for decision making and business processes",
+                        videos: [
+                            { title: "MIS - Gate Smashers", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "Business Information Systems - Knowledge Gate", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "IT Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=nxGO_jbM9dU" }
+                        ]
+                    },
+                    {
+                        id: "project-work-i",
+                        name: "Project Work I",
+                        description: "Practical application of business concepts through projects",
+                        videos: [
+                            { title: "Business Project - College Wallah", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Project Management - Gate Smashers", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Case Studies - Knowledge Gate", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    },
+                    {
+                        id: "e-commerce",
+                        name: "E-Commerce",
+                        description: "Online business models, digital marketing, and e-payment systems",
+                        videos: [
+                            { title: "E-Commerce - CodeWithHarry", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Digital Business - Apna College", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Online Marketing - Love Babbar", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 5,
+                name: "Semester 5",
+                subjects: [
+                    {
+                        id: "strategic-management",
+                        name: "Strategic Management",
+                        description: "Strategic planning, implementation, and evaluation",
+                        videos: [
+                            { title: "Strategic Management - Gate Smashers", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Business Strategy - Knowledge Gate", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Corporate Strategy - College Wallah", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "international-business",
+                        name: "International Business",
+                        description: "Global business environment, trade, and foreign exchange",
+                        videos: [
+                            { title: "International Business - Jenny's Lectures", url: "https://www.youtube.com/watch?v=g93jf17WqO4" },
+                            { title: "Global Trade - Gate Smashers", url: "https://www.youtube.com/watch?v=KTMKv3pOCTU" },
+                            { title: "Foreign Markets - Knowledge Gate", url: "https://www.youtube.com/watch?v=SjXH_g5dKpw" }
+                        ]
+                    },
+                    {
+                        id: "investment-management",
+                        name: "Investment Management",
+                        description: "Portfolio management, security analysis, and investment strategies",
+                        videos: [
+                            { title: "Investment Management - College Wallah", url: "https://www.youtube.com/watch?v=g93jf17WqO4" },
+                            { title: "Portfolio Theory - Gate Smashers", url: "https://www.youtube.com/watch?v=cJy8i9K65Gg" },
+                            { title: "Security Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=O0oFkNZP_-s" }
+                        ]
+                    },
+                    {
+                        id: "business-ethics",
+                        name: "Business Ethics",
+                        description: "Ethical decision making and corporate social responsibility",
+                        videos: [
+                            { title: "Business Ethics - Apna College", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Corporate Responsibility - Gate Smashers", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" },
+                            { title: "Ethical Leadership - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" }
+                        ]
+                    },
+                    {
+                        id: "project-work-ii",
+                        name: "Project Work II",
+                        description: "Advanced business project with comprehensive analysis",
+                        videos: [
+                            { title: "Advanced Projects - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" },
+                            { title: "Business Analysis - Gate Smashers", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Research Report - Knowledge Gate", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 6,
+                name: "Semester 6",
+                subjects: [
+                    {
+                        id: "business-environment",
+                        name: "Business Environment",
+                        description: "Economic, political, and social factors affecting business",
+                        videos: [
+                            { title: "Business Environment - Jenny's Lectures", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" },
+                            { title: "External Analysis - Gate Smashers", url: "https://www.youtube.com/watch?v=dl00fOOYLOM" },
+                            { title: "Industry Dynamics - Knowledge Gate", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                        ]
+                    },
+                    {
+                        id: "corporate-governance",
+                        name: "Corporate Governance",
+                        description: "Corporate governance principles and regulatory compliance",
+                        videos: [
+                            { title: "Corporate Governance - College Wallah", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Board Practices - Gate Smashers", url: "https://www.youtube.com/watch?v=M0mx8S05v60" },
+                            { title: "Regulatory Framework - Knowledge Gate", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ" }
+                        ]
+                    },
+                    {
+                        id: "leadership-change-management",
+                        name: "Leadership & Change Management",
+                        description: "Leadership theories and organizational change strategies",
+                        videos: [
+                            { title: "Leadership Skills - CodeWithHarry", url: "https://www.youtube.com/watch?v=Bp6T_pw6JVk" },
+                            { title: "Change Management - Apna College", url: "https://www.youtube.com/watch?v=0o9cDQQbPzs" },
+                            { title: "Organizational Change - Love Babbar", url: "https://www.youtube.com/watch?v=VNOX6AIDdJ8" }
+                        ]
+                    },
+                    {
+                        id: "internship-viva",
+                        name: "Internship / Viva",
+                        description: "Practical experience and oral examination",
+                        videos: [
+                            { title: "Internship Preparation - College Wallah", url: "https://www.youtube.com/watch?v=D5KHJKt3FAI" },
+                            { title: "Viva Voce Tips - Gate Smashers", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" },
+                            { title: "Career Guidance - Knowledge Gate", url: "https://www.youtube.com/watch?v=ylXVn-wh9eQ" }
                         ]
                     }
                 ]
             }
         ]
     },
-    "BTech": {
-        name: "Bachelor of Technology",
-        subjects: [
+    // Adding remaining courses: B.Tech, Agriculture, Commerce, Arts
+    "BTECH": {
+        name: "B.Tech (Generic)",
+        semesters: [
             {
-                id: "engineering-math",
-                name: "Engineering Mathematics",
-                topics: [
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
                     {
-                        id: "calculus",
-                        name: "Calculus",
+                        id: "engineering-mathematics",
+                        name: "Engineering Mathematics I & II",
+                        description: "Calculus, differential equations, linear algebra, and probability for engineering applications",
                         videos: [
-                            { title: "Calculus Full Course - Hindi", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Engineering Mathematics - Hindi", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU" }
+                            { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
+                            { title: "Mathematics for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Applied Mathematics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" }
                         ]
                     },
                     {
-                        id: "linear-algebra",
-                        name: "Linear Algebra",
+                        id: "physics-engineers",
+                        name: "Physics for Engineers",
+                        description: "Mechanics, thermodynamics, waves, and modern physics concepts for engineering applications",
                         videos: [
-                            { title: "Linear Algebra Course - Hindi", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
-                            { title: "Matrix Theory - Hindi", url: "https://www.youtube.com/watch?v=HVwHFyxb8Y0" }
+                            { title: "Engineering Physics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Physics for B.Tech - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Applied Physics - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "chemistry-engineers",
+                        name: "Chemistry for Engineers",
+                        description: "Atomic structure, chemical bonding, materials science, and environmental chemistry",
+                        videos: [
+                            { title: "Engineering Chemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Chemistry for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Applied Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "electrical-engineering",
+                        name: "Basic Electrical Engineering",
+                        description: "Electrical circuits, Ohm's law, Kirchhoff's laws, and basic electrical components",
+                        videos: [
+                            { title: "Basic Electrical Engineering - CodeWithHarry", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Electrical Engineering Basics - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Electrical Circuits - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" }
+                        ]
+                    },
+                    {
+                        id: "programming-c-btech",
+                        name: "Programming in C",
+                        description: "C programming fundamentals for engineering problem solving",
+                        videos: [
+                            { title: "C Programming for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "C Language for B.Tech - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
+                            { title: "C Programming - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "engineering-drawing",
+                        name: "Engineering Drawing",
+                        description: "Technical drawing, projections, and engineering graphics",
+                        videos: [
+                            { title: "Engineering Drawing - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
+                            { title: "Engineering Graphics - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Technical Drawing - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                        ]
+                    },
+                    {
+                        id: "workshop-practice",
+                        name: "Workshop Practice",
+                        description: "Hands-on workshop skills and manufacturing processes",
+                        videos: [
+                            { title: "Workshop Practice - Gate Smashers", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Manufacturing Processes - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Workshop Technology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
                     }
                 ]
             },
             {
-                id: "oop",
-                name: "Object-Oriented Programming",
-                topics: [
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
                     {
-                        id: "java",
-                        name: "Java Programming",
+                        id: "data-structures-btech",
+                        name: "Data Structures",
+                        description: "Linear and non-linear data structures with algorithmic implementations",
                         videos: [
-                            { title: "Java Full Course - Hindi", url: "https://www.youtube.com/watch?v=ntLJmHOJ0ME" },
-                            { title: "Java OOP Tutorial - Hindi", url: "https://www.youtube.com/watch?v=UmnCZ7-9yDY" }
+                            { title: "Data Structures - Gate Smashers", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
+                            { title: "DSA for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Algorithms - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
                         ]
                     },
                     {
-                        id: "cpp",
-                        name: "C++ Programming",
+                        id: "digital-logic-design",
+                        name: "Digital Logic Design",
+                        description: "Boolean algebra, logic gates, combinational and sequential circuits",
                         videos: [
-                            { title: "C++ Full Course - Hindi", url: "https://www.youtube.com/watch?v=yGB9jhsEsr8" },
-                            { title: "C++ OOP - Hindi", url: "https://www.youtube.com/watch?v=3oq-5i-7ITA" }
+                            { title: "Digital Logic Design - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Digital Circuits - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Logic Design - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "oop-cpp-btech",
+                        name: "Object Oriented Programming (C++)",
+                        description: "Object-oriented concepts with C++ programming for engineering applications",
+                        videos: [
+                            { title: "C++ OOP for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=yGB9jhsEsr8&list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL" },
+                            { title: "C++ Programming - Apna College", url: "https://www.youtube.com/watch?v=z9bZufPHFLU&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Object Oriented Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=wN0x9eZLix4&list=PLdo5W4Nhv31YU5Wx1dopka58teWP9aCee" }
+                        ]
+                    },
+                    {
+                        id: "dbms-btech",
+                        name: "Database Management Systems (DBMS)",
+                        description: "Database design, SQL, normalization, and transaction management",
+                        videos: [
+                            { title: "DBMS for Engineers - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
+                            { title: "Database Systems - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "SQL Tutorial - CodeWithHarry", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
+                        ]
+                    },
+                    {
+                        id: "signals-systems",
+                        name: "Signals and Systems",
+                        description: "Signal analysis, system characterization, and transform techniques",
+                        videos: [
+                            { title: "Signals and Systems - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Signal Processing - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "System Analysis - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "computer-organization",
+                        name: "Computer Organization",
+                        description: "Computer architecture, CPU design, memory hierarchy, and I/O systems",
+                        videos: [
+                            { title: "Computer Organization - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Computer Architecture - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Digital Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
                         ]
                     }
                 ]
             },
             {
-                id: "electronics",
-                name: "Digital Electronics",
-                topics: [
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
                     {
-                        id: "logic-gates",
-                        name: "Logic Gates and Circuits",
+                        id: "computer-networks-btech",
+                        name: "Computer Networks",
+                        description: "Network protocols, OSI model, routing, and network security",
                         videos: [
-                            { title: "Digital Electronics Course - Hindi", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" },
-                            { title: "Logic Gates Tutorial - Hindi", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" }
+                            { title: "Computer Networks - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Networking - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "CN Full Course - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "operating-system-btech",
+                        name: "Operating System",
+                        description: "Process management, memory management, file systems, and concurrency",
+                        videos: [
+                            { title: "Operating System - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "OS Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Operating Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "software-engineering-btech",
+                        name: "Software Engineering",
+                        description: "Software development life cycle, design patterns, and project management",
+                        videos: [
+                            { title: "Software Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "SE for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Software Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "web-development-btech",
+                        name: "Web Development",
+                        description: "Frontend and backend web development technologies and frameworks",
+                        videos: [
+                            { title: "Web Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Full Stack Development - Apna College", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
+                            { title: "Web Technologies - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                        ]
+                    },
+                    {
+                        id: "machine-learning-basics",
+                        name: "Machine Learning Basics",
+                        description: "Introduction to ML algorithms, supervised and unsupervised learning",
+                        videos: [
+                            { title: "Machine Learning - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "ML Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" },
+                            { title: "Introduction to ML - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 7-8",
+                subjects: [
+                    {
+                        id: "artificial-intelligence-btech",
+                        name: "Artificial Intelligence",
+                        description: "AI concepts, search algorithms, knowledge representation, and neural networks",
+                        videos: [
+                            { title: "Artificial Intelligence - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "AI Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "AI Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" }
+                        ]
+                    },
+                    {
+                        id: "internet-things",
+                        name: "Internet of Things",
+                        description: "IoT architecture, sensors, communication protocols, and applications",
+                        videos: [
+                            { title: "IoT - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "Internet of Things - Knowledge Gate", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" },
+                            { title: "IoT Applications - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60" }
+                        ]
+                    },
+                    {
+                        id: "cloud-computing-btech",
+                        name: "Cloud Computing",
+                        description: "Cloud services, virtualization, deployment models, and security",
+                        videos: [
+                            { title: "Cloud Computing - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "Cloud Services - Knowledge Gate", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+                            { title: "Cloud Technologies - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "major-project-internship",
+                        name: "Major Project / Internship",
+                        description: "Capstone project development and industry internship experience",
+                        videos: [
+                            { title: "Project Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Internship Guidance - Apna College", url: "https://www.youtube.com/watch?v=yRpLlJmRo2w" },
+                            { title: "Final Year Project - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
                         ]
                     }
                 ]
             }
         ]
     },
-    "Agriculture": {
-        name: "Agriculture Science",
-        subjects: [
+    "AGRICULTURE": {
+        name: "B.Sc. Agriculture",
+        semesters: [
             {
-                id: "crop-science",
-                name: "Crop Science",
-                topics: [
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
                     {
-                        id: "crop-production",
-                        name: "Crop Production",
+                        id: "fundamentals-agronomy",
+                        name: "Fundamentals of Agronomy",
+                        description: "Crop production techniques, soil management, and agricultural practices",
                         videos: [
-                            { title: "Crop Production Techniques - Hindi", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
-                            { title: "Modern Farming - Hindi", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" }
+                            { title: "Agronomy Basics - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
+                            { title: "Crop Science - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Agricultural Practices - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                        ]
+                    },
+                    {
+                        id: "principles-horticulture",
+                        name: "Principles of Horticulture",
+                        description: "Fruit, vegetable, and ornamental plant cultivation techniques",
+                        videos: [
+                            { title: "Horticulture - Gate Smashers", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Plant Cultivation - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Gardening Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-meteorology",
+                        name: "Agricultural Meteorology",
+                        description: "Weather patterns, climate effects on crops, and weather forecasting",
+                        videos: [
+                            { title: "Agro Meteorology - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Climate and Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Weather Analysis - College Wallah", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
                         ]
                     },
                     {
                         id: "soil-science",
                         name: "Soil Science",
+                        description: "Soil composition, fertility, classification, and management",
                         videos: [
-                            { title: "Soil Science Basics - Hindi", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" },
-                            { title: "Soil Management - Hindi", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" }
+                            { title: "Soil Science - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Pedology - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Soil Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "plant-biochemistry",
+                        name: "Plant Biochemistry",
+                        description: "Plant metabolism, photosynthesis, respiration, and biochemical processes",
+                        videos: [
+                            { title: "Plant Biochemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Plant Physiology - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Photosynthesis - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
                     }
                 ]
             },
             {
-                id: "horticulture",
-                name: "Horticulture",
-                topics: [
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
                     {
-                        id: "plant-breeding",
-                        name: "Plant Breeding",
+                        id: "crop-production",
+                        name: "Crop Production",
+                        description: "Field crop production techniques, crop rotation, and yield optimization",
                         videos: [
-                            { title: "Plant Breeding Basics - Hindi", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
-                            { title: "Crop Improvement - Hindi", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                            { title: "Crop Production - Gate Smashers", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
+                            { title: "Agricultural Techniques - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Yield Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
+                        ]
+                    },
+                    {
+                        id: "genetics-plant-breeding",
+                        name: "Genetics & Plant Breeding",
+                        description: "Plant genetics, heredity, breeding methods, and genetic engineering",
+                        videos: [
+                            { title: "Plant Genetics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Plant Breeding - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Genetic Engineering - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-engineering",
+                        name: "Agricultural Engineering Basics",
+                        description: "Farm machinery, irrigation systems, and agricultural equipment",
+                        videos: [
+                            { title: "Agricultural Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Farm Machinery - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Equipment Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-economics",
+                        name: "Agricultural Economics",
+                        description: "Farm management, cost analysis, and agricultural marketing",
+                        videos: [
+                            { title: "Agri Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Farm Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Rural Economics - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "pest-management",
+                        name: "Pest Management",
+                        description: "Insect pests, plant diseases, and integrated pest management techniques",
+                        videos: [
+                            { title: "Pest Control - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Plant Pathology - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "IPM Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "irrigation-management",
+                        name: "Irrigation Management",
+                        description: "Irrigation methods, water conservation, and drainage systems",
+                        videos: [
+                            { title: "Irrigation Systems - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Water Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Drainage Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "agribusiness-management",
+                        name: "Agribusiness Management",
+                        description: "Agribusiness operations, supply chain, and entrepreneurship",
+                        videos: [
+                            { title: "Agribusiness - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Agricultural Marketing - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Agri Entrepreneurship - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "organic-farming",
+                        name: "Organic Farming",
+                        description: "Organic farming principles, certification, and sustainable practices",
+                        videos: [
+                            { title: "Organic Farming - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Sustainable Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Natural Farming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "food-processing",
+                        name: "Food Processing Technology",
+                        description: "Food preservation, processing methods, and quality control",
+                        videos: [
+                            { title: "Food Processing - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Food Technology - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Preservation Methods - College Wallah", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "internship-research",
+                        name: "Internship / Research Project",
+                        description: "Practical training in agricultural research and field work",
+                        videos: [
+                            { title: "Agricultural Research - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Field Work - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Project Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
                     }
                 ]
             }
         ]
     },
-    "Commerce": {
-        name: "Bachelor of Commerce",
-        subjects: [
+    "COMMERCE": {
+        name: "B.Com",
+        semesters: [
             {
-                id: "commerce-accounting",
-                name: "Accounting",
-                topics: [
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
                     {
-                        id: "bookkeeping",
-                        name: "Bookkeeping Basics",
+                        id: "financial-accounting-com",
+                        name: "Financial Accounting",
+                        description: "Accounting principles, journal entries, ledgers, and financial statements",
                         videos: [
-                            { title: "Accounting for Beginners - Hindi", url: "https://www.youtube.com/watch?v=g93jf17WqO4" },
-                            { title: "Bookkeeping Tutorial - Hindi", url: "https://www.youtube.com/watch?v=KTMKv3pOCTU" }
+                            { title: "Financial Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=YFJYorzF3M0" },
+                            { title: "Accounting Basics - Knowledge Gate", url: "https://www.youtube.com/watch?v=G6tJH84HW1A" },
+                            { title: "Bookkeeping - College Wallah", url: "https://www.youtube.com/watch?v=g93jf17WqO4" }
                         ]
                     },
                     {
-                        id: "financial-statements",
-                        name: "Financial Statements",
+                        id: "business-communication-com",
+                        name: "Business Communication",
+                        description: "Effective written and oral communication in business environments",
                         videos: [
-                            { title: "Understanding Financial Statements - Hindi", url: "https://www.youtube.com/watch?v=SjXH_g5dKpw" },
-                            { title: "Balance Sheet Basics - Hindi", url: "https://www.youtube.com/watch?v=g93jf17WqO4" }
+                            { title: "Business Communication - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Professional Communication - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Business Writing - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                        ]
+                    },
+                    {
+                        id: "business-economics-com",
+                        name: "Business Economics",
+                        description: "Micro and macroeconomic principles applied to business decision-making",
+                        videos: [
+                            { title: "Business Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Managerial Economics - Knowledge Gate", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Economic Analysis - College Wallah", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
+                        ]
+                    },
+                    {
+                        id: "business-law-com",
+                        name: "Business Law",
+                        description: "Legal framework governing business operations and commercial transactions",
+                        videos: [
+                            { title: "Business Law - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Commercial Law - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Contract Law - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "principles-management-com",
+                        name: "Principles of Management",
+                        description: "Fundamentals of planning, organizing, leading, and controlling in organizations",
+                        videos: [
+                            { title: "Management Principles - CodeWithHarry", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Business Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Organizational Management - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
                         ]
                     }
                 ]
             },
             {
-                id: "economics",
-                name: "Economics",
-                topics: [
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
                     {
-                        id: "microeconomics",
-                        name: "Microeconomics",
+                        id: "corporate-accounting",
+                        name: "Corporate Accounting",
+                        description: "Company accounts, partnership accounts, and advanced accounting concepts",
                         videos: [
-                            { title: "Microeconomics Full Course - Hindi", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
-                            { title: "Supply and Demand - Hindi", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" }
+                            { title: "Corporate Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "Company Accounts - Knowledge Gate", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "Advanced Accounting - College Wallah", url: "https://www.youtube.com/watch?v=nxGO_jbM9dU" }
                         ]
                     },
                     {
-                        id: "macroeconomics",
-                        name: "Macroeconomics",
+                        id: "cost-accounting-com",
+                        name: "Cost Accounting",
+                        description: "Cost concepts, costing methods, budgeting, and cost control techniques",
                         videos: [
-                            { title: "Macroeconomics Basics - Hindi", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" },
-                            { title: "Economic Growth - Hindi", url: "https://www.youtube.com/watch?v=Y5jGC0qxrF0" }
+                            { title: "Cost Accounting - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Cost Management - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Costing Techniques - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "auditing-com",
+                        name: "Auditing",
+                        description: "Audit procedures, internal control, and audit reporting",
+                        videos: [
+                            { title: "Auditing - Gate Smashers", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Audit Process - Knowledge Gate", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Internal Audit - Jenny's Lectures", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    },
+                    {
+                        id: "banking-insurance",
+                        name: "Banking & Insurance",
+                        description: "Banking operations, insurance principles, and financial services",
+                        videos: [
+                            { title: "Banking Operations - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Insurance Principles - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Financial Services - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "income-tax-law",
+                        name: "Income Tax Law",
+                        description: "Indian income tax provisions, assessment procedures, and tax planning",
+                        videos: [
+                            { title: "Income Tax - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Taxation - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Tax Planning - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "management-accounting",
+                        name: "Management Accounting",
+                        description: "Financial planning, decision making, and performance measurement",
+                        videos: [
+                            { title: "Management Accounting - CodeWithHarry", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Managerial Accounting - Knowledge Gate", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Financial Decision Making - College Wallah", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "indirect-tax",
+                        name: "Indirect Tax",
+                        description: "GST, customs duties, and other indirect taxation concepts",
+                        videos: [
+                            { title: "Indirect Tax - Gate Smashers", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "GST - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Goods and Services Tax - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "financial-management-com",
+                        name: "Financial Management",
+                        description: "Capital budgeting, working capital, and financial decision-making",
+                        videos: [
+                            { title: "Financial Management - College Wallah", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Corporate Finance - Gate Smashers", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" },
+                            { title: "Investment Decisions - Knowledge Gate", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" }
+                        ]
+                    },
+                    {
+                        id: "e-commerce-com",
+                        name: "E-Commerce",
+                        description: "Digital business models, online marketing, and electronic payment systems",
+                        videos: [
+                            { title: "E-Commerce - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Digital Business - Apna College", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" },
+                            { title: "Online Marketing - Love Babbar", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" }
+                        ]
+                    },
+                    {
+                        id: "project-work-com",
+                        name: "Project Work",
+                        description: "Application of commerce concepts through practical projects",
+                        videos: [
+                            { title: "Commerce Project - College Wallah", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Project Management - Gate Smashers", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Case Studies - Knowledge Gate", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
                         ]
                     }
                 ]
             }
         ]
     },
-    "Arts": {
-        name: "Bachelor of Arts",
-        subjects: [
+    "ARTS": {
+        name: "B.A. (General)",
+        semesters: [
             {
-                id: "history",
-                name: "History",
-                topics: [
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
                     {
-                        id: "ancient-history",
-                        name: "Ancient History",
+                        id: "english-literature",
+                        name: "English Literature",
+                        description: "Study of English poetry, drama, prose, and literary criticism",
                         videos: [
-                            { title: "Ancient Civilizations - Hindi", url: "https://www.youtube.com/watch?v=GwGJ1yCue5s" },
-                            { title: "World History - Hindi", url: "https://www.youtube.com/watch?v=9wXKJcGLF6s" }
+                            { title: "English Literature - CodeWithHarry", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Literary Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Poetry & Drama - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
                         ]
                     },
                     {
-                        id: "modern-history",
-                        name: "Modern History",
+                        id: "political-science",
+                        name: "Political Science",
+                        description: "Government systems, political theory, and international relations",
                         videos: [
-                            { title: "Modern World History - Hindi", url: "https://www.youtube.com/watch?v=nxGO_jbM9dU" },
-                            { title: "Contemporary History - Hindi", url: "https://www.youtube.com/watch?v=rPMNwEYqo-w" }
+                            { title: "Political Science - Gate Smashers", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Government & Politics - Knowledge Gate", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "International Relations - Jenny's Lectures", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    },
+                    {
+                        id: "history-sociology",
+                        name: "History / Sociology",
+                        description: "Historical events or sociological concepts and social institutions",
+                        videos: [
+                            { title: "History - College Wallah", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Sociology - Gate Smashers", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Social Sciences - Knowledge Gate", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "environmental-studies-arts",
+                        name: "Environmental Studies",
+                        description: "Environmental issues, ecology, and sustainable development",
+                        videos: [
+                            { title: "Environmental Studies - Jenny's Lectures", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Ecology - Gate Smashers", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Sustainable Development - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "communication-skills-arts",
+                        name: "Communication Skills",
+                        description: "Effective communication, presentation, and interpersonal skills",
+                        videos: [
+                            { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Public Speaking - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Presentation Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
                         ]
                     }
                 ]
             },
             {
-                id: "literature",
-                name: "English Literature",
-                topics: [
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
                     {
-                        id: "poetry",
-                        name: "Poetry Analysis",
+                        id: "economics-arts",
+                        name: "Economics",
+                        description: "Micro and macroeconomics principles and economic policies",
                         videos: [
-                            { title: "Understanding Poetry - Hindi", url: "https://www.youtube.com/watch?v=Bp6T_pw6JVk" },
-                            { title: "Poetry Basics - Hindi", url: "https://www.youtube.com/watch?v=0o9cDQQbPzs" }
+                            { title: "Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Economic Theory - Knowledge Gate", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Indian Economy - College Wallah", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
                         ]
                     },
                     {
-                        id: "prose",
-                        name: "Prose and Fiction",
+                        id: "psychology-arts",
+                        name: "Psychology",
+                        description: "Human behavior, cognitive processes, and psychological theories",
                         videos: [
-                            { title: "Literature Analysis - Hindi", url: "https://www.youtube.com/watch?v=VNOX6AIDdJ8" },
-                            { title: "Fiction Writing - Hindi", url: "https://www.youtube.com/watch?v=D5KHJKt3FAI" }
+                            { title: "Psychology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Behavioral Science - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Cognitive Psychology - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "indian-constitution",
+                        name: "Indian Constitution",
+                        description: "Constitutional framework, fundamental rights, and governance structure",
+                        videos: [
+                            { title: "Indian Constitution - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Polity - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Governance - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "public-administration",
+                        name: "Public Administration",
+                        description: "Administrative theories, public policy, and governance",
+                        videos: [
+                            { title: "Public Administration - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Administrative Theory - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Policy Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
                         ]
                     }
                 ]
             },
             {
-                id: "sociology",
-                name: "Sociology",
-                topics: [
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
                     {
-                        id: "social-theory",
-                        name: "Social Theory",
+                        id: "modern-indian-history",
+                        name: "Modern Indian History",
+                        description: "Colonial period, freedom struggle, and post-independence India",
                         videos: [
-                            { title: "Sociology 101 - Hindi", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" },
-                            { title: "Understanding Society - Hindi", url: "https://www.youtube.com/watch?v=ylXVn-wh9eQ" }
+                            { title: "Modern History - College Wallah", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Freedom Struggle - Gate Smashers", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Post Independence - Knowledge Gate", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "social-work-research",
+                        name: "Social Work / Research Methods",
+                        description: "Social service, community development, or research methodologies",
+                        videos: [
+                            { title: "Social Work - Jenny's Lectures", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Research Methods - Gate Smashers", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Community Development - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "project-viva-arts",
+                        name: "Project / Viva",
+                        description: "Comprehensive project work and oral examination",
+                        videos: [
+                            { title: "Project Work - College Wallah", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Academic Research - Gate Smashers", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" },
+                            { title: "Viva Preparation - Knowledge Gate", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "BTECH": {
+        name: "B.Tech (Generic)",
+        semesters: [
+            {
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
+                    {
+                        id: "engineering-mathematics",
+                        name: "Engineering Mathematics I & II",
+                        description: "Calculus, differential equations, linear algebra, and probability for engineering applications",
+                        videos: [
+                            { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
+                            { title: "Mathematics for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Applied Mathematics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" }
+                        ]
+                    },
+                    {
+                        id: "physics-engineers",
+                        name: "Physics for Engineers",
+                        description: "Mechanics, thermodynamics, waves, and modern physics concepts for engineering applications",
+                        videos: [
+                            { title: "Engineering Physics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Physics for B.Tech - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Applied Physics - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "chemistry-engineers",
+                        name: "Chemistry for Engineers",
+                        description: "Atomic structure, chemical bonding, materials science, and environmental chemistry",
+                        videos: [
+                            { title: "Engineering Chemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Chemistry for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Applied Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "electrical-engineering",
+                        name: "Basic Electrical Engineering",
+                        description: "Electrical circuits, Ohm's law, Kirchhoff's laws, and basic electrical components",
+                        videos: [
+                            { title: "Basic Electrical Engineering - CodeWithHarry", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Electrical Engineering Basics - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Electrical Circuits - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" }
+                        ]
+                    },
+                    {
+                        id: "programming-c-btech",
+                        name: "Programming in C",
+                        description: "C programming fundamentals for engineering problem solving",
+                        videos: [
+                            { title: "C Programming for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "C Language for B.Tech - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
+                            { title: "C Programming - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "engineering-drawing",
+                        name: "Engineering Drawing",
+                        description: "Technical drawing, projections, and engineering graphics",
+                        videos: [
+                            { title: "Engineering Drawing - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
+                            { title: "Engineering Graphics - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Technical Drawing - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                        ]
+                    },
+                    {
+                        id: "workshop-practice",
+                        name: "Workshop Practice",
+                        description: "Hands-on workshop skills and manufacturing processes",
+                        videos: [
+                            { title: "Workshop Practice - Gate Smashers", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Manufacturing Processes - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Workshop Technology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
+                    {
+                        id: "data-structures-btech",
+                        name: "Data Structures",
+                        description: "Linear and non-linear data structures with algorithmic implementations",
+                        videos: [
+                            { title: "Data Structures - Gate Smashers", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
+                            { title: "DSA for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Algorithms - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
+                        ]
+                    },
+                    {
+                        id: "digital-logic-design",
+                        name: "Digital Logic Design",
+                        description: "Boolean algebra, logic gates, combinational and sequential circuits",
+                        videos: [
+                            { title: "Digital Logic Design - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Digital Circuits - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Logic Design - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "oop-cpp-btech",
+                        name: "Object Oriented Programming (C++)",
+                        description: "Object-oriented concepts with C++ programming for engineering applications",
+                        videos: [
+                            { title: "C++ OOP for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=yGB9jhsEsr8&list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL" },
+                            { title: "C++ Programming - Apna College", url: "https://www.youtube.com/watch?v=z9bZufPHFLU&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Object Oriented Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=wN0x9eZLix4&list=PLdo5W4Nhv31YU5Wx1dopka58teWP9aCee" }
+                        ]
+                    },
+                    {
+                        id: "dbms-btech",
+                        name: "Database Management Systems (DBMS)",
+                        description: "Database design, SQL, normalization, and transaction management",
+                        videos: [
+                            { title: "DBMS for Engineers - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
+                            { title: "Database Systems - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "SQL Tutorial - CodeWithHarry", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
+                        ]
+                    },
+                    {
+                        id: "signals-systems",
+                        name: "Signals and Systems",
+                        description: "Signal analysis, system characterization, and transform techniques",
+                        videos: [
+                            { title: "Signals and Systems - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Signal Processing - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "System Analysis - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "computer-organization",
+                        name: "Computer Organization",
+                        description: "Computer architecture, CPU design, memory hierarchy, and I/O systems",
+                        videos: [
+                            { title: "Computer Organization - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Computer Architecture - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Digital Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "computer-networks-btech",
+                        name: "Computer Networks",
+                        description: "Network protocols, OSI model, routing, and network security",
+                        videos: [
+                            { title: "Computer Networks - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Networking - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "CN Full Course - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "operating-system-btech",
+                        name: "Operating System",
+                        description: "Process management, memory management, file systems, and concurrency",
+                        videos: [
+                            { title: "Operating System - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "OS Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Operating Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "software-engineering-btech",
+                        name: "Software Engineering",
+                        description: "Software development life cycle, design patterns, and project management",
+                        videos: [
+                            { title: "Software Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "SE for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Software Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "web-development-btech",
+                        name: "Web Development",
+                        description: "Frontend and backend web development technologies and frameworks",
+                        videos: [
+                            { title: "Web Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Full Stack Development - Apna College", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
+                            { title: "Web Technologies - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                        ]
+                    },
+                    {
+                        id: "machine-learning-basics",
+                        name: "Machine Learning Basics",
+                        description: "Introduction to ML algorithms, supervised and unsupervised learning",
+                        videos: [
+                            { title: "Machine Learning - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "ML Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" },
+                            { title: "Introduction to ML - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 7-8",
+                subjects: [
+                    {
+                        id: "artificial-intelligence-btech",
+                        name: "Artificial Intelligence",
+                        description: "AI concepts, search algorithms, knowledge representation, and neural networks",
+                        videos: [
+                            { title: "Artificial Intelligence - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
+                            { title: "AI Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "AI Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" }
+                        ]
+                    },
+                    {
+                        id: "internet-things",
+                        name: "Internet of Things",
+                        description: "IoT architecture, sensors, communication protocols, and applications",
+                        videos: [
+                            { title: "IoT - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw" },
+                            { title: "Internet of Things - Knowledge Gate", url: "https://www.youtube.com/watch?v=fCXZAj1mbPo" },
+                            { title: "IoT Applications - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60" }
+                        ]
+                    },
+                    {
+                        id: "cloud-computing-btech",
+                        name: "Cloud Computing",
+                        description: "Cloud services, virtualization, deployment models, and security",
+                        videos: [
+                            { title: "Cloud Computing - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
+                            { title: "Cloud Services - Knowledge Gate", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+                            { title: "Cloud Technologies - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "major-project-internship",
+                        name: "Major Project / Internship",
+                        description: "Capstone project development and industry internship experience",
+                        videos: [
+                            { title: "Project Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Internship Guidance - Apna College", url: "https://www.youtube.com/watch?v=yRpLlJmRo2w" },
+                            { title: "Final Year Project - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "AGRICULTURE": {
+        name: "B.Sc. Agriculture",
+        semesters: [
+            {
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
+                    {
+                        id: "fundamentals-agronomy",
+                        name: "Fundamentals of Agronomy",
+                        description: "Crop production techniques, soil management, and agricultural practices",
+                        videos: [
+                            { title: "Agronomy Basics - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
+                            { title: "Crop Science - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Agricultural Practices - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                        ]
+                    },
+                    {
+                        id: "principles-horticulture",
+                        name: "Principles of Horticulture",
+                        description: "Fruit, vegetable, and ornamental plant cultivation techniques",
+                        videos: [
+                            { title: "Horticulture - Gate Smashers", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Plant Cultivation - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Gardening Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-meteorology",
+                        name: "Agricultural Meteorology",
+                        description: "Weather patterns, climate effects on crops, and weather forecasting",
+                        videos: [
+                            { title: "Agro Meteorology - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Climate and Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Weather Analysis - College Wallah", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    },
+                    {
+                        id: "soil-science",
+                        name: "Soil Science",
+                        description: "Soil composition, fertility, classification, and management",
+                        videos: [
+                            { title: "Soil Science - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Pedology - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Soil Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "plant-biochemistry",
+                        name: "Plant Biochemistry",
+                        description: "Plant metabolism, photosynthesis, respiration, and biochemical processes",
+                        videos: [
+                            { title: "Plant Biochemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Plant Physiology - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Photosynthesis - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
+                    {
+                        id: "crop-production",
+                        name: "Crop Production",
+                        description: "Field crop production techniques, crop rotation, and yield optimization",
+                        videos: [
+                            { title: "Crop Production - Gate Smashers", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
+                            { title: "Agricultural Techniques - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
+                            { title: "Yield Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
+                        ]
+                    },
+                    {
+                        id: "genetics-plant-breeding",
+                        name: "Genetics & Plant Breeding",
+                        description: "Plant genetics, heredity, breeding methods, and genetic engineering",
+                        videos: [
+                            { title: "Plant Genetics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Plant Breeding - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Genetic Engineering - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-engineering",
+                        name: "Agricultural Engineering Basics",
+                        description: "Farm machinery, irrigation systems, and agricultural equipment",
+                        videos: [
+                            { title: "Agricultural Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Farm Machinery - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Equipment Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "agricultural-economics",
+                        name: "Agricultural Economics",
+                        description: "Farm management, cost analysis, and agricultural marketing",
+                        videos: [
+                            { title: "Agri Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Farm Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Rural Economics - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "pest-management",
+                        name: "Pest Management",
+                        description: "Insect pests, plant diseases, and integrated pest management techniques",
+                        videos: [
+                            { title: "Pest Control - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Plant Pathology - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "IPM Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "irrigation-management",
+                        name: "Irrigation Management",
+                        description: "Irrigation methods, water conservation, and drainage systems",
+                        videos: [
+                            { title: "Irrigation Systems - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Water Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Drainage Techniques - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "agribusiness-management",
+                        name: "Agribusiness Management",
+                        description: "Agribusiness operations, supply chain, and entrepreneurship",
+                        videos: [
+                            { title: "Agribusiness - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Agricultural Marketing - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Agri Entrepreneurship - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    },
+                    {
+                        id: "organic-farming",
+                        name: "Organic Farming",
+                        description: "Organic farming principles, certification, and sustainable practices",
+                        videos: [
+                            { title: "Organic Farming - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "Sustainable Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
+                            { title: "Natural Farming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                        ]
+                    },
+                    {
+                        id: "food-processing",
+                        name: "Food Processing Technology",
+                        description: "Food preservation, processing methods, and quality control",
+                        videos: [
+                            { title: "Food Processing - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Food Technology - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Preservation Methods - College Wallah", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                        ]
+                    },
+                    {
+                        id: "internship-research",
+                        name: "Internship / Research Project",
+                        description: "Practical training in agricultural research and field work",
+                        videos: [
+                            { title: "Agricultural Research - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
+                            { title: "Field Work - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
+                            { title: "Project Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "COMMERCE": {
+        name: "B.Com",
+        semesters: [
+            {
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
+                    {
+                        id: "financial-accounting-com",
+                        name: "Financial Accounting",
+                        description: "Accounting principles, journal entries, ledgers, and financial statements",
+                        videos: [
+                            { title: "Financial Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=YFJYorzF3M0" },
+                            { title: "Accounting Basics - Knowledge Gate", url: "https://www.youtube.com/watch?v=G6tJH84HW1A" },
+                            { title: "Bookkeeping - College Wallah", url: "https://www.youtube.com/watch?v=g93jf17WqO4" }
+                        ]
+                    },
+                    {
+                        id: "business-communication-com",
+                        name: "Business Communication",
+                        description: "Effective written and oral communication in business environments",
+                        videos: [
+                            { title: "Business Communication - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Professional Communication - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Business Writing - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                        ]
+                    },
+                    {
+                        id: "business-economics-com",
+                        name: "Business Economics",
+                        description: "Micro and macroeconomic principles applied to business decision-making",
+                        videos: [
+                            { title: "Business Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Managerial Economics - Knowledge Gate", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Economic Analysis - College Wallah", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
+                        ]
+                    },
+                    {
+                        id: "business-law-com",
+                        name: "Business Law",
+                        description: "Legal framework governing business operations and commercial transactions",
+                        videos: [
+                            { title: "Business Law - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Commercial Law - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Contract Law - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "principles-management-com",
+                        name: "Principles of Management",
+                        description: "Fundamentals of planning, organizing, leading, and controlling in organizations",
+                        videos: [
+                            { title: "Management Principles - CodeWithHarry", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Business Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Organizational Management - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
+                    {
+                        id: "corporate-accounting",
+                        name: "Corporate Accounting",
+                        description: "Company accounts, partnership accounts, and advanced accounting concepts",
+                        videos: [
+                            { title: "Corporate Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" },
+                            { title: "Company Accounts - Knowledge Gate", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" },
+                            { title: "Advanced Accounting - College Wallah", url: "https://www.youtube.com/watch?v=nxGO_jbM9dU" }
+                        ]
+                    },
+                    {
+                        id: "cost-accounting-com",
+                        name: "Cost Accounting",
+                        description: "Cost concepts, costing methods, budgeting, and cost control techniques",
+                        videos: [
+                            { title: "Cost Accounting - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Cost Management - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Costing Techniques - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "auditing-com",
+                        name: "Auditing",
+                        description: "Audit procedures, internal control, and audit reporting",
+                        videos: [
+                            { title: "Auditing - Gate Smashers", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Audit Process - Knowledge Gate", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Internal Audit - Jenny's Lectures", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    },
+                    {
+                        id: "banking-insurance",
+                        name: "Banking & Insurance",
+                        description: "Banking operations, insurance principles, and financial services",
+                        videos: [
+                            { title: "Banking Operations - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Insurance Principles - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Financial Services - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "income-tax-law",
+                        name: "Income Tax Law",
+                        description: "Indian income tax provisions, assessment procedures, and tax planning",
+                        videos: [
+                            { title: "Income Tax - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Taxation - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Tax Planning - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "management-accounting",
+                        name: "Management Accounting",
+                        description: "Financial planning, decision making, and performance measurement",
+                        videos: [
+                            { title: "Management Accounting - CodeWithHarry", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Managerial Accounting - Knowledge Gate", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Financial Decision Making - College Wallah", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "indirect-tax",
+                        name: "Indirect Tax",
+                        description: "GST, customs duties, and other indirect taxation concepts",
+                        videos: [
+                            { title: "Indirect Tax - Gate Smashers", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "GST - Knowledge Gate", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Goods and Services Tax - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "financial-management-com",
+                        name: "Financial Management",
+                        description: "Capital budgeting, working capital, and financial decision-making",
+                        videos: [
+                            { title: "Financial Management - College Wallah", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Corporate Finance - Gate Smashers", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" },
+                            { title: "Investment Decisions - Knowledge Gate", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" }
+                        ]
+                    },
+                    {
+                        id: "e-commerce-com",
+                        name: "E-Commerce",
+                        description: "Digital business models, online marketing, and electronic payment systems",
+                        videos: [
+                            { title: "E-Commerce - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Digital Business - Apna College", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" },
+                            { title: "Online Marketing - Love Babbar", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" }
+                        ]
+                    },
+                    {
+                        id: "project-work-com",
+                        name: "Project Work",
+                        description: "Application of commerce concepts through practical projects",
+                        videos: [
+                            { title: "Commerce Project - College Wallah", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Project Management - Gate Smashers", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "Case Studies - Knowledge Gate", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "ARTS": {
+        name: "B.A. (General)",
+        semesters: [
+            {
+                semester: 1,
+                name: "Semester 1-2",
+                subjects: [
+                    {
+                        id: "english-literature",
+                        name: "English Literature",
+                        description: "Study of English poetry, drama, prose, and literary criticism",
+                        videos: [
+                            { title: "English Literature - CodeWithHarry", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
+                            { title: "Literary Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
+                            { title: "Poetry & Drama - College Wallah", url: "https://www.youtube.com/watch?v=48YZWA9ptmA" }
+                        ]
+                    },
+                    {
+                        id: "political-science",
+                        name: "Political Science",
+                        description: "Government systems, political theory, and international relations",
+                        videos: [
+                            { title: "Political Science - Gate Smashers", url: "https://www.youtube.com/watch?v=1dM3KqVXbyg" },
+                            { title: "Government & Politics - Knowledge Gate", url: "https://www.youtube.com/watch?v=qB9ULlJEPro" },
+                            { title: "International Relations - Jenny's Lectures", url: "https://www.youtube.com/watch?v=2ChoNu0ZwT4" }
+                        ]
+                    },
+                    {
+                        id: "history-sociology",
+                        name: "History / Sociology",
+                        description: "Historical events or sociological concepts and social institutions",
+                        videos: [
+                            { title: "History - College Wallah", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Sociology - Gate Smashers", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Social Sciences - Knowledge Gate", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "environmental-studies-arts",
+                        name: "Environmental Studies",
+                        description: "Environmental issues, ecology, and sustainable development",
+                        videos: [
+                            { title: "Environmental Studies - Jenny's Lectures", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Ecology - Gate Smashers", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Sustainable Development - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "communication-skills-arts",
+                        name: "Communication Skills",
+                        description: "Effective communication, presentation, and interpersonal skills",
+                        videos: [
+                            { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Public Speaking - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
+                            { title: "Presentation Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 3-4",
+                subjects: [
+                    {
+                        id: "economics-arts",
+                        name: "Economics",
+                        description: "Micro and macroeconomics principles and economic policies",
+                        videos: [
+                            { title: "Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=MwHQz0015i0" },
+                            { title: "Economic Theory - Knowledge Gate", url: "https://www.youtube.com/watch?v=7uQCBGFXYq8" },
+                            { title: "Indian Economy - College Wallah", url: "https://www.youtube.com/watch?v=OlDL1f4_1S4" }
+                        ]
+                    },
+                    {
+                        id: "psychology-arts",
+                        name: "Psychology",
+                        description: "Human behavior, cognitive processes, and psychological theories",
+                        videos: [
+                            { title: "Psychology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Behavioral Science - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Cognitive Psychology - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    },
+                    {
+                        id: "indian-constitution",
+                        name: "Indian Constitution",
+                        description: "Constitutional framework, fundamental rights, and governance structure",
+                        videos: [
+                            { title: "Indian Constitution - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
+                            { title: "Polity - Gate Smashers", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
+                            { title: "Governance - Knowledge Gate", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                        ]
+                    },
+                    {
+                        id: "public-administration",
+                        name: "Public Administration",
+                        description: "Administrative theories, public policy, and governance",
+                        videos: [
+                            { title: "Public Administration - Jenny's Lectures", url: "https://www.youtube.com/watch?v=yL7MmWyPz2Q" },
+                            { title: "Administrative Theory - Gate Smashers", url: "https://www.youtube.com/watch?v=jnC4zlPB0uQ" },
+                            { title: "Policy Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=zKtN6wGSZrU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 5-6",
+                subjects: [
+                    {
+                        id: "modern-indian-history",
+                        name: "Modern Indian History",
+                        description: "Colonial period, freedom struggle, and post-independence India",
+                        videos: [
+                            { title: "Modern History - College Wallah", url: "https://www.youtube.com/watch?v=urWwn0MTzb4" },
+                            { title: "Freedom Struggle - Gate Smashers", url: "https://www.youtube.com/watch?v=kYam6NoxbFE" },
+                            { title: "Post Independence - Knowledge Gate", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                        ]
+                    },
+                    {
+                        id: "social-work-research",
+                        name: "Social Work / Research Methods",
+                        description: "Social service, community development, or research methodologies",
+                        videos: [
+                            { title: "Social Work - Jenny's Lectures", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
+                            { title: "Research Methods - Gate Smashers", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
+                            { title: "Community Development - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "project-viva-arts",
+                        name: "Project / Viva",
+                        description: "Comprehensive project work and oral examination",
+                        videos: [
+                            { title: "Project Work - College Wallah", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Academic Research - Gate Smashers", url: "https://www.youtube.com/watch?v=fxJtIEXOqXo" },
+                            { title: "Viva Preparation - Knowledge Gate", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE" }
                         ]
                     }
                 ]
@@ -399,80 +2171,60 @@ async function loadRoadmap() {
         }
     }
     
-    // Render each subject
-    courseData.subjects.forEach((subject, subjectIndex) => {
-        const subjectCard = document.createElement('div');
-        subjectCard.className = 'subject-card';
+    // Render each semester
+    courseData.semesters.forEach((semester, semesterIndex) => {
+        const semesterCard = document.createElement('div');
+        semesterCard.className = 'subject-card';
         
         // Calculate progress
-        const totalTopics = subject.topics.length;
-        const completedCount = subject.topics.filter(topic => 
-            completedTopics.includes(`${selectedCourse}-${subject.id}-${topic.id}`)
-        ).length;
-        const progressPercent = Math.round((completedCount / totalTopics) * 100);
+        let totalTopics = 0;
+        let completedCount = 0;
         
-        subjectCard.innerHTML = `
-            <div class="subject-header" onclick="toggleSubject(${subjectIndex})">
-                <h3><i class="fas fa-book"></i> ${subject.name}</h3>
+        semester.subjects.forEach(subject => {
+            totalTopics += subject.videos.length;
+            subject.videos.forEach((video, videoIndex) => {
+                const topicId = `${selectedCourse}-${semester.semester}-${subject.id}-${videoIndex}`;
+                if (completedTopics.includes(topicId)) {
+                    completedCount++;
+                }
+            });
+        });
+        
+        const progressPercent = totalTopics > 0 ? Math.round((completedCount / totalTopics) * 100) : 0;
+        
+        semesterCard.innerHTML = `
+            <div class="subject-header" onclick="toggleSubject(${semesterIndex})">
+                <h3><i class="fas fa-book"></i> ${semester.name}</h3>
                 <div class="subject-progress">
                     <i class="fas fa-chart-line"></i> ${completedCount}/${totalTopics} (${progressPercent}%)
                 </div>
             </div>
-            <div class="topics-list" id="topics-${subjectIndex}">
-                ${subject.topics.map(topic => {
-                    const topicId = `${selectedCourse}-${subject.id}-${topic.id}`;
-                    const isCompleted = completedTopics.includes(topicId);
-                    
+            <div class="topics-list" id="topics-${semesterIndex}">
+                ${semester.subjects.map(subject => {
                     return `
-                        <div class="topic-item ${isCompleted ? 'completed' : ''}" data-topic-id="${topicId}">
+                        <div class="topic-item">
                             <div class="topic-header">
                                 <div class="topic-name">
-                                    ${isCompleted ? '<i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 10px;"></i>' : ''}
-                                    ${topic.name}
-                                </div>
-                                <div class="topic-status">
-                                    <button class="btn-complete ${isCompleted ? 'completed' : ''}" 
-                                            onclick="markTopicComplete('${topicId}', ${!isCompleted})"
-                                            ${isCompleted ? 'disabled' : ''}>
-                                        ${isCompleted ? 'Completed ✓' : 'Mark Complete'}
-                                    </button>
-                                    <button class="topic-menu-btn" onclick="toggleTopicMenu(event, '${topicId}')">
-                                        <i class="fas fa-ellipsis-vertical"></i>
-                                    </button>
-                                    <div class="topic-options-menu" id="menu-${topicId}">
-                                        ${!isCompleted ? `
-                                            <button class="menu-option" onclick="markTopicComplete('${topicId}', true); closeTopicMenu('${topicId}')">
-                                                <i class="fas fa-check"></i>
-                                                Mark as Complete
-                                            </button>
-                                        ` : `
-                                            <button class="menu-option" onclick="markTopicComplete('${topicId}', false); closeTopicMenu('${topicId}')">
-                                                <i class="fas fa-undo"></i>
-                                                Mark as Incomplete
-                                            </button>
-                                        `}
-                                        <button class="menu-option" onclick="viewTopicResources('${topicId}'); closeTopicMenu('${topicId}')">
-                                            <i class="fas fa-book-open"></i>
-                                            View All Resources
-                                        </button>
-                                        <button class="menu-option" onclick="askAIAboutTopic('${topic.name}'); closeTopicMenu('${topicId}')">
-                                            <i class="fas fa-robot"></i>
-                                            Ask AI Assistant
-                                        </button>
-                                        <button class="menu-option" onclick="shareProgress('${topicId}'); closeTopicMenu('${topicId}')">
-                                            <i class="fas fa-share"></i>
-                                            Share Progress
-                                        </button>
-                                    </div>
+                                    <strong>${subject.name}</strong>
+                                    <div class="topic-description">${subject.description}</div>
                                 </div>
                             </div>
                             <div class="topic-resources">
-                                ${topic.videos.map(video => `
-                                    <a href="${video.url}" target="_blank" class="resource-link">
-                                        <i class="fab fa-youtube"></i>
-                                        ${video.title}
-                                    </a>
-                                `).join('')}
+                                ${subject.videos.map((video, videoIndex) => {
+                                    const topicId = `${selectedCourse}-${semester.semester}-${subject.id}-${videoIndex}`;
+                                    const isCompleted = completedTopics.includes(topicId);
+                                    return `
+                                        <a href="${video.url}" target="_blank" class="resource-link" onclick="handleVideoLinkClick(event, '${video.url}')">
+                                            <i class="fab fa-youtube"></i>
+                                            ${video.title}
+                                        </a>
+                                        <button class="btn-complete ${isCompleted ? 'completed' : ''}" 
+                                                onclick="markTopicComplete('${topicId}', ${!isCompleted})"
+                                                ${isCompleted ? 'disabled' : ''}>
+                                            ${isCompleted ? 'Completed ✓' : 'Mark Complete'}
+                                        </button>
+                                    `;
+                                }).join('')}
                             </div>
                         </div>
                     `;
@@ -480,8 +2232,23 @@ async function loadRoadmap() {
             </div>
         `;
         
-        roadmapContainer.appendChild(subjectCard);
+        roadmapContainer.appendChild(semesterCard);
     });
+}
+
+// Handle video link click with better error handling
+function handleVideoLinkClick(event, url) {
+    // Only show the notification once per session for video availability issues
+    const hasSeenVideoNotification = sessionStorage.getItem('videoNotificationShown');
+    
+    if (!hasSeenVideoNotification) {
+        // Add a small delay to allow the link to open, then show a notification
+        setTimeout(() => {
+            showNotification('Some videos may not be available. If you see a "Video not available" message, please try another link from the same topic.', 'info');
+            // Mark that we've shown this notification so we don't show it again in this session
+            sessionStorage.setItem('videoNotificationShown', 'true');
+        }, 1500);
+    }
 }
 
 // Toggle subject expansion
@@ -553,8 +2320,8 @@ async function markTopicComplete(topicId, complete) {
             loadRoadmap();
         }
     } catch (error) {
-        console.error('Error updating topic:', error);
-        showNotification('Error updating progress', 'error');
+        console.error('Error marking topic complete:', error);
+        showNotification('Error marking topic complete', 'error');
     }
 }
 
