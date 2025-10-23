@@ -80,7 +80,7 @@ learnify/
 
 7. **Connect to your GitHub repository** (replace with your repo URL):
    ```bash
-   git remote add origin https://github.com/yourusername/learnify.git
+   git remote add origin https://github.com/dubeynaveen260-lang/learnify.git
    ```
 
 8. **Push to GitHub**:
