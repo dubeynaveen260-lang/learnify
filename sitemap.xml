@@ -4,64 +4,64 @@
   <!-- Homepage - Main entry point -->
   <url>
     <loc>https://learnifywithus.vercel.app/</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- Key Sections of the Application -->
+  <!-- Key Sections of the Application (Use clean URLs for SPA) -->
   <url>
-    <loc>https://learnifywithus.vercel.app/#dashboard</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/dashboard</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#roadmap</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/roadmap</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#resources</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/resources</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#ai-assistant</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/ai-assistant</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#quizzes</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/quizzes</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#leaderboard</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/leaderboard</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#community</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/community</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://learnifywithus.vercel.app/#cgpa-calculator</loc>
-    <lastmod>2025-10-23</lastmod>
+    <loc>https://learnifywithus.vercel.app/cgpa-calculator</loc>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
