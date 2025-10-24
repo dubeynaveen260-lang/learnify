@@ -324,3 +324,30 @@ const perfObserver = new PerformanceObserver((list) => {
 console.log('%c Welcome to Learnify! ', 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 20px; padding: 10px; border-radius: 5px;');
 console.log('%c Built with ❤️ for learners everywhere', 'color: #6366f1; font-size: 14px;');
 console.log('%c Tip: Press Alt+D for Dashboard, Alt+R for Roadmap, Alt+A for AI Assistant', 'color: #a0a0b0; font-size: 12px;');
+
+// Toggle notifications panel
+function toggleNotifications() {
+    const panel = document.getElementById('notificationsPanel');
+    if (panel.style.display === 'flex') {
+        panel.style.display = 'none';
+    } else {
+        panel.style.display = 'flex';
+        // Load notifications when panel is opened
+        if (typeof displayNotifications === 'function') {
+            displayNotifications();
+        }
+    }
+}
+
+// Close notifications when clicking outside
+document.addEventListener('click', (e) => {
+    const panel = document.getElementById('notificationsPanel');
+    const toggleButton = document.querySelector('.notification-toggle');
+    
+    if (panel && toggleButton && 
+        panel.style.display === 'flex' && 
+        !panel.contains(e.target) && 
+        !toggleButton.contains(e.target)) {
+        panel.style.display = 'none';
+    }
+});

@@ -9,7 +9,7 @@ async function loadFirebaseConfig() {
     try {
         const response = await fetch('/api/firebase-config');
         if (!response.ok) {
-            throw new Error('Failed to load Firebase config');
+            throw new Error(`Failed to load Firebase config: ${response.status} ${response.statusText}`);
         }
         firebaseConfig = await response.json();
         return firebaseConfig;
@@ -29,6 +29,7 @@ async function loadFirebaseConfig() {
         };
     }
 }
+
 // Initialize Firebase (async)
 let auth, database;
 
@@ -38,6 +39,11 @@ let auth, database;
     try {
         const config = await loadFirebaseConfig();
         console.log('✅ Firebase config loaded:', config.projectId);
+        
+        // Check if config is valid
+        if (!config || !config.apiKey) {
+            throw new Error('Invalid Firebase configuration');
+        }
         
         firebase.initializeApp(config);
         auth = firebase.auth();
@@ -57,7 +63,7 @@ let auth, database;
     } catch (error) {
         console.error('❌ Firebase initialization failed:', error);
         // Show error to user
-        alert('Failed to initialize Firebase. Please refresh the page.');
+        alert('Failed to initialize Firebase. Please refresh the page. Error: ' + error.message);
     }
 })();
 

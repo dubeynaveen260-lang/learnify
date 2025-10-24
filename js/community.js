@@ -2,6 +2,8 @@
 // Handles discussions, Q&A, and study groups
 
 let currentCommunityTab = 'discussions';
+let currentGroupId = null;
+let currentGroupKey = null;
 
 // Show community tab
 function showCommunityTab(tab) {
@@ -11,7 +13,14 @@ function showCommunityTab(tab) {
     document.querySelectorAll('.community-tab').forEach(btn => {
         btn.classList.remove('active');
     });
-    event.target.classList.add('active');
+    
+    // Add active class to clicked tab
+    const tabs = document.querySelectorAll('.community-tab');
+    tabs.forEach(t => {
+        if (t.textContent.toLowerCase().includes(tab)) {
+            t.classList.add('active');
+        }
+    });
     
     // Show/hide content
     document.querySelectorAll('.community-content').forEach(content => {
@@ -406,6 +415,7 @@ async function submitStudyGroup() {
             creatorId: currentUser.uid,
             creatorName: userData.name,
             members: [currentUser.uid],
+            pendingMembers: [],
             timestamp: Date.now()
         });
         
@@ -444,23 +454,85 @@ async function loadStudyGroups() {
         groupsList.innerHTML = groups.map(group => {
             const memberCount = group.members ? group.members.length : 0;
             const isMember = currentUser && group.members && group.members.includes(currentUser.uid);
+            const isCreator = currentUser && group.creatorId === currentUser.uid;
+            const isPending = currentUser && group.pendingMembers && group.pendingMembers.includes(currentUser.uid);
             
-            return `
-                <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                    <h4 style="margin-bottom: 10px;">${group.name}</h4>
-                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 13px; color: var(--text-secondary);">
-                            <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
-                            <span><i class="fas fa-users"></i> ${memberCount} members</span>
+            // If user is the creator, show management options
+            if (isCreator) {
+                return `
+                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h4 style="margin-bottom: 10px;">${group.name} <span style="background: var(--warning-color); padding: 4px 8px; border-radius: 4px; font-size: 12px;">CREATOR</span></h4>
+                                <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                                <div style="font-size: 13px; color: var(--text-secondary);">
+                                    <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                                    <span><i class="fas fa-users"></i> ${memberCount} members</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary" disabled style="opacity: 0.6;">Managing</button>
                         </div>
-                        ${isMember ? 
-                            '<button class="btn-primary" disabled style="opacity: 0.6;">Joined ✓</button>' :
-                            `<button class="btn-primary" onclick="joinGroup('${group.id}')">Join Group</button>`
-                        }
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                            <button class="btn-primary" onclick="manageGroupRequests('${group.id}')" style="background: var(--success-color);">
+                                <i class="fas fa-user-check"></i> Manage Requests
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
+            // If user is already a member
+            else if (isMember) {
+                return `
+                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-primary" onclick="openGroupChat('${group.id}')">
+                                    <i class="fas fa-comments"></i> Chat
+                                </button>
+                                <button class="btn-primary" disabled style="opacity: 0.6;">Joined ✓</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // If user has a pending request
+            else if (isPending) {
+                return `
+                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
+                            </div>
+                            <button class="btn-primary" disabled style="opacity: 0.6;">Request Pending...</button>
+                        </div>
+                    </div>
+                `;
+            }
+            // If user is not a member and hasn't requested to join
+            else {
+                return `
+                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
+                            </div>
+                            <button class="btn-primary" onclick="joinGroup('${group.id}')">Request to Join</button>
+                        </div>
+                    </div>
+                `;
+            }
         }).join('');
         
     } catch (error) {
@@ -469,7 +541,7 @@ async function loadStudyGroups() {
     }
 }
 
-// Join study group
+// Join study group (modified to request approval instead of immediate join)
 async function joinGroup(groupId) {
     if (!currentUser) {
         showNotification('Please login to join groups', 'error');
@@ -481,18 +553,441 @@ async function joinGroup(groupId) {
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
         
-        const members = group.members || [];
-        if (!members.includes(currentUser.uid)) {
-            members.push(currentUser.uid);
-            await groupRef.update({ members: members });
-            showNotification('Joined study group!', 'success');
-            loadStudyGroups();
+        // Check if group exists
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
         }
         
+        // Check if user is already a member
+        const members = group.members || [];
+        if (members.includes(currentUser.uid)) {
+            showNotification('You are already a member of this group', 'info');
+            return;
+        }
+        
+        // Check if user has already requested to join
+        const pendingMembers = group.pendingMembers || [];
+        if (pendingMembers.includes(currentUser.uid)) {
+            showNotification('You have already requested to join this group. Please wait for approval.', 'info');
+            return;
+        }
+        
+        // Add user to pending members list
+        const updatedPendingMembers = [...pendingMembers];
+        updatedPendingMembers.push(currentUser.uid);
+        
+        await groupRef.update({ 
+            pendingMembers: updatedPendingMembers 
+        });
+        
+        // Send notification to group creator
+        const groupName = group.name;
+        try {
+            const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
+            const userData = userSnapshot.val();
+            const requesterName = userData ? userData.name : 'A user';
+            
+            // Only send notification if creator exists and is different from requester
+            if (group.creatorId && group.creatorId !== currentUser.uid) {
+                await sendUserNotification(
+                    group.creatorId, 
+                    `User "${requesterName}" has requested to join your group "${groupName}".`, 
+                    'info'
+                );
+            }
+        } catch (notificationError) {
+            console.warn('Could not send notification to group creator:', notificationError);
+            // Continue even if notification fails
+        }
+        
+        showNotification('Join request sent! Please wait for the group creator to approve your request.', 'success');
+        loadStudyGroups();
+        
     } catch (error) {
-        console.error('Error joining group:', error);
-        showNotification('Error joining group', 'error');
+        console.error('Error requesting to join group:', error);
+        // More detailed error message
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. Please make sure you are logged in correctly and try again.', 'error');
+        } else {
+            showNotification('Error requesting to join group: ' + error.message, 'error');
+        }
     }
+}
+
+// Manage group requests (for group creators)
+async function manageGroupRequests(groupId) {
+    if (!currentUser) return;
+    
+    try {
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+        
+        // Check if current user is the group creator
+        if (group.creatorId !== currentUser.uid) {
+            showNotification('Only the group creator can manage requests', 'error');
+            return;
+        }
+        
+        const pendingMembers = group.pendingMembers || [];
+        
+        if (pendingMembers.length === 0) {
+            showNotification('No pending requests', 'info');
+            return;
+        }
+        
+        // Fetch user data for pending members
+        const pendingUsers = [];
+        for (const userId of pendingMembers) {
+            try {
+                const userSnapshot = await database.ref('users/' + userId).once('value');
+                const userData = userSnapshot.val();
+                if (userData) {
+                    pendingUsers.push({
+                        id: userId,
+                        name: userData.name,
+                        course: userData.course
+                    });
+                }
+            } catch (err) {
+                console.error('Error fetching user data:', err);
+            }
+        }
+        
+        // Display requests in a modal or update the UI
+        showPendingRequests(groupId, group.name, pendingUsers);
+        
+    } catch (error) {
+        console.error('Error managing group requests:', error);
+        showNotification('Error managing requests', 'error');
+    }
+}
+
+// Show pending requests UI
+function showPendingRequests(groupId, groupName, pendingUsers) {
+    const groupsList = document.getElementById('studyGroupsList');
+    
+    if (pendingUsers.length === 0) {
+        groupsList.innerHTML = `
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <h3>Pending Requests for "${groupName}"</h3>
+                <p>No pending requests at this time.</p>
+                <button class="btn-primary" onclick="loadStudyGroups()">Back to Groups</button>
+            </div>
+        `;
+        return;
+    }
+    
+    groupsList.innerHTML = `
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Pending Requests for "${groupName}"</h3>
+                <button class="btn-primary" onclick="loadStudyGroups()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                ${pendingUsers.map(user => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--darker-bg); border-radius: 8px; margin-bottom: 10px;">
+                        <div>
+                            <strong>${user.name}</strong>
+                            <div style="font-size: 13px; color: var(--text-secondary);">${user.course}</div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" style="background: var(--success-color);" onclick="approveMember('${groupId}', '${user.id}')">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-primary" style="background: var(--danger-color);" onclick="rejectMember('${groupId}', '${user.id}')">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// Approve member to join group
+async function approveMember(groupId, userId) {
+    if (!currentUser) return;
+    
+    try {
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+        
+        // Verify user is group creator
+        if (group.creatorId !== currentUser.uid) {
+            showNotification('Only the group creator can approve members', 'error');
+            return;
+        }
+        
+        // Remove from pending members
+        const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
+        
+        // Add to members
+        const members = group.members || [];
+        if (!members.includes(userId)) {
+            members.push(userId);
+        }
+        
+        // Update group
+        await groupRef.update({
+            pendingMembers: pendingMembers,
+            members: members
+        });
+        
+        // Send notification to the approved user
+        const groupName = group.name;
+        await sendUserNotification(
+            userId, 
+            `Your request to join group "${groupName}" has been approved!`, 
+            'success'
+        );
+        
+        showNotification('Member approved!', 'success');
+        
+        // Refresh the requests view
+        manageGroupRequests(groupId);
+        
+    } catch (error) {
+        console.error('Error approving member:', error);
+        showNotification('Error approving member', 'error');
+    }
+}
+
+// Reject member request to join group
+async function rejectMember(groupId, userId) {
+    if (!currentUser) return;
+    
+    try {
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+        
+        // Verify user is group creator
+        if (group.creatorId !== currentUser.uid) {
+            showNotification('Only the group creator can reject members', 'error');
+            return;
+        }
+        
+        // Remove from pending members
+        const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
+        
+        // Update group
+        await groupRef.update({
+            pendingMembers: pendingMembers
+        });
+        
+        // Send notification to the rejected user
+        const groupName = group.name;
+        await sendUserNotification(
+            userId, 
+            `Your request to join group "${groupName}" has been rejected.`, 
+            'error'
+        );
+        
+        showNotification('Member request rejected', 'success');
+        
+        // Refresh the requests view
+        manageGroupRequests(groupId);
+        
+    } catch (error) {
+        console.error('Error rejecting member:', error);
+        showNotification('Error rejecting member', 'error');
+    }
+}
+
+// Open group chat
+async function openGroupChat(groupId) {
+    if (!currentUser) {
+        showNotification('Please login to access group chat', 'error');
+        return;
+    }
+    
+    try {
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+        
+        // Check if user is a member of the group
+        const isMember = group.members && group.members.includes(currentUser.uid);
+        if (!isMember) {
+            showNotification('You must be a member of this group to access the chat', 'error');
+            return;
+        }
+        
+        currentGroupId = groupId;
+        document.getElementById('chatGroupName').textContent = group.name + ' - Chat';
+        document.getElementById('groupChatContainer').style.display = 'block';
+        
+        // Load chat messages
+        loadGroupChatMessages(groupId);
+        
+        // Set up real-time listener for new messages
+        setupChatListener(groupId);
+        
+    } catch (error) {
+        console.error('Error opening group chat:', error);
+        showNotification('Error accessing group chat', 'error');
+    }
+}
+
+// Close group chat
+function closeGroupChat() {
+    document.getElementById('groupChatContainer').style.display = 'none';
+    currentGroupId = null;
+    
+    // Remove chat listener if it exists
+    if (currentGroupKey) {
+        database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
+        currentGroupKey = null;
+    }
+}
+
+// Set up real-time listener for chat messages
+function setupChatListener(groupId) {
+    // Remove previous listener if it exists
+    if (currentGroupKey) {
+        database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
+    }
+    
+    // Set up new listener
+    const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp');
+    currentGroupKey = messagesRef.on('child_added', (snapshot) => {
+        const message = snapshot.val();
+        displayNewMessage(message);
+        // Scroll to bottom of chat
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+}
+
+// Load group chat messages
+async function loadGroupChatMessages(groupId) {
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
+    
+    try {
+        const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp');
+        const snapshot = await messagesRef.once('value');
+        
+        const messages = [];
+        snapshot.forEach(childSnapshot => {
+            messages.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+        
+        if (messages.length === 0) {
+            chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
+            return;
+        }
+        
+        // Display messages
+        chatMessages.innerHTML = '';
+        messages.forEach(message => {
+            displayNewMessage(message);
+        });
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+    } catch (error) {
+        console.error('Error loading chat messages:', error);
+        chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages</p>';
+    }
+}
+
+// Display a new message in the chat
+function displayNewMessage(message) {
+    const chatMessages = document.getElementById('chatMessages');
+    const isOwnMessage = message.senderId === currentUser.uid;
+    
+    // Decrypt message content if it's encrypted
+    let content = message.content;
+    try {
+        const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
+        content = bytes.toString(CryptoJS.enc.Utf8);
+    } catch (e) {
+        // If decryption fails, display as is (might be unencrypted during transition)
+        console.warn('Could not decrypt message:', e);
+    }
+    
+    // Format timestamp
+    const date = new Date(message.timestamp);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
+        </div>
+        <div class="message-content">${escapeHtml(content)}</div>
+        <div class="message-time">${timeString}</div>
+    `;
+    
+    chatMessages.appendChild(messageElement);
+}
+
+// Send group message
+async function sendGroupMessage() {
+    if (!currentUser || !currentGroupId) return;
+    
+    const messageInput = document.getElementById('chatMessageInput');
+    const content = messageInput.value.trim();
+    
+    if (!content) {
+        showNotification('Please enter a message', 'error');
+        return;
+    }
+    
+    try {
+        // Get user data
+        const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
+        const userData = userSnapshot.val();
+        
+        // Encrypt message content
+        let encryptedContent = content;
+        if (typeof CryptoJS !== 'undefined') {
+            encryptedContent = CryptoJS.AES.encrypt(content, currentGroupId).toString();
+        }
+        
+        // Save message to database
+        const messageRef = database.ref('groupChats/' + currentGroupId).push();
+        await messageRef.set({
+            content: encryptedContent,
+            senderId: currentUser.uid,
+            senderName: userData.name,
+            timestamp: Date.now()
+        });
+        
+        // Clear input
+        messageInput.value = '';
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        showNotification('Error sending message', 'error');
+    }
+}
+
+// Handle Enter key press in chat input
+function handleChatKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendGroupMessage();
+    }
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // Utility: Get time ago string
@@ -510,6 +1005,142 @@ function getTimeAgo(timestamp) {
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     return 'Just now';
 }
+
+// Send notification to a user
+async function sendUserNotification(userId, message, type = 'info') {
+    // Don't send notification if user is trying to send to themselves
+    if (!userId || userId === currentUser.uid) {
+        return;
+    }
+    
+    try {
+        const notificationRef = database.ref('userNotifications/' + userId).push();
+        await notificationRef.set({
+            message: message,
+            type: type,
+            timestamp: Date.now(),
+            read: false
+        });
+    } catch (error) {
+        console.error('Error sending notification:', error);
+        // Don't show notification error to user as it's not critical
+    }
+}
+
+// Load user notifications
+async function loadUserNotifications() {
+    if (!currentUser) return [];
+    
+    try {
+        const notificationsRef = database.ref('userNotifications/' + currentUser.uid)
+            .orderByChild('timestamp')
+            .limitToLast(10);
+        const snapshot = await notificationsRef.once('value');
+        
+        const notifications = [];
+        snapshot.forEach(childSnapshot => {
+            notifications.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+        
+        // Sort by timestamp descending (newest first)
+        notifications.reverse();
+        
+        return notifications;
+    } catch (error) {
+        console.error('Error loading notifications:', error);
+        // Return empty array instead of throwing error
+        return [];
+    }
+}
+
+// Mark notification as read
+async function markNotificationAsRead(notificationId) {
+    if (!currentUser) return;
+    
+    try {
+        await database.ref('userNotifications/' + currentUser.uid + '/' + notificationId)
+            .update({ read: true });
+    } catch (error) {
+        console.error('Error marking notification as read:', error);
+    }
+}
+
+// Display notifications in UI
+async function displayNotifications() {
+    const notifications = await loadUserNotifications();
+    const notificationsContainer = document.getElementById('notificationsList');
+    
+    if (!notificationsContainer) return;
+    
+    if (notifications.length === 0) {
+        notificationsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 20px;">No notifications</p>';
+        return;
+    }
+    
+    notificationsContainer.innerHTML = notifications.map(notification => {
+        const date = new Date(notification.timestamp);
+        const timeAgo = getTimeAgo(notification.timestamp);
+        
+        return `
+            <div class="notification-item" style="padding: 15px; border-bottom: 1px solid var(--border-color); background: ${notification.read ? 'var(--card-bg)' : 'var(--darker-bg)'};">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <p style="margin: 0 0 5px 0; ${notification.read ? '' : 'font-weight: bold;'}">${notification.message}</p>
+                        <span style="font-size: 12px; color: var(--text-secondary);">${timeAgo}</span>
+                    </div>
+                    ${!notification.read ? 
+                        `<button class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: var(--success-color);" onclick="markNotificationAsRead('${notification.id}')">
+                            Mark as Read
+                        </button>` : 
+                        ''
+                    }
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Add periodic notification check
+function startNotificationChecker() {
+    if (!currentUser) return;
+    
+    // Check for new notifications every 30 seconds
+    setInterval(async () => {
+        const notifications = await loadUserNotifications();
+        const unreadCount = notifications.filter(n => !n.read).length;
+        
+        // Update notification badge if it exists
+        const notificationBadge = document.getElementById('notificationBadge');
+        if (notificationBadge) {
+            notificationBadge.textContent = unreadCount;
+            notificationBadge.style.display = unreadCount > 0 ? 'inline' : 'none';
+        }
+        
+        // Show notification toast for new unread notifications
+        if (unreadCount > 0) {
+            const latestNotification = notifications[0];
+            if (!latestNotification.read && !latestNotification.shown) {
+                showNotification(latestNotification.message, latestNotification.type);
+                // Mark as shown to prevent duplicate toasts
+                await database.ref('userNotifications/' + currentUser.uid + '/' + latestNotification.id)
+                    .update({ shown: true });
+            }
+        }
+    }, 30000);
+}
+
+// Initialize notification checker when user logs in
+window.addEventListener('load', () => {
+    // Start notification checker after a delay to ensure auth is ready
+    setTimeout(() => {
+        if (currentUser) {
+            startNotificationChecker();
+        }
+    }, 5000);
+});
 
 // Load community content on page load
 window.addEventListener('load', () => {

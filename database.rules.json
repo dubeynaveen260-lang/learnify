@@ -109,14 +109,14 @@
           ".validate": "newData.isNumber() && newData.val() >= 0"
         },
         "votes": {
-          ".validate": "newData.isNumber()"
+          ".validate": "newData.isNumber() && newData.val() >= 0"
         }
       }
     },
     "studyGroups": {
       ".read": "auth != null",
       "$groupId": {
-        ".write": "auth != null && (!data.exists() || data.child('creatorId').val() === auth.uid || data.child('members/' + auth.uid).exists())",
+        ".write": "auth != null && (!data.exists() || data.child('creatorId').val() === auth.uid || data.child('members').hasChild(auth.uid.toString()))",
         ".validate": "newData.hasChildren(['name', 'description', 'creatorId', 'creatorName', 'timestamp'])",
         "name": {
           ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
@@ -125,16 +125,68 @@
           ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
         },
         "creatorId": {
-          ".validate": "newData.isString()"
+          ".validate": "newData.isString() && newData.val() === auth.uid"
         },
         "creatorName": {
           ".validate": "newData.isString()"
         },
         "members": {
-          ".validate": "newData.hasChildren()"
+          "$memberId": {
+            ".write": "auth != null && (newData.val() === true || !newData.exists())"
+          }
+        },
+        "pendingMembers": {
+          "$memberId": {
+            ".write": "auth != null && (newData.val() === true || !newData.exists())"
+          }
         },
         "timestamp": {
           ".validate": "newData.isNumber() && newData.val() <= now"
+        }
+      }
+    },
+    "groupChats": {
+      ".read": "auth != null && root.child('studyGroups/' + $groupId + '/members/' + auth.uid).exists()",
+      "$groupId": {
+        ".write": "auth != null && root.child('studyGroups/' + $groupId + '/members/' + auth.uid).exists()",
+        "$messageId": {
+          ".validate": "newData.hasChildren(['content', 'senderId', 'senderName', 'timestamp'])",
+          "content": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 1000"
+          },
+          "senderId": {
+            ".validate": "newData.isString() && newData.val() === auth.uid"
+          },
+          "senderName": {
+            ".validate": "newData.isString()"
+          },
+          "timestamp": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          }
+        }
+      }
+    },
+    "userNotifications": {
+      ".read": "auth != null && auth.uid === $userId",
+      "$userId": {
+        ".write": "auth != null && auth.uid === $userId",
+        "$notificationId": {
+          ".validate": "newData.hasChildren(['message', 'type', 'timestamp', 'read'])",
+          "message": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+          },
+          "type": {
+            ".validate": "newData.isString() && (newData.val() === 'info' || newData.val() === 'success' || newData.val() === 'error' || newData.val() === 'warning')"
+          },
+          "timestamp": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          },
+          "read": {
+            ".validate": "newData.isBoolean()"
+          },
+          "shown": {
+            ".validate": "newData.isBoolean()"
+          }
         }
       }
     }
