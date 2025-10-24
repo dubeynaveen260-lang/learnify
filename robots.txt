@@ -20,5 +20,8 @@ Disallow: /.env
 Allow: /*.js
 Allow: /*.css
 
+# Host directive
+Host: https://learnifywithus.vercel.app
+
 # Crawl-delay for polite crawling
 Crawl-delay: 1
