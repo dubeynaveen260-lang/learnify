@@ -95,7 +95,7 @@ async function loadLeaderboard() {
             return `
                 <div class="leaderboard-item ${isCurrentUser ? 'current-user' : ''}" style="${isCurrentUser ? 'background: var(--card-bg); border: 2px solid var(--primary-color);' : ''}">
                     <div class="rank ${rankClass}">${medal || rank}</div>
-                    <div class="user-avatar" style="width: 40px; height: 40px; font-size: 16px;">
+                    <div class="user-avatar" style="width: 40px; height: 40px; font-size: 16px; box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3); border: 1px solid white; transition: all 0.3s ease;">
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="leaderboard-user-info" style="flex: 1;">

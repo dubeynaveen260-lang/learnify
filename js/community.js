@@ -8,15 +8,34 @@ let currentDirectMessageUserId = null;
 let currentDirectMessageKey = null;
 let editingDiscussionId = null;
 
+// Wait for Firebase to be initialized before using database functions
+function ensureFirebaseReady() {
+    return new Promise((resolve, reject) => {
+        if (typeof database !== 'undefined' && database !== null) {
+            resolve();
+        } else {
+            // Listen for firebase-ready event
+            const timeout = setTimeout(() => {
+                reject(new Error('Firebase initialization timeout'));
+            }, 5000);
+            
+            window.addEventListener('firebase-ready', () => {
+                clearTimeout(timeout);
+                resolve();
+            }, { once: true });
+        }
+    });
+}
+
 // Show community tab
 function showCommunityTab(tab) {
     currentCommunityTab = tab;
-    
+
     // Update tab buttons
     document.querySelectorAll('.community-tab').forEach(btn => {
         btn.classList.remove('active');
     });
-    
+
     // Add active class to clicked tab
     const tabs = document.querySelectorAll('.community-tab');
     tabs.forEach(t => {
@@ -24,13 +43,13 @@ function showCommunityTab(tab) {
             t.classList.add('active');
         }
     });
-    
+
     // Show/hide content
     document.querySelectorAll('.community-content').forEach(content => {
         content.classList.remove('active');
     });
     document.getElementById(tab + 'Tab').classList.add('active');
-    
+
     // Load content for the tab
     if (tab === 'discussions') {
         loadDiscussions();
@@ -47,7 +66,7 @@ function showCommunityTab(tab) {
 function createNewDiscussion() {
     editingDiscussionId = null; // Reset editing mode
     const discussionsList = document.getElementById('discussionsList');
-    
+
     const form = `
         <div class="create-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
             <h4>Start a New Discussion</h4>
@@ -66,14 +85,14 @@ function createNewDiscussion() {
             </div>
         </div>
     `;
-    
+
     discussionsList.innerHTML = form + discussionsList.innerHTML;
 }
 
 // Open edit discussion modal
 function openEditDiscussionModal() {
     const discussionsList = document.getElementById('discussionsList');
-    
+
     const form = `
         <div class="edit-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
             <h4>Edit Discussion</h4>
@@ -81,7 +100,7 @@ function openEditDiscussionModal() {
             <button onclick="loadDiscussions()" class="btn-primary" style="background: var(--border-color);">Close</button>
         </div>
     `;
-    
+
     discussionsList.innerHTML = form + discussionsList.innerHTML;
 }
 
@@ -91,26 +110,26 @@ function editDiscussion(discussionId) {
         showNotification('Please login to edit discussions', 'error');
         return;
     }
-    
+
     editingDiscussionId = discussionId;
-    
+
     // Load the discussion data
     database.ref('discussions/' + discussionId).once('value').then(snapshot => {
         const discussion = snapshot.val();
-        
+
         if (!discussion) {
             showNotification('Discussion not found', 'error');
             return;
         }
-        
+
         // Check if user is the author
         if (discussion.authorId !== currentUser.uid) {
             showNotification('You can only edit your own discussions', 'error');
             return;
         }
-        
+
         const discussionsList = document.getElementById('discussionsList');
-        
+
         const form = `
             <div class="edit-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
                 <h4>Edit Discussion</h4>
@@ -128,7 +147,7 @@ function editDiscussion(discussionId) {
                 </div>
             </div>
         `;
-        
+
         discussionsList.innerHTML = form + discussionsList.innerHTML;
     }).catch(error => {
         console.error('Error loading discussion:', error);
@@ -142,16 +161,16 @@ async function submitDiscussionEdit(discussionId) {
         showNotification('Please login to edit discussions', 'error');
         return;
     }
-    
+
     const title = document.getElementById('discussionTitle').value.trim();
     const subject = document.getElementById('discussionSubject').value;
     const content = document.getElementById('discussionContent').value.trim();
-    
+
     if (!title || !subject || !content) {
         showNotification('Please fill all fields', 'error');
         return;
     }
-    
+
     try {
         // Update the discussion
         await database.ref('discussions/' + discussionId).update({
@@ -161,11 +180,11 @@ async function submitDiscussionEdit(discussionId) {
             edited: true,
             editedTimestamp: Date.now()
         });
-        
+
         showNotification('Discussion updated!', 'success');
         editingDiscussionId = null;
         loadDiscussions();
-        
+
     } catch (error) {
         console.error('Error updating discussion:', error);
         showNotification('Error updating discussion', 'error');
@@ -178,20 +197,20 @@ async function submitDiscussion() {
         showNotification('Please login to post discussions', 'error');
         return;
     }
-    
+
     const title = document.getElementById('discussionTitle').value.trim();
     const subject = document.getElementById('discussionSubject').value;
     const content = document.getElementById('discussionContent').value.trim();
-    
+
     if (!title || !subject || !content) {
         showNotification('Please fill all fields', 'error');
         return;
     }
-    
+
     try {
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
+
         const discussionRef = database.ref('discussions').push();
         await discussionRef.set({
             title: title,
@@ -204,10 +223,10 @@ async function submitDiscussion() {
             replies: 0,
             likes: 0
         });
-        
+
         showNotification('Discussion posted!', 'success');
         loadDiscussions();
-        
+
     } catch (error) {
         console.error('Error posting discussion:', error);
         showNotification('Error posting discussion', 'error');
@@ -218,77 +237,100 @@ async function submitDiscussion() {
 async function loadDiscussions() {
     const discussionsList = document.getElementById('discussionsList');
     if (!discussionsList) return;
-    
+
     discussionsList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading discussions...</p>';
-    
+
     try {
-        const snapshot = await database.ref('discussions').orderByChild('timestamp').once('value');
-        const discussions = [];
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         
+        // Limit to 50 discussions to improve performance
+        const snapshot = await database.ref('discussions').orderByChild('timestamp').limitToLast(50).once('value');
+        const discussions = [];
+
         snapshot.forEach(childSnapshot => {
             discussions.push({
                 id: childSnapshot.key,
                 ...childSnapshot.val()
             });
         });
-        
+
         // Sort by newest first
         discussions.reverse();
-        
+
         if (discussions.length === 0) {
             discussionsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No discussions yet. Be the first to start one!</p>';
             return;
         }
-        
-        discussionsList.innerHTML = discussions.map(discussion => {
+
+        // Use document fragment for better performance
+        const fragment = document.createDocumentFragment();
+
+        discussions.forEach(discussion => {
             const date = new Date(discussion.timestamp);
             const timeAgo = getTimeAgo(discussion.timestamp);
             const isAuthor = currentUser && discussion.authorId === currentUser.uid;
             const editedText = discussion.edited ? ' (edited)' : '';
-            
-            return `
-                <div class="discussion-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; border: 1px solid var(--border-color);" onclick="viewDiscussion('${discussion.id}')">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <div>
-                            <span style="background: var(--primary-color); padding: 4px 12px; border-radius: 15px; font-size: 12px; margin-right: 10px;">${discussion.subject}</span>
-                            <span style="color: var(--text-secondary); font-size: 13px;">${timeAgo}${editedText}</span>
-                        </div>
-                        ${isAuthor ? `<button class="btn-primary" style="background: var(--warning-color); padding: 5px 10px; font-size: 12px;" onclick="event.stopPropagation(); editDiscussion('${discussion.id}')"><i class="fas fa-edit"></i> Edit</button>` : ''}
+
+            const discussionCard = document.createElement('div');
+            discussionCard.className = 'discussion-card';
+            discussionCard.style.background = 'var(--card-bg)';
+            discussionCard.style.padding = '20px';
+            discussionCard.style.borderRadius = '10px';
+            discussionCard.style.marginBottom = '15px';
+            discussionCard.style.cursor = 'pointer';
+            discussionCard.style.border = '1px solid var(--border-color)';
+            discussionCard.onclick = () => viewDiscussion(discussion.id);
+
+            discussionCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <div>
+                        <span style="background: var(--primary-color); padding: 4px 12px; border-radius: 15px; font-size: 12px; margin-right: 10px;">${discussion.subject}</span>
+                        <span style="color: var(--text-secondary); font-size: 13px;">${timeAgo}${editedText}</span>
                     </div>
-                    <h4 style="margin-bottom: 10px;">${discussion.title}</h4>
-                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${discussion.content.substring(0, 150)}${discussion.content.length > 150 ? '...' : ''}</p>
-                    <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary);">
-                        <span><i class="fas fa-user"></i> ${discussion.authorName} (${discussion.authorCourse})</span>
-                        <span><i class="fas fa-comments"></i> ${discussion.replies || 0} replies</span>
-                        <span><i class="fas fa-heart"></i> ${discussion.likes || 0} likes</span>
-                    </div>
+                    ${isAuthor ? `<button class="btn-primary" style="background: var(--warning-color); padding: 5px 10px; font-size: 12px;" onclick="event.stopPropagation(); editDiscussion('${discussion.id}')"><i class="fas fa-edit"></i> Edit</button>` : ''}
+                </div>
+                <h4 style="margin-bottom: 10px;">${discussion.title}</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">${discussion.content.substring(0, 150)}${discussion.content.length > 150 ? '...' : ''}</p>
+                <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary);">
+                    <span><i class="fas fa-user"></i> ${discussion.authorName} (${discussion.authorCourse})</span>
+                    <span><i class="fas fa-comments"></i> ${discussion.replies || 0} replies</span>
+                    <span><i class="fas fa-heart"></i> ${discussion.likes || 0} likes</span>
                 </div>
             `;
-        }).join('');
-        
+
+            fragment.appendChild(discussionCard);
+        });
+
+        discussionsList.innerHTML = '';
+        discussionsList.appendChild(fragment);
+
     } catch (error) {
         console.error('Error loading discussions:', error);
-        discussionsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading discussions</p>';
+        discussionsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading discussions: ' + error.message + '</p>';
     }
 }
 
 // View discussion details
 async function viewDiscussion(discussionId) {
     const discussionsList = document.getElementById('discussionsList');
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const snapshot = await database.ref('discussions/' + discussionId).once('value');
         const discussion = snapshot.val();
-        
+
         if (!discussion) return;
-        
+
         const repliesSnapshot = await database.ref('discussionReplies/' + discussionId).once('value');
         const replies = [];
-        
+
         repliesSnapshot.forEach(childSnapshot => {
             replies.push(childSnapshot.val());
         });
-        
+
         discussionsList.innerHTML = `
             <div class="discussion-detail">
                 <button onclick="loadDiscussions()" class="btn-primary" style="margin-bottom: 20px;">← Back to Discussions</button>
@@ -325,7 +367,7 @@ async function viewDiscussion(discussionId) {
                 </div>
             </div>
         `;
-        
+
     } catch (error) {
         console.error('Error viewing discussion:', error);
     }
@@ -337,18 +379,21 @@ async function submitReply(discussionId) {
         showNotification('Please login to reply', 'error');
         return;
     }
-    
+
     const content = document.getElementById('replyContent').value.trim();
-    
+
     if (!content) {
         showNotification('Please enter a reply', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
+
         const replyRef = database.ref('discussionReplies/' + discussionId).push();
         await replyRef.set({
             content: content,
@@ -356,19 +401,19 @@ async function submitReply(discussionId) {
             authorName: userData.name,
             timestamp: Date.now()
         });
-        
+
         // Update reply count
         const discussionRef = database.ref('discussions/' + discussionId);
         const discussionSnapshot = await discussionRef.once('value');
         const discussion = discussionSnapshot.val();
-        
+
         await discussionRef.update({
             replies: (discussion.replies || 0) + 1
         });
-        
+
         showNotification('Reply posted!', 'success');
         viewDiscussion(discussionId);
-        
+
     } catch (error) {
         console.error('Error posting reply:', error);
         showNotification('Error posting reply', 'error');
@@ -378,7 +423,7 @@ async function submitReply(discussionId) {
 // Ask question (Q&A section)
 function askQuestion() {
     const questionsList = document.getElementById('questionsList');
-    
+
     const form = `
         <div class="ask-question-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
             <h4>Ask a Question</h4>
@@ -390,7 +435,7 @@ function askQuestion() {
             </div>
         </div>
     `;
-    
+
     questionsList.innerHTML = form + questionsList.innerHTML;
 }
 
@@ -400,19 +445,22 @@ async function submitQuestion() {
         showNotification('Please login to ask questions', 'error');
         return;
     }
-    
+
     const title = document.getElementById('questionTitle').value.trim();
     const details = document.getElementById('questionDetails').value.trim();
-    
+
     if (!title || !details) {
         showNotification('Please fill all fields', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
+
         const questionRef = database.ref('questions').push();
         await questionRef.set({
             title: title,
@@ -423,10 +471,10 @@ async function submitQuestion() {
             answers: 0,
             votes: 0
         });
-        
+
         showNotification('Question posted!', 'success');
         loadQuestions();
-        
+
     } catch (error) {
         console.error('Error posting question:', error);
         showNotification('Error posting question', 'error');
@@ -437,54 +485,71 @@ async function submitQuestion() {
 async function loadQuestions() {
     const questionsList = document.getElementById('questionsList');
     if (!questionsList) return;
-    
+
     questionsList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading questions...</p>';
-    
+
     try {
-        const snapshot = await database.ref('questions').orderByChild('timestamp').once('value');
-        const questions = [];
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         
+        // Limit to 50 questions to improve performance
+        const snapshot = await database.ref('questions').orderByChild('timestamp').limitToLast(50).once('value');
+        const questions = [];
+
         snapshot.forEach(childSnapshot => {
             questions.push({
                 id: childSnapshot.key,
                 ...childSnapshot.val()
             });
         });
-        
+
         questions.reverse();
-        
+
         if (questions.length === 0) {
             questionsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No questions yet. Ask the first one!</p>';
             return;
         }
-        
-        questionsList.innerHTML = questions.map(question => {
+
+        // Use document fragment for better performance
+        const fragment = document.createDocumentFragment();
+
+        questions.forEach(question => {
             const timeAgo = getTimeAgo(question.timestamp);
-            
-            return `
-                <div class="question-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                    <h4 style="margin-bottom: 10px;">${question.title}</h4>
-                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${question.details.substring(0, 200)}${question.details.length > 200 ? '...' : ''}</p>
-                    <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary);">
-                        <span><i class="fas fa-user"></i> ${question.authorName}</span>
-                        <span><i class="fas fa-clock"></i> ${timeAgo}</span>
-                        <span><i class="fas fa-comments"></i> ${question.answers || 0} answers</span>
-                        <span><i class="fas fa-arrow-up"></i> ${question.votes || 0} votes</span>
-                    </div>
+
+            const questionCard = document.createElement('div');
+            questionCard.className = 'question-card';
+            questionCard.style.background = 'var(--card-bg)';
+            questionCard.style.padding = '20px';
+            questionCard.style.borderRadius = '10px';
+            questionCard.style.marginBottom = '15px';
+
+            questionCard.innerHTML = `
+                <h4 style="margin-bottom: 10px;">${question.title}</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">${question.details.substring(0, 200)}${question.details.length > 200 ? '...' : ''}</p>
+                <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary);">
+                    <span><i class="fas fa-user"></i> ${question.authorName}</span>
+                    <span><i class="fas fa-clock"></i> ${timeAgo}</span>
+                    <span><i class="fas fa-comments"></i> ${question.answers || 0} answers</span>
+                    <span><i class="fas fa-arrow-up"></i> ${question.votes || 0} votes</span>
                 </div>
             `;
-        }).join('');
-        
+
+            fragment.appendChild(questionCard);
+        });
+
+        questionsList.innerHTML = '';
+        questionsList.appendChild(fragment);
+
     } catch (error) {
         console.error('Error loading questions:', error);
-        questionsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading questions</p>';
+        questionsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading questions: ' + error.message + '</p>';
     }
 }
 
 // Create study group
 function createStudyGroup() {
     const groupsList = document.getElementById('studyGroupsList');
-    
+
     const form = `
         <div class="create-group-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
             <h4>Create Study Group</h4>
@@ -496,7 +561,7 @@ function createStudyGroup() {
             </div>
         </div>
     `;
-    
+
     groupsList.innerHTML = form + groupsList.innerHTML;
 }
 
@@ -506,19 +571,22 @@ async function submitStudyGroup() {
         showNotification('Please login to create groups', 'error');
         return;
     }
-    
+
     const name = document.getElementById('groupName').value.trim();
     const description = document.getElementById('groupDescription').value.trim();
-    
+
     if (!name || !description) {
         showNotification('Please fill all fields', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
+
         const groupRef = database.ref('studyGroups').push();
         await groupRef.set({
             name: name,
@@ -529,13 +597,17 @@ async function submitStudyGroup() {
             pendingMembers: [],
             timestamp: Date.now()
         });
-        
+
         showNotification('Study group created!', 'success');
         loadStudyGroups();
-        
+
     } catch (error) {
         console.error('Error creating group:', error);
-        showNotification('Error creating group', 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not have permission to create groups. Please contact support if this issue persists.', 'error');
+        } else {
+            showNotification('Error creating group: ' + error.message, 'error');
+        }
     }
 }
 
@@ -543,112 +615,130 @@ async function submitStudyGroup() {
 async function loadStudyGroups() {
     const groupsList = document.getElementById('studyGroupsList');
     if (!groupsList) return;
-    
+
     groupsList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading study groups...</p>';
-    
+
     try {
-        const snapshot = await database.ref('studyGroups').once('value');
-        const groups = [];
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         
+        // Limit to 50 groups to improve performance
+        const snapshot = await database.ref('studyGroups').limitToFirst(50).once('value');
+        const groups = [];
+
         snapshot.forEach(childSnapshot => {
             groups.push({
                 id: childSnapshot.key,
                 ...childSnapshot.val()
             });
         });
-        
+
         if (groups.length === 0) {
             groupsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No study groups yet. Create the first one!</p>';
             return;
         }
-        
-        groupsList.innerHTML = groups.map(group => {
+
+        // Use document fragment for better performance
+        const fragment = document.createDocumentFragment();
+
+        groups.forEach(group => {
             const memberCount = group.members ? group.members.length : 0;
             const isMember = currentUser && group.members && group.members.includes(currentUser.uid);
             const isCreator = currentUser && group.creatorId === currentUser.uid;
             const isPending = currentUser && group.pendingMembers && group.pendingMembers.includes(currentUser.uid);
-            
-            // If user is the creator, show management options
+
+            const groupCard = document.createElement('div');
+            groupCard.className = 'group-card';
+            groupCard.style.background = 'var(--card-bg)';
+            groupCard.style.padding = '20px';
+            groupCard.style.borderRadius = '10px';
+            groupCard.style.marginBottom = '15px';
+
+            // If user is the creator, show management options and chat button
             if (isCreator) {
-                return `
-                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div>
-                                <h4 style="margin-bottom: 10px;">${group.name} <span style="background: var(--warning-color); padding: 4px 8px; border-radius: 4px; font-size: 12px;">CREATOR</span></h4>
-                                <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
-                                <div style="font-size: 13px; color: var(--text-secondary);">
-                                    <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
-                                    <span><i class="fas fa-users"></i> ${memberCount} members</span>
-                                </div>
+                groupCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4 style="margin-bottom: 10px;">${group.name} <span style="background: var(--warning-color); padding: 4px 8px; border-radius: 4px; font-size: 12px;">CREATOR</span></h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
                             </div>
-                            <button class="btn-primary" disabled style="opacity: 0.6;">Managing</button>
                         </div>
-                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
-                            <button class="btn-primary" onclick="manageGroupRequests('${group.id}')" style="background: var(--success-color);">
-                                <i class="fas fa-user-check"></i> Manage Requests
-                            </button>
-                        </div>
+                        <button class="btn-primary" onclick="openGroupChat('${group.id}')">
+                            <i class="fas fa-comments"></i> Chat
+                        </button>
+                    </div>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                        <button class="btn-primary" onclick="manageGroupRequests('${group.id}')" style="background: var(--success-color);">
+                            <i class="fas fa-user-check"></i> Manage Requests
+                        </button>
+                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px;">Approve or reject requests to join your group</p>
                     </div>
                 `;
             }
             // If user is already a member
             else if (isMember) {
-                return `
-                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div style="font-size: 13px; color: var(--text-secondary);">
-                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
-                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
-                            </div>
-                            <div style="display: flex; gap: 10px;">
-                                <button class="btn-primary" onclick="openGroupChat('${group.id}')">
-                                    <i class="fas fa-comments"></i> Chat
-                                </button>
-                                <button class="btn-primary" disabled style="opacity: 0.6;">Joined ✓</button>
-                            </div>
+                groupCard.innerHTML = `
+                    <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; color: var(--text-secondary);">
+                            <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                            <span><i class="fas fa-users"></i> ${memberCount} members</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" onclick="openGroupChat('${group.id}')">
+                                <i class="fas fa-comments"></i> Chat
+                            </button>
+                            <button class="btn-primary" disabled style="opacity: 0.6;">Joined ✓</button>
                         </div>
                     </div>
                 `;
             }
             // If user has a pending request
             else if (isPending) {
-                return `
-                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div style="font-size: 13px; color: var(--text-secondary);">
-                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
-                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
-                            </div>
-                            <button class="btn-primary" disabled style="opacity: 0.6;">Request Pending...</button>
+                groupCard.innerHTML = `
+                    <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; color: var(--text-secondary);">
+                            <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                            <span><i class="fas fa-users"></i> ${memberCount} members</span>
                         </div>
+                        <button class="btn-primary" disabled style="opacity: 0.6;">Request Pending...</button>
                     </div>
                 `;
             }
             // If user is not a member and hasn't requested to join
             else {
-                return `
-                    <div class="group-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                        <h4 style="margin-bottom: 10px;">${group.name}</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div style="font-size: 13px; color: var(--text-secondary);">
-                                <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
-                                <span><i class="fas fa-users"></i> ${memberCount} members</span>
-                            </div>
-                            <button class="btn-primary" onclick="joinGroup('${group.id}')">Request to Join</button>
+                groupCard.innerHTML = `
+                    <h4 style="margin-bottom: 10px;">${group.name}</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 15px;">${group.description}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; color: var(--text-secondary);">
+                            <span><i class="fas fa-user"></i> ${group.creatorName}</span> • 
+                            <span><i class="fas fa-users"></i> ${memberCount} members</span>
                         </div>
+                        <button class="btn-primary" onclick="joinGroup('${group.id}')">Request to Join</button>
                     </div>
                 `;
             }
-        }).join('');
-        
+
+            fragment.appendChild(groupCard);
+        });
+
+        groupsList.innerHTML = '';
+        groupsList.appendChild(fragment);
+
     } catch (error) {
         console.error('Error loading groups:', error);
-        groupsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading study groups</p>';
+        if (error.code === 'PERMISSION_DENIED') {
+            groupsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Permission denied. You may not have permission to view study groups. Please contact support if this issue persists.</p>';
+        } else {
+            groupsList.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading study groups: ' + error.message + '</p>';
+        }
     }
 }
 
@@ -658,18 +748,21 @@ async function joinGroup(groupId) {
         showNotification('Please login to join groups', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
-        
+
         // Check if group exists
         if (!group) {
             showNotification('Group not found', 'error');
             return;
         }
-        
+
         // Check if user is already a member
         const members = group.members || [];
         if (members.includes(currentUser.uid)) {
@@ -678,34 +771,34 @@ async function joinGroup(groupId) {
             openGroupChat(groupId);
             return;
         }
-        
+
         // Check if user has already requested to join
         const pendingMembers = group.pendingMembers || [];
         if (pendingMembers.includes(currentUser.uid)) {
             showNotification('You have already requested to join this group. Please wait for approval.', 'info');
             return;
         }
-        
+
         // Add user to pending members list
         const updatedPendingMembers = [...pendingMembers];
         updatedPendingMembers.push(currentUser.uid);
-        
-        await groupRef.update({ 
-            pendingMembers: updatedPendingMembers 
+
+        await groupRef.update({
+            pendingMembers: updatedPendingMembers
         });
-        
+
         // Send notification to group creator
         const groupName = group.name;
         try {
             const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
             const userData = userSnapshot.val();
             const requesterName = userData ? userData.name : 'A user';
-            
+
             // Only send notification if creator exists and is different from requester
             if (group.creatorId && group.creatorId !== currentUser.uid) {
                 await sendUserNotification(
-                    group.creatorId, 
-                    `User "${requesterName}" has requested to join your group "${groupName}".`, 
+                    group.creatorId,
+                    `User "${requesterName}" has requested to join your group "${groupName}".`,
                     'info'
                 );
             }
@@ -713,15 +806,15 @@ async function joinGroup(groupId) {
             console.warn('Could not send notification to group creator:', notificationError);
             // Continue even if notification fails
         }
-        
+
         showNotification('Join request sent! Please wait for the group creator to approve your request.', 'success');
-        loadStudyGroups();
-        
+        setTimeout(() => loadStudyGroups(), 1000); // Refresh after a short delay
+
     } catch (error) {
         console.error('Error requesting to join group:', error);
         // More detailed error message
         if (error.code === 'PERMISSION_DENIED') {
-            showNotification('Permission denied. Please make sure you are logged in correctly and try again.', 'error');
+            showNotification('Permission denied. The database rules may need to be updated. Please contact the site administrator or try again later.', 'error');
         } else {
             showNotification('Error requesting to join group: ' + error.message, 'error');
         }
@@ -731,25 +824,28 @@ async function joinGroup(groupId) {
 // Manage group requests (for group creators)
 async function manageGroupRequests(groupId) {
     if (!currentUser) return;
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
-        
+
         // Check if current user is the group creator
         if (group.creatorId !== currentUser.uid) {
             showNotification('Only the group creator can manage requests', 'error');
             return;
         }
-        
+
         const pendingMembers = group.pendingMembers || [];
-        
+
         if (pendingMembers.length === 0) {
             showNotification('No pending requests', 'info');
             return;
         }
-        
+
         // Fetch user data for pending members
         const pendingUsers = [];
         for (const userId of pendingMembers) {
@@ -767,10 +863,10 @@ async function manageGroupRequests(groupId) {
                 console.error('Error fetching user data:', err);
             }
         }
-        
+
         // Display requests in a modal or update the UI
         showPendingRequests(groupId, group.name, pendingUsers);
-        
+
     } catch (error) {
         console.error('Error managing group requests:', error);
         showNotification('Error managing requests', 'error');
@@ -780,7 +876,7 @@ async function manageGroupRequests(groupId) {
 // Show pending requests UI
 function showPendingRequests(groupId, groupName, pendingUsers) {
     const groupsList = document.getElementById('studyGroupsList');
-    
+
     if (pendingUsers.length === 0) {
         groupsList.innerHTML = `
             <div style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
@@ -791,7 +887,7 @@ function showPendingRequests(groupId, groupName, pendingUsers) {
         `;
         return;
     }
-    
+
     groupsList.innerHTML = `
         <div style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -825,92 +921,112 @@ function showPendingRequests(groupId, groupName, pendingUsers) {
 
 // Approve member to join group
 async function approveMember(groupId, userId) {
-    if (!currentUser) return;
-    
+    if (!currentUser) {
+        showNotification('Please login to approve members', 'error');
+        return;
+    }
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
-        
+
         // Verify user is group creator
         if (group.creatorId !== currentUser.uid) {
             showNotification('Only the group creator can approve members', 'error');
             return;
         }
-        
+
         // Remove from pending members
         const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
-        
+
         // Add to members
         const members = group.members || [];
         if (!members.includes(userId)) {
             members.push(userId);
         }
-        
+
         // Update group
         await groupRef.update({
             pendingMembers: pendingMembers,
             members: members
         });
-        
+
         // Send notification to the approved user
         const groupName = group.name;
         await sendUserNotification(
-            userId, 
-            `Your request to join group "${groupName}" has been approved!`, 
+            userId,
+            `Your request to join group "${groupName}" has been approved!`,
             'success'
         );
-        
+
         showNotification('Member approved!', 'success');
-        
-        // Refresh the requests view
-        manageGroupRequests(groupId);
-        
+
+        // Refresh the requests view after a short delay
+        setTimeout(() => manageGroupRequests(groupId), 1000);
+
     } catch (error) {
         console.error('Error approving member:', error);
-        showNotification('Error approving member', 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not be the group creator or the group may have been deleted.', 'error');
+        } else {
+            showNotification('Error approving member: ' + error.message, 'error');
+        }
     }
 }
 
 // Reject member request to join group
 async function rejectMember(groupId, userId) {
-    if (!currentUser) return;
-    
+    if (!currentUser) {
+        showNotification('Please login to reject members', 'error');
+        return;
+    }
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
-        
+
         // Verify user is group creator
         if (group.creatorId !== currentUser.uid) {
             showNotification('Only the group creator can reject members', 'error');
             return;
         }
-        
+
         // Remove from pending members
         const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
-        
+
         // Update group
         await groupRef.update({
             pendingMembers: pendingMembers
         });
-        
+
         // Send notification to the rejected user
         const groupName = group.name;
         await sendUserNotification(
-            userId, 
-            `Your request to join group "${groupName}" has been rejected.`, 
+            userId,
+            `Your request to join group "${groupName}" has been rejected.`,
             'error'
         );
-        
+
         showNotification('Member request rejected', 'success');
-        
-        // Refresh the requests view
-        manageGroupRequests(groupId);
-        
+
+        // Refresh the requests view after a short delay
+        setTimeout(() => manageGroupRequests(groupId), 1000);
+
     } catch (error) {
         console.error('Error rejecting member:', error);
-        showNotification('Error rejecting member', 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not be the group creator or the group may have been deleted.', 'error');
+        } else {
+            showNotification('Error rejecting member: ' + error.message, 'error');
+        }
     }
 }
 
@@ -920,53 +1036,96 @@ async function openGroupChat(groupId) {
         showNotification('Please login to access group chat', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
+
+        // Check if group exists
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
+        }
+
+        // Debug group membership
+        console.log('Group data:', group);
+        console.log('Current user ID:', currentUser.uid);
+        console.log('Group members:', group.members);
+        console.log('Is creator:', group.creatorId === currentUser.uid);
         
         // Check if user is a member of the group
         const isMember = group.members && group.members.includes(currentUser.uid);
-        if (!isMember) {
+        console.log('Is member:', isMember);
+        
+        // Also check if user is the creator (extra validation)
+        const isCreator = group.creatorId === currentUser.uid;
+        console.log('Is creator:', isCreator);
+        
+        if (!isMember && !isCreator) {
             showNotification('You must be a member of this group to access the chat', 'error');
             return;
         }
         
+        // Log additional debug info
+        console.log('Group ID from database:', groupId);
+        console.log('Group data from database:', group);
+
         currentGroupId = groupId;
         document.getElementById('chatGroupName').textContent = group.name + ' - Chat';
         document.getElementById('groupChatContainer').style.display = 'block';
-        
+
         // Load chat messages
-        loadGroupChatMessages(groupId);
-        
+        await loadGroupChatMessages(groupId);
+
         // Set up real-time listener for new messages
-        setupChatListener(groupId);
-        
+        await setupChatListener(groupId);
+
+        // Scroll to bottom of chat
+        const chatMessages = document.getElementById('chatMessages');
+        if (chatMessages) {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
     } catch (error) {
         console.error('Error opening group chat:', error);
-        showNotification('Error accessing group chat: ' + error.message, 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not be a member of this group or the group may have been deleted.', 'error');
+        } else {
+            showNotification('Error accessing group chat: ' + error.message, 'error');
+        }
     }
 }
 
 // Close group chat
-function closeGroupChat() {
+async function closeGroupChat() {
     document.getElementById('groupChatContainer').style.display = 'none';
     currentGroupId = null;
-    
+
     // Remove chat listener if it exists
     if (currentGroupKey) {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
         currentGroupKey = null;
     }
 }
 
 // Set up real-time listener for chat messages
-function setupChatListener(groupId) {
+async function setupChatListener(groupId) {
+    // Ensure Firebase is ready
+    await ensureFirebaseReady();
+    
     // Remove previous listener if it exists
     if (currentGroupKey) {
         database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
     }
+
+    // Debug info
+    console.log('Setting up chat listener for group:', groupId);
     
     // Set up new listener
     const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp');
@@ -976,18 +1135,52 @@ function setupChatListener(groupId) {
         // Scroll to bottom of chat
         const chatMessages = document.getElementById('chatMessages');
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, (error) => {
+        console.error('Error with real-time listener:', error);
+        if (error.code === 'PERMISSION_DENIED') {
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Permission denied. You may not be a member of this group or the group may have been deleted.</p>';
+            }
+        }
     });
 }
 
 // Load group chat messages
 async function loadGroupChatMessages(groupId) {
     const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
+
     chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
-    
+
     try {
-        const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp');
-        const snapshot = await messagesRef.once('value');
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         
+        // Debug info
+        console.log('Loading messages for group:', groupId);
+        console.log('Current user:', currentUser.uid);
+        
+        // Verify group membership before loading messages
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const groupSnapshot = await groupRef.once('value');
+        const group = groupSnapshot.val();
+        
+        if (!group) {
+            throw new Error('Group not found');
+        }
+        
+        const isMember = group.members && group.members.includes(currentUser.uid);
+        console.log('Group membership check for loading:', { isMember, members: group.members });
+        
+        if (!isMember) {
+            throw new Error('Not a member of this group');
+        }
+        
+        // Limit messages to improve performance
+        const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp').limitToLast(50);
+        const snapshot = await messagesRef.once('value');
+
         const messages = [];
         snapshot.forEach(childSnapshot => {
             messages.push({
@@ -995,24 +1188,67 @@ async function loadGroupChatMessages(groupId) {
                 ...childSnapshot.val()
             });
         });
-        
+
+        // Sort messages by timestamp
+        messages.sort((a, b) => a.timestamp - b.timestamp);
+
         if (messages.length === 0) {
             chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
             return;
         }
-        
-        // Display messages
-        chatMessages.innerHTML = '';
+
+        // Display messages with document fragment for better performance
+        const fragment = document.createDocumentFragment();
         messages.forEach(message => {
-            displayNewMessage(message);
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${message.senderId === currentUser.uid ? 'message-sent' : 'message-received'}`;
+
+            // Decrypt message content if it's encrypted
+            let content = message.content;
+            try {
+                // Check if content is encrypted by trying to decrypt it
+                if (currentGroupId) {
+                    const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
+                    const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decryptedContent) {
+                        content = decryptedContent;
+                    }
+                }
+            } catch (e) {
+                // If decryption fails, display as is
+                console.warn('Could not decrypt message:', e);
+            }
+
+            // Format timestamp
+            const date = new Date(message.timestamp);
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            messageElement.innerHTML = `
+                <div class="message-header">
+                    <strong>${message.senderId === currentUser.uid ? 'You' : message.senderName}</strong>
+                </div>
+                <div class="message-content">${escapeHtml(content)}</div>
+                <div class="message-time">${timeString}</div>
+            `;
+
+            fragment.appendChild(messageElement);
         });
-        
+
+        chatMessages.innerHTML = '';
+        chatMessages.appendChild(fragment);
+
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        
+
     } catch (error) {
         console.error('Error loading chat messages:', error);
-        chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages</p>';
+        if (chatMessages) {
+            if (error.code === 'PERMISSION_DENIED') {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Permission denied. You may not be a member of this group or the group may have been deleted.</p>';
+            } else {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages: ' + error.message + '</p>';
+            }
+        }
     }
 }
 
@@ -1020,21 +1256,27 @@ async function loadGroupChatMessages(groupId) {
 function displayNewMessage(message) {
     const chatMessages = document.getElementById('chatMessages');
     const isOwnMessage = message.senderId === currentUser.uid;
-    
+
     // Decrypt message content if it's encrypted
     let content = message.content;
     try {
-        const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
-        content = bytes.toString(CryptoJS.enc.Utf8);
+        // Check if content is encrypted by trying to decrypt it
+        if (currentGroupId) {
+            const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
+            const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+            if (decryptedContent) {
+                content = decryptedContent;
+            }
+        }
     } catch (e) {
         // If decryption fails, display as is (might be unencrypted during transition)
         console.warn('Could not decrypt message:', e);
     }
-    
+
     // Format timestamp
     const date = new Date(message.timestamp);
     const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
+
     const messageElement = document.createElement('div');
     messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
     messageElement.innerHTML = `
@@ -1044,48 +1286,80 @@ function displayNewMessage(message) {
         <div class="message-content">${escapeHtml(content)}</div>
         <div class="message-time">${timeString}</div>
     `;
-    
+
     chatMessages.appendChild(messageElement);
 }
 
 // Send group message
 async function sendGroupMessage() {
-    if (!currentUser || !currentGroupId) return;
-    
+    if (!currentUser || !currentGroupId) {
+        showNotification('Please join a group first', 'error');
+        return;
+    }
+
     const messageInput = document.getElementById('chatMessageInput');
     const content = messageInput.value.trim();
-    
+
     if (!content) {
         showNotification('Please enter a message', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
+        // Debug info
+        console.log('Sending message to group:', currentGroupId);
+        console.log('Current user:', currentUser.uid);
+        
+        // Verify group membership before sending
+        const groupRef = database.ref('studyGroups/' + currentGroupId);
+        const groupSnapshot = await groupRef.once('value');
+        const group = groupSnapshot.val();
+        
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
+        }
+        
+        const isMember = group.members && group.members.includes(currentUser.uid);
+        console.log('Group membership check:', { isMember, members: group.members });
+        
+        if (!isMember) {
+            showNotification('You are not a member of this group', 'error');
+            return;
+        }
+        
         // Get user data
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
+
         // Encrypt message content
         let encryptedContent = content;
-        if (typeof CryptoJS !== 'undefined') {
+        if (typeof CryptoJS !== 'undefined' && currentGroupId) {
             encryptedContent = CryptoJS.AES.encrypt(content, currentGroupId).toString();
         }
-        
+
         // Save message to database
         const messageRef = database.ref('groupChats/' + currentGroupId).push();
         await messageRef.set({
             content: encryptedContent,
             senderId: currentUser.uid,
-            senderName: userData.name,
+            senderName: userData.name || 'Anonymous',
             timestamp: Date.now()
         });
-        
+
         // Clear input
         messageInput.value = '';
-        
+
     } catch (error) {
         console.error('Error sending message:', error);
-        showNotification('Error sending message', 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not be a member of this group or the group may have been deleted.', 'error');
+        } else {
+            showNotification('Error sending message: ' + error.message, 'error');
+        }
     }
 }
 
@@ -1099,7 +1373,7 @@ function handleChatKeyPress(event) {
 // Direct messaging functions
 function openNewMessageModal() {
     const messagesList = document.getElementById('messagesList');
-    
+
     const form = `
         <div class="new-message-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
             <h4>Send New Message</h4>
@@ -1111,7 +1385,7 @@ function openNewMessageModal() {
             </div>
         </div>
     `;
-    
+
     messagesList.innerHTML = form + messagesList.innerHTML;
 }
 
@@ -1121,24 +1395,24 @@ async function sendNewMessage() {
         showNotification('Please login to send messages', 'error');
         return;
     }
-    
+
     const recipientInput = document.getElementById('messageRecipient');
     const contentInput = document.getElementById('messageContent');
-    
+
     const recipient = recipientInput.value.trim();
     const content = contentInput.value.trim();
-    
+
     if (!recipient || !content) {
         showNotification('Please fill in all fields', 'error');
         return;
     }
-    
+
     try {
         // In a real implementation, you would look up the recipient by name/email
         // For now, we'll just show a notification that this is a demo
-        showNotification('Message sending functionality would be implemented in a full version', 'info');
+        showNotification('To message other users, please use the "Select a user to message" interface below. You can only message users who are in the same study groups as you.', 'info');
         loadDirectMessages();
-        
+
     } catch (error) {
         console.error('Error sending message:', error);
         showNotification('Error sending message: ' + error.message, 'error');
@@ -1149,20 +1423,23 @@ async function sendNewMessage() {
 async function loadDirectMessages() {
     const messagesList = document.getElementById('messagesList');
     if (!messagesList) return;
-    
+
     if (!currentUser) {
         messagesList.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-secondary);">Please login to view messages</p>';
         return;
     }
-    
+
     messagesList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         // For simplicity, we'll show a list of users you can message
         // In a real app, you would fetch actual conversations
         const usersSnapshot = await database.ref('users').orderByChild('name').once('value');
         const users = [];
-        
+
         usersSnapshot.forEach(childSnapshot => {
             const user = childSnapshot.val();
             if (childSnapshot.key !== currentUser.uid) { // Don't show current user
@@ -1173,19 +1450,23 @@ async function loadDirectMessages() {
                 });
             }
         });
-        
+
         if (users.length === 0) {
             messagesList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No other users found. Be the first to connect!</p>';
             return;
         }
-        
+
         messagesList.innerHTML = `
+            <div style="margin-bottom: 20px; padding: 15px; background: var(--darker-bg); border-radius: 10px; border: 1px solid var(--border-color);">
+                <h4 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Messaging Information</h4>
+                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 0;">You can only message users who are in the same study groups as you. Join study groups to connect with more users.</p>
+            </div>
             <h4 style="margin-bottom: 20px;">Select a user to message:</h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
                 ${users.map(user => `
                     <div class="user-card" style="background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s ease;" onclick="openDirectMessageChat('${user.id}', '${user.name.replace(/'/g, "\\'")}')">
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3); border: 1px solid white; transition: all 0.3s ease;">
                                 <i class="fas fa-user"></i>
                             </div>
                             <div>
@@ -1197,7 +1478,7 @@ async function loadDirectMessages() {
                 `).join('')}
             </div>
         `;
-        
+
     } catch (error) {
         console.error('Error loading users:', error);
         messagesList.innerHTML = `<p style="text-align: center; color: var(--danger-color);">Error loading users: ${error.message}</p>`;
@@ -1210,26 +1491,36 @@ async function openDirectMessageChat(userId, userName) {
         showNotification('Please login to send messages', 'error');
         return;
     }
-    
+
     if (!userId || !userName) {
         showNotification('Invalid user selection', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
+        // Check if both users are in the same study group (optional security check)
+        // This is a simplified check - in a production app, you might want more robust validation
+
         currentDirectMessageUserId = userId;
         document.getElementById('directMessageChatName').textContent = 'Chat with ' + userName;
         document.getElementById('directMessageChatContainer').style.display = 'block';
-        
+
         // Load chat messages
         await loadDirectMessageChatMessages(userId);
-        
+
         // Set up real-time listener for new messages
         setupDirectMessageListener(userId);
-        
+
     } catch (error) {
         console.error('Error opening direct message chat:', error);
-        showNotification('Error opening chat: ' + error.message, 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('You do not have permission to message this user. You can only message users who are in the same study groups as you.', 'error');
+        } else {
+            showNotification('Error opening chat: ' + error.message, 'error');
+        }
         // Hide the chat container on error
         document.getElementById('directMessageChatContainer').style.display = 'none';
         currentDirectMessageUserId = null;
@@ -1240,7 +1531,7 @@ async function openDirectMessageChat(userId, userName) {
 function closeDirectMessageChat() {
     document.getElementById('directMessageChatContainer').style.display = 'none';
     currentDirectMessageUserId = null;
-    
+
     // Remove chat listener if it exists
     if (currentDirectMessageKey) {
         const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
@@ -1263,7 +1554,7 @@ function setupDirectMessageListener(userId) {
         const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
         database.ref(chatPath).off('child_added', currentDirectMessageKey);
     }
-    
+
     // Set up new listener
     const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
     const messagesRef = database.ref(chatPath).orderByChild('timestamp');
@@ -1273,19 +1564,33 @@ function setupDirectMessageListener(userId) {
         // Scroll to bottom of chat
         const chatMessages = document.getElementById('directMessageChatMessages');
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, (error) => {
+        console.error('Error with real-time listener:', error);
+        if (error.code === 'PERMISSION_DENIED') {
+            const chatMessages = document.getElementById('directMessageChatMessages');
+            if (chatMessages) {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">You do not have permission to view messages with this user. You can only message users who are in the same study groups as you.</p>';
+            }
+        }
     });
 }
 
 // Load direct message chat messages
 async function loadDirectMessageChatMessages(userId) {
     const chatMessages = document.getElementById('directMessageChatMessages');
+    if (!chatMessages) return;
+
     chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
-    
+
     try {
-        const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
-        const messagesRef = database.ref(chatPath).orderByChild('timestamp');
-        const snapshot = await messagesRef.once('value');
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
         
+        const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
+        // Limit messages to improve performance
+        const messagesRef = database.ref(chatPath).orderByChild('timestamp').limitToLast(50);
+        const snapshot = await messagesRef.once('value');
+
         const messages = [];
         snapshot.forEach(childSnapshot => {
             messages.push({
@@ -1293,46 +1598,99 @@ async function loadDirectMessageChatMessages(userId) {
                 ...childSnapshot.val()
             });
         });
-        
+
+        // Sort messages by timestamp
+        messages.sort((a, b) => a.timestamp - b.timestamp);
+
         if (messages.length === 0) {
             chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
             return;
         }
-        
-        // Display messages
-        chatMessages.innerHTML = '';
+
+        // Display messages with document fragment for better performance
+        const fragment = document.createDocumentFragment();
         messages.forEach(message => {
-            displayNewDirectMessage(message);
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${message.senderId === currentUser.uid ? 'message-sent' : 'message-received'}`;
+
+            // Decrypt message content if it's encrypted
+            let content = message.content;
+            try {
+                // For direct messages, use the chat path as encryption key
+                if (currentDirectMessageUserId) {
+                    const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+                    const bytes = CryptoJS.AES.decrypt(message.content, chatPath);
+                    const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decryptedContent) {
+                        content = decryptedContent;
+                    }
+                }
+            } catch (e) {
+                // If decryption fails, display as is
+                console.warn('Could not decrypt message:', e);
+            }
+
+            // Format timestamp
+            const date = new Date(message.timestamp);
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            messageElement.innerHTML = `
+                <div class="message-header">
+                    <strong>${message.senderId === currentUser.uid ? 'You' : message.senderName}</strong>
+                </div>
+                <div class="message-content">${escapeHtml(content)}</div>
+                <div class="message-time">${timeString}</div>
+            `;
+
+            fragment.appendChild(messageElement);
         });
-        
+
+        chatMessages.innerHTML = '';
+        chatMessages.appendChild(fragment);
+
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        
+
     } catch (error) {
         console.error('Error loading chat messages:', error);
-        chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages</p>';
+        if (chatMessages) {
+            if (error.code === 'PERMISSION_DENIED') {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">You do not have permission to view messages with this user. You can only message users who are in the same study groups as you.</p>';
+            } else {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages: ' + error.message + '</p>';
+            }
+        }
     }
 }
 
 // Display a new direct message in the chat
 function displayNewDirectMessage(message) {
     const chatMessages = document.getElementById('directMessageChatMessages');
+    if (!chatMessages) return;
+
     const isOwnMessage = message.senderId === currentUser.uid;
-    
+
     // Decrypt message content if it's encrypted
     let content = message.content;
     try {
-        const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
-        content = bytes.toString(CryptoJS.enc.Utf8);
+        // For direct messages, use the chat path as encryption key
+        if (currentDirectMessageUserId) {
+            const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+            const bytes = CryptoJS.AES.decrypt(message.content, chatPath);
+            const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+            if (decryptedContent) {
+                content = decryptedContent;
+            }
+        }
     } catch (e) {
         // If decryption fails, display as is (might be unencrypted during transition)
         console.warn('Could not decrypt message:', e);
     }
-    
+
     // Format timestamp
     const date = new Date(message.timestamp);
     const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
+
     const messageElement = document.createElement('div');
     messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
     messageElement.innerHTML = `
@@ -1342,49 +1700,60 @@ function displayNewDirectMessage(message) {
         <div class="message-content">${escapeHtml(content)}</div>
         <div class="message-time">${timeString}</div>
     `;
-    
+
     chatMessages.appendChild(messageElement);
 }
 
 // Send direct message
 async function sendDirectMessage() {
-    if (!currentUser || !currentDirectMessageUserId) return;
-    
+    if (!currentUser || !currentDirectMessageUserId) {
+        showNotification('Please select a user to message', 'error');
+        return;
+    }
+
     const messageInput = document.getElementById('directMessageInput');
     const content = messageInput.value.trim();
-    
+
     if (!content) {
         showNotification('Please enter a message', 'error');
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         // Get user data
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
-        
-        // Encrypt message content
+
+        // Encrypt message content using chat path as key
         let encryptedContent = content;
         if (typeof CryptoJS !== 'undefined') {
-            encryptedContent = CryptoJS.AES.encrypt(content, currentGroupId).toString();
+            const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+            encryptedContent = CryptoJS.AES.encrypt(content, chatPath).toString();
         }
-        
+
         // Save message to database
         const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
         const messageRef = database.ref(chatPath).push();
         await messageRef.set({
             content: encryptedContent,
             senderId: currentUser.uid,
-            senderName: userData.name,
+            senderName: userData.name || 'Anonymous',
             timestamp: Date.now()
         });
-        
+
         // Clear input
         messageInput.value = '';
-        
+
     } catch (error) {
         console.error('Error sending message:', error);
-        showNotification('Error sending message', 'error');
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('You do not have permission to send messages to this user. Please make sure you are both members of the same group or have been approved for direct messaging.', 'error');
+        } else {
+            showNotification('Error sending message: ' + error.message, 'error');
+        }
     }
 }
 
@@ -1392,64 +1761,6 @@ async function sendDirectMessage() {
 function handleDirectMessageKeyPress(event) {
     if (event.key === 'Enter') {
         sendDirectMessage();
-    }
-}
-
-// Display a new direct message in the chat
-function displayNewDirectMessage(message) {
-    const chatMessages = document.getElementById('directMessageChatMessages');
-    const isOwnMessage = message.senderId === currentUser.uid;
-    
-    // Format timestamp
-    const date = new Date(message.timestamp);
-    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    const messageElement = document.createElement('div');
-    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
-    messageElement.innerHTML = `
-        <div class="message-header">
-            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
-        </div>
-        <div class="message-content">${escapeHtml(message.content)}</div>
-        <div class="message-time">${timeString}</div>
-    `;
-    
-    chatMessages.appendChild(messageElement);
-}
-
-// Send direct message
-async function sendDirectMessage() {
-    if (!currentUser || !currentDirectMessageUserId) return;
-    
-    const messageInput = document.getElementById('directMessageInput');
-    const content = messageInput.value.trim();
-    
-    if (!content) {
-        showNotification('Please enter a message', 'error');
-        return;
-    }
-    
-    try {
-        // Get user data
-        const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
-        const userData = userSnapshot.val();
-        
-        // Save message to database
-        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
-        const messageRef = database.ref(chatPath).push();
-        await messageRef.set({
-            content: content,
-            senderId: currentUser.uid,
-            senderName: userData.name,
-            timestamp: Date.now()
-        });
-        
-        // Clear input
-        messageInput.value = '';
-        
-    } catch (error) {
-        console.error('Error sending message:', error);
-        showNotification('Error sending message', 'error');
     }
 }
 
@@ -1478,12 +1789,12 @@ function escapeHtml(text) {
 function getTimeAgo(timestamp) {
     const now = Date.now();
     const diff = now - timestamp;
-    
+
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    
+
     if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
@@ -1496,8 +1807,11 @@ async function sendUserNotification(userId, message, type = 'info') {
     if (!userId || userId === currentUser.uid) {
         return;
     }
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const notificationRef = database.ref('userNotifications/' + userId).push();
         await notificationRef.set({
             message: message,
@@ -1514,13 +1828,16 @@ async function sendUserNotification(userId, message, type = 'info') {
 // Load user notifications
 async function loadUserNotifications() {
     if (!currentUser) return [];
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         const notificationsRef = database.ref('userNotifications/' + currentUser.uid)
             .orderByChild('timestamp')
             .limitToLast(10);
         const snapshot = await notificationsRef.once('value');
-        
+
         const notifications = [];
         snapshot.forEach(childSnapshot => {
             notifications.push({
@@ -1528,10 +1845,10 @@ async function loadUserNotifications() {
                 ...childSnapshot.val()
             });
         });
-        
+
         // Sort by timestamp descending (newest first)
         notifications.reverse();
-        
+
         return notifications;
     } catch (error) {
         console.error('Error loading notifications:', error);
@@ -1543,8 +1860,11 @@ async function loadUserNotifications() {
 // Mark notification as read
 async function markNotificationAsRead(notificationId) {
     if (!currentUser) return;
-    
+
     try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+        
         await database.ref('userNotifications/' + currentUser.uid + '/' + notificationId)
             .update({ read: true });
     } catch (error) {
@@ -1556,18 +1876,18 @@ async function markNotificationAsRead(notificationId) {
 async function displayNotifications() {
     const notifications = await loadUserNotifications();
     const notificationsContainer = document.getElementById('notificationsList');
-    
+
     if (!notificationsContainer) return;
-    
+
     if (notifications.length === 0) {
         notificationsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 20px;">No notifications</p>';
         return;
     }
-    
+
     notificationsContainer.innerHTML = notifications.map(notification => {
         const date = new Date(notification.timestamp);
         const timeAgo = getTimeAgo(notification.timestamp);
-        
+
         return `
             <div class="notification-item" style="padding: 15px; border-bottom: 1px solid var(--border-color); background: ${notification.read ? 'var(--card-bg)' : 'var(--darker-bg)'};">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
@@ -1575,12 +1895,12 @@ async function displayNotifications() {
                         <p style="margin: 0 0 5px 0; ${notification.read ? '' : 'font-weight: bold;'}">${notification.message}</p>
                         <span style="font-size: 12px; color: var(--text-secondary);">${timeAgo}</span>
                     </div>
-                    ${!notification.read ? 
-                        `<button class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: var(--success-color);" onclick="markNotificationAsRead('${notification.id}')">
+                    ${!notification.read ?
+                `<button class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: var(--success-color);" onclick="markNotificationAsRead('${notification.id}')">
                             Mark as Read
-                        </button>` : 
-                        ''
-                    }
+                        </button>` :
+                ''
+            }
                 </div>
             </div>
         `;
@@ -1590,19 +1910,19 @@ async function displayNotifications() {
 // Add periodic notification check
 function startNotificationChecker() {
     if (!currentUser) return;
-    
+
     // Check for new notifications every 30 seconds
     setInterval(async () => {
         const notifications = await loadUserNotifications();
         const unreadCount = notifications.filter(n => !n.read).length;
-        
+
         // Update notification badge if it exists
         const notificationBadge = document.getElementById('notificationBadge');
         if (notificationBadge) {
             notificationBadge.textContent = unreadCount;
             notificationBadge.style.display = unreadCount > 0 ? 'inline' : 'none';
         }
-        
+
         // Show notification toast for new unread notifications
         if (unreadCount > 0) {
             const latestNotification = notifications[0];
