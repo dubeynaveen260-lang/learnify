@@ -15,51 +15,61 @@ const COURSE_ROADMAPS = {
                     {
                         id: "computer-fundamentals",
                         name: "Computer Fundamentals",
-                        description: "Introduction to computers, hardware, software, and basic IT concepts",
+                        description: "Introduction to computers, hardware, software, and basic IT concepts including computer architecture, operating systems, and networking basics",
                         videos: [
                             { title: "Computer Fundamentals Complete Course - CodeWithHarry", url: "https://youtu.be/agaLaSafbwc" },
                             { title: "Computer Basics in Hindi - Knowledge Gate", url: "https://www.youtube.com/watch?v=cJy8i9K5Gg" },
-                            { title: "Introduction to Computers - Gate Smashers", url: "https://www.youtube.com/watch?v=pTdSs8kQY1Y" }
+                            { title: "Introduction to Computers - Gate Smashers", url: "https://www.youtube.com/watch?v=pTdSs8kQY1Y" },
+                            { title: "Computer Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" },
+                            { title: "Basic Computer Skills - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" }
                         ]
                     },
                     {
                         id: "programming-c",
                         name: "Programming in C",
-                        description: "C programming from basics to advanced concepts with practical examples",
+                        description: "C programming from basics to advanced concepts with practical examples including data types, control structures, functions, and pointers",
                         videos: [
                             { title: "C Programming Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
                             { title: "C Language Complete Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
-                            { title: "C Programming in Hindi - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                            { title: "C Programming in Hindi - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" },
+                            { title: "C Programming - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
+                            { title: "C Language Basics - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "mathematics-i",
                         name: "Mathematics I",
-                        description: "Calculus, algebra, and mathematical foundations for computer applications",
+                        description: "Calculus, algebra, and mathematical foundations for computer applications including limits, derivatives, integrals, and matrix operations",
                         videos: [
                             { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
                             { title: "Calculus Complete Course - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Mathematics for BCA - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                            { title: "Mathematics for BCA - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Calculus for Beginners - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+                            { title: "Linear Algebra - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" }
                         ]
                     },
                     {
                         id: "digital-electronics",
                         name: "Digital Electronics",
-                        description: "Logic gates, circuits, and digital systems fundamentals",
+                        description: "Logic gates, circuits, and digital systems fundamentals including Boolean algebra, combinational and sequential circuits",
                         videos: [
                             { title: "Digital Electronics Full Course - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
                             { title: "Digital Logic Design - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Logic Gates Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                            { title: "Logic Gates Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
+                            { title: "Digital Circuits - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
+                            { title: "Boolean Algebra - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
                         ]
                     },
                     {
                         id: "communication-skills",
                         name: "Communication Skills",
-                        description: "English communication, presentation, and soft skills for professionals",
+                        description: "English communication, presentation, and soft skills for professionals including verbal and non-verbal communication, group discussions, and interview preparation",
                         videos: [
                             { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
                             { title: "English Speaking Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Effective Communication - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Presentation Skills - Love Babbar", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     }
                 ]
@@ -346,51 +356,61 @@ const COURSE_ROADMAPS = {
                     {
                         id: "principles-of-management",
                         name: "Principles of Management",
-                        description: "Fundamentals of management, planning, organizing, leading, and controlling",
+                        description: "Fundamentals of management including planning, organizing, leading, and controlling functions with real-world applications",
                         videos: [
                             { title: "Management Principles - Hindi", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
                             { title: "Business Management Basics - Hindi", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
-                            { title: "Management Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Management Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Principles of Management - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Management Functions - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-economics",
                         name: "Business Economics",
-                        description: "Economic principles and their application in business decision making",
+                        description: "Economic principles and their application in business decision making including demand analysis, production theory, and market structures",
                         videos: [
                             { title: "Business Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
                             { title: "Economics for Business - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Business Economics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                            { title: "Business Economics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Microeconomics - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Business Decision Making - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-communication",
                         name: "Business Communication",
-                        description: "Effective communication skills for business environments",
+                        description: "Effective communication skills for business environments including written, verbal, and non-verbal communication in professional settings",
                         videos: [
                             { title: "Business Communication - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
                             { title: "Professional Communication - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Communication Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Communication Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Business Writing - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Presentation Skills - Love Babbar", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "financial-accounting",
                         name: "Financial Accounting",
-                        description: "Recording, summarizing, and reporting financial transactions",
+                        description: "Recording, summarizing, and reporting financial transactions including journal entries, ledgers, trial balance, and financial statements",
                         videos: [
                             { title: "Financial Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
                             { title: "Accounting Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Accounting Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
+                            { title: "Accounting Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Financial Statements - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Accounting Principles - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-mathematics",
                         name: "Business Mathematics",
-                        description: "Mathematical concepts and techniques used in business applications",
+                        description: "Mathematical concepts and techniques used in business applications including matrices, differentiation, integration, and financial mathematics",
                         videos: [
                             { title: "Business Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
                             { title: "Mathematics for Business - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Business Math - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                            { title: "Business Math - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
+                            { title: "Business Statistics - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Quantitative Techniques - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     }
                 ]
@@ -672,56 +692,84 @@ const COURSE_ROADMAPS = {
         semesters: [
             {
                 semester: 1,
-                name: "Semester 1-2",
+                name: "Semester 1",
                 subjects: [
                     {
                         id: "engineering-mathematics-i",
-                        name: "Engineering Mathematics I & II",
-                        description: "Calculus, differential equations, and mathematical methods for engineering",
+                        name: "Engineering Mathematics I",
+                        description: "Calculus, differential equations, and mathematical methods for engineering including linear algebra, complex numbers, and probability theory",
                         videos: [
                             { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
                             { title: "Calculus for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Mathematics for B.Tech - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                            { title: "Mathematics for B.Tech - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Linear Algebra - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Differential Equations - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "physics-for-engineers",
                         name: "Physics for Engineers",
-                        description: "Mechanics, thermodynamics, waves, and modern physics concepts for engineering applications",
+                        description: "Mechanics, thermodynamics, waves, and modern physics concepts for engineering applications including quantum mechanics and electromagnetism",
                         videos: [
                             { title: "Engineering Physics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
                             { title: "Physics for B.Tech - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Applied Physics - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
-                        ]
-                    },
-                    {
-                        id: "chemistry-for-engineers",
-                        name: "Chemistry for Engineers",
-                        description: "Atomic structure, chemical bonding, materials science, and environmental chemistry",
-                        videos: [
-                            { title: "Engineering Chemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "Chemistry for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Applied Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Applied Physics - College Wallah", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
+                            { title: "Engineering Mechanics - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Thermodynamics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "basic-electrical-engineering",
                         name: "Basic Electrical Engineering",
-                        description: "Electrical circuits, Ohm's law, Kirchhoff's laws, and basic electrical components",
+                        description: "Electrical circuits, Ohm's law, Kirchhoff's laws, and basic electrical components including AC/DC circuits and electrical machines",
                         videos: [
                             { title: "Basic Electrical Engineering - CodeWithHarry", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
                             { title: "Electrical Engineering Basics - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
-                            { title: "Electrical Circuits - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" }
+                            { title: "Electrical Circuits - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Circuit Analysis - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Electrical Machines - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "programming-in-c",
                         name: "Programming in C",
-                        description: "C programming fundamentals for engineering problem solving",
+                        description: "C programming fundamentals for engineering problem solving including data structures, algorithms, and numerical methods",
                         videos: [
                             { title: "C Programming for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
                             { title: "C Language for B.Tech - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
-                            { title: "C Programming - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" }
+                            { title: "C Programming - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" },
+                            { title: "C Programming for Problem Solving - Gate Smashers", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Numerical Methods in C - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 2,
+                name: "Semester 2",
+                subjects: [
+                    {
+                        id: "engineering-mathematics-ii",
+                        name: "Engineering Mathematics II",
+                        description: "Advanced calculus, differential equations, and mathematical methods for engineering including vector calculus and complex analysis",
+                        videos: [
+                            { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
+                            { title: "Calculus for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
+                            { title: "Mathematics for B.Tech - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Linear Algebra - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Differential Equations - Jenny's Lectures", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "chemistry-for-engineers",
+                        name: "Chemistry for Engineers",
+                        description: "Atomic structure, chemical bonding, materials science, and environmental chemistry including organic and inorganic chemistry applications",
+                        videos: [
+                            { title: "Engineering Chemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Chemistry for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Applied Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" },
+                            { title: "Materials Science - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Environmental Chemistry - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
@@ -747,8 +795,8 @@ const COURSE_ROADMAPS = {
                 ]
             },
             {
-                semester: 2,
-                name: "Semester 3-4",
+                semester: 3,
+                name: "Semester 3",
                 subjects: [
                     {
                         id: "data-structures",
@@ -769,7 +817,13 @@ const COURSE_ROADMAPS = {
                             { title: "Digital Circuits - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
                             { title: "Logic Design - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
                     {
                         id: "object-oriented-programming",
                         name: "Object Oriented Programming (C++)",
@@ -813,8 +867,8 @@ const COURSE_ROADMAPS = {
                 ]
             },
             {
-                semester: 3,
-                name: "Semester 5-6",
+                semester: 5,
+                name: "Semester 5",
                 subjects: [
                     {
                         id: "computer-networks-btech",
@@ -845,7 +899,13 @@ const COURSE_ROADMAPS = {
                             { title: "SE for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
                             { title: "Software Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 6,
+                name: "Semester 6",
+                subjects: [
                     {
                         id: "web-development-btech",
                         name: "Web Development",
@@ -869,8 +929,8 @@ const COURSE_ROADMAPS = {
                 ]
             },
             {
-                semester: 4,
-                name: "Semester 7-8",
+                semester: 7,
+                name: "Semester 7",
                 subjects: [
                     {
                         id: "artificial-intelligence-btech",
@@ -891,7 +951,13 @@ const COURSE_ROADMAPS = {
                             { title: "IoT Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
                             { title: "IoT Applications - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 8,
+                name: "Semester 8",
+                subjects: [
                     {
                         id: "cloud-computing-btech",
                         name: "Cloud Computing",
@@ -921,63 +987,79 @@ const COURSE_ROADMAPS = {
         semesters: [
             {
                 semester: 1,
-                name: "Semester 1-2",
+                name: "Semester 1",
                 subjects: [
                     {
                         id: "fundamentals-of-agronomy",
                         name: "Fundamentals of Agronomy",
-                        description: "Basic principles of crop production and agronomic practices",
+                        description: "Basic principles of crop production and agronomic practices including soil management, crop rotation, and sustainable farming techniques",
                         videos: [
                             { title: "Agronomy Basics - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
                             { title: "Crop Production Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
-                            { title: "Introduction to Agronomy - Jenny's Lectures", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" }
+                            { title: "Introduction to Agronomy - Jenny's Lectures", url: "https://www.youtube.com/watch?v=R3WbZ0jvLak" },
+                            { title: "Soil Management - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Crop Rotation - Agriculture Guruji", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "principles-of-horticulture",
                         name: "Principles of Horticulture",
-                        description: "Fruit, vegetable, and ornamental plant cultivation techniques",
+                        description: "Fruit, vegetable, and ornamental plant cultivation techniques including propagation, pruning, and greenhouse management",
                         videos: [
                             { title: "Horticulture - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
                             { title: "Horticulture Principles - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Plant Cultivation - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                            { title: "Plant Cultivation - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
+                            { title: "Greenhouse Management - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Plant Propagation - Agriculture Guruji", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "agricultural-meteorology",
                         name: "Agricultural Meteorology",
-                        description: "Weather patterns, climate, and their impact on agriculture",
+                        description: "Weather patterns, climate, and their impact on agriculture including weather forecasting and climate change effects on crops",
                         videos: [
                             { title: "Agricultural Meteorology - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
                             { title: "Weather and Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Climate Science - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
-                        ]
-                    },
-                    {
-                        id: "soil-science",
-                        name: "Soil Science",
-                        description: "Soil formation, classification, fertility, and management",
-                        videos: [
-                            { title: "Soil Science - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "Soil Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Soil Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
-                        ]
-                    },
-                    {
-                        id: "plant-biochemistry",
-                        name: "Plant Biochemistry",
-                        description: "Biochemical processes in plants, photosynthesis, and metabolism",
-                        videos: [
-                            { title: "Plant Biochemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
-                            { title: "Plant Metabolism - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Photosynthesis - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                            { title: "Climate Science - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" },
+                            { title: "Weather Forecasting - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Climate Change Impact - Agriculture Guruji", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     }
                 ]
             },
             {
                 semester: 2,
-                name: "Semester 3-4",
+                name: "Semester 2",
+                subjects: [
+                    {
+                        id: "soil-science",
+                        name: "Soil Science",
+                        description: "Soil formation, classification, fertility, and management including soil testing, nutrient management, and soil conservation",
+                        videos: [
+                            { title: "Soil Science - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
+                            { title: "Soil Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Soil Chemistry - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" },
+                            { title: "Soil Testing - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Nutrient Management - Agriculture Guruji", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    },
+                    {
+                        id: "plant-biochemistry",
+                        name: "Plant Biochemistry",
+                        description: "Biochemical processes in plants, photosynthesis, and metabolism including plant hormones, enzymes, and cellular respiration",
+                        videos: [
+                            { title: "Plant Biochemistry - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
+                            { title: "Plant Metabolism - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
+                            { title: "Photosynthesis - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" },
+                            { title: "Plant Hormones - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Enzymes in Plants - Agriculture Guruji", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                        ]
+                    }
+                ]
+            },
+            {
+                semester: 3,
+                name: "Semester 3",
                 subjects: [
                     {
                         id: "crop-production",
@@ -1008,7 +1090,13 @@ const COURSE_ROADMAPS = {
                             { title: "Farm Machinery - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
                             { title: "Agricultural Technology - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
                     {
                         id: "agricultural-economics",
                         name: "Agricultural Economics",
@@ -1032,8 +1120,8 @@ const COURSE_ROADMAPS = {
                 ]
             },
             {
-                semester: 3,
-                name: "Semester 5-6",
+                semester: 5,
+                name: "Semester 5",
                 subjects: [
                     {
                         id: "irrigation-management",
@@ -1064,7 +1152,13 @@ const COURSE_ROADMAPS = {
                             { title: "Sustainable Agriculture - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
                             { title: "Natural Farming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 6,
+                name: "Semester 6",
+                subjects: [
                     {
                         id: "food-processing-technology",
                         name: "Food Processing Technology",
@@ -1094,63 +1188,73 @@ const COURSE_ROADMAPS = {
         semesters: [
             {
                 semester: 1,
-                name: "Semester 1-2",
+                name: "Semester 1",
                 subjects: [
                     {
                         id: "financial-accounting-commerce",
                         name: "Financial Accounting",
-                        description: "Recording, summarizing, and reporting financial transactions",
+                        description: "Recording, summarizing, and reporting financial transactions including journal entries, ledgers, trial balance, and financial statements for businesses",
                         videos: [
                             { title: "Financial Accounting - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
                             { title: "Accounting Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Accounting Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
+                            { title: "Accounting Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=hlGoQC332VM" },
+                            { title: "Financial Statements - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Accounting Principles - Commerce Baba", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-communication-commerce",
                         name: "Business Communication",
-                        description: "Effective communication skills for business environments",
+                        description: "Effective communication skills for business environments including written, verbal, and non-verbal communication in professional settings for commerce students",
                         videos: [
                             { title: "Business Communication - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
                             { title: "Professional Communication - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Communication Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Communication Skills - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Business Writing - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Presentation Skills - Commerce Baba", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-economics-commerce",
                         name: "Business Economics",
-                        description: "Economic principles and their application in business decision making",
+                        description: "Economic principles and their application in business decision making including demand analysis, production theory, market structures, and pricing strategies",
                         videos: [
                             { title: "Business Economics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
                             { title: "Economics for Business - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Business Economics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" }
+                            { title: "Business Economics - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
+                            { title: "Microeconomics - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Business Decision Making - Commerce Baba", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "business-law-commerce",
                         name: "Business Law",
-                        description: "Legal framework governing business operations and transactions",
+                        description: "Legal framework governing business operations and transactions including contract law, company law, and commercial regulations",
                         videos: [
                             { title: "Business Law - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
                             { title: "Business Law Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Legal Aspects of Business - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Legal Aspects of Business - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" },
+                            { title: "Contract Law - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Company Law - Commerce Baba", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "principles-of-management-commerce",
                         name: "Principles of Management",
-                        description: "Fundamentals of management, planning, organizing, leading, and controlling",
+                        description: "Fundamentals of management including planning, organizing, leading, and controlling functions with applications in commerce and business environments",
                         videos: [
                             { title: "Management Principles - Hindi", url: "https://www.youtube.com/watch?v=vNg_aJHJyAU" },
                             { title: "Business Management Basics - Hindi", url: "https://www.youtube.com/watch?v=dEOsN0ucoWo" },
-                            { title: "Management Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Management Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Management Functions - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Business Leadership - Commerce Baba", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     }
                 ]
             },
             {
                 semester: 2,
-                name: "Semester 3-4",
+                name: "Semester 2",
                 subjects: [
                     {
                         id: "corporate-accounting",
@@ -1206,7 +1310,7 @@ const COURSE_ROADMAPS = {
             },
             {
                 semester: 3,
-                name: "Semester 5-6",
+                name: "Semester 3",
                 subjects: [
                     {
                         id: "management-accounting",
@@ -1247,7 +1351,13 @@ const COURSE_ROADMAPS = {
                             { title: "Digital Commerce - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
                             { title: "Online Business - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
                     {
                         id: "project-work-commerce",
                         name: "Project Work",
@@ -1267,63 +1377,73 @@ const COURSE_ROADMAPS = {
         semesters: [
             {
                 semester: 1,
-                name: "Semester 1-2",
+                name: "Semester 1",
                 subjects: [
                     {
                         id: "english-literature",
                         name: "English Literature",
-                        description: "Study of English literary works, genres, and critical analysis",
+                        description: "Study of English literary works, genres, and critical analysis including poetry, drama, and fiction from different periods",
                         videos: [
                             { title: "English Literature - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
                             { title: "Literary Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "English Literature - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                            { title: "English Literature - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
+                            { title: "Poetry Analysis - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Drama and Fiction - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "political-science",
                         name: "Political Science",
-                        description: "Study of political systems, theories, and government structures",
+                        description: "Study of political systems, theories, and government structures including comparative politics, international relations, and public policy",
                         videos: [
                             { title: "Political Science - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
                             { title: "Political Theory - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Government Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
+                            { title: "Government Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" },
+                            { title: "Comparative Politics - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "International Relations - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "history-sociology",
                         name: "History / Sociology",
-                        description: "Historical events or sociological concepts and social structures",
+                        description: "Historical events or sociological concepts and social structures including ancient, medieval, and modern history along with social theories and institutions",
                         videos: [
                             { title: "History - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
                             { title: "Sociology Fundamentals - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Social Sciences - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Social Sciences - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" },
+                            { title: "Ancient History - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Social Theories - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "environmental-studies-arts",
                         name: "Environmental Studies",
-                        description: "Ecology, pollution, and sustainable development concepts",
+                        description: "Ecology, pollution, and sustainable development concepts including environmental policy, conservation, and climate change awareness",
                         videos: [
                             { title: "Environmental Science - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
                             { title: "Environment Studies in Hindi", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
-                            { title: "Environmental Studies - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" }
+                            { title: "Environmental Studies - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
+                            { title: "Environmental Policy - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Climate Change - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     },
                     {
                         id: "communication-skills-arts",
                         name: "Communication Skills",
-                        description: "Effective communication, presentation, and soft skills",
+                        description: "Effective communication, presentation, and soft skills including verbal and non-verbal communication, group discussions, and interview preparation for arts students",
                         videos: [
                             { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
                             { title: "English Speaking Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
+                            { title: "Presentation Skills - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
+                            { title: "Group Discussion - Knowledge Gate", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
                         ]
                     }
                 ]
             },
             {
                 semester: 2,
-                name: "Semester 3-4",
+                name: "Semester 2",
                 subjects: [
                     {
                         id: "economics-arts",
@@ -1369,7 +1489,7 @@ const COURSE_ROADMAPS = {
             },
             {
                 semester: 3,
-                name: "Semester 5-6",
+                name: "Semester 3",
                 subjects: [
                     {
                         id: "modern-indian-history",
@@ -1390,7 +1510,13 @@ const COURSE_ROADMAPS = {
                             { title: "Research Methods - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
                             { title: "Social Research - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                semester: 4,
+                name: "Semester 4",
+                subjects: [
                     {
                         id: "project-viva",
                         name: "Project / Viva",
