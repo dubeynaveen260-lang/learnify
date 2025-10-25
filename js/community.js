@@ -4,6 +4,9 @@
 let currentCommunityTab = 'discussions';
 let currentGroupId = null;
 let currentGroupKey = null;
+let currentDirectMessageUserId = null;
+let currentDirectMessageKey = null;
+let editingDiscussionId = null;
 
 // Show community tab
 function showCommunityTab(tab) {
@@ -35,15 +38,18 @@ function showCommunityTab(tab) {
         loadQuestions();
     } else if (tab === 'groups') {
         loadStudyGroups();
+    } else if (tab === 'messages') {
+        loadDirectMessages();
     }
 }
 
 // Create new discussion
 function createNewDiscussion() {
+    editingDiscussionId = null; // Reset editing mode
     const discussionsList = document.getElementById('discussionsList');
     
     const form = `
-        <div class="create-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <div class="create-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
             <h4>Start a New Discussion</h4>
             <input type="text" id="discussionTitle" placeholder="Discussion Title" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
             <select id="discussionSubject" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
@@ -62,6 +68,108 @@ function createNewDiscussion() {
     `;
     
     discussionsList.innerHTML = form + discussionsList.innerHTML;
+}
+
+// Open edit discussion modal
+function openEditDiscussionModal() {
+    const discussionsList = document.getElementById('discussionsList');
+    
+    const form = `
+        <div class="edit-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+            <h4>Edit Discussion</h4>
+            <p style="color: var(--text-secondary); margin-bottom: 15px;">Select a discussion to edit from the list below, then click the edit icon next to it.</p>
+            <button onclick="loadDiscussions()" class="btn-primary" style="background: var(--border-color);">Close</button>
+        </div>
+    `;
+    
+    discussionsList.innerHTML = form + discussionsList.innerHTML;
+}
+
+// Edit a specific discussion
+function editDiscussion(discussionId) {
+    if (!currentUser) {
+        showNotification('Please login to edit discussions', 'error');
+        return;
+    }
+    
+    editingDiscussionId = discussionId;
+    
+    // Load the discussion data
+    database.ref('discussions/' + discussionId).once('value').then(snapshot => {
+        const discussion = snapshot.val();
+        
+        if (!discussion) {
+            showNotification('Discussion not found', 'error');
+            return;
+        }
+        
+        // Check if user is the author
+        if (discussion.authorId !== currentUser.uid) {
+            showNotification('You can only edit your own discussions', 'error');
+            return;
+        }
+        
+        const discussionsList = document.getElementById('discussionsList');
+        
+        const form = `
+            <div class="edit-discussion-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                <h4>Edit Discussion</h4>
+                <input type="text" id="discussionTitle" placeholder="Discussion Title" value="${discussion.title}" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
+                <select id="discussionSubject" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
+                    <option value="programming" ${discussion.subject === 'programming' ? 'selected' : ''}>Programming</option>
+                    <option value="web-development" ${discussion.subject === 'web-development' ? 'selected' : ''}>Web Development</option>
+                    <option value="database" ${discussion.subject === 'database' ? 'selected' : ''}>Database</option>
+                    <option value="general" ${discussion.subject === 'general' ? 'selected' : ''}>General</option>
+                </select>
+                <textarea id="discussionContent" placeholder="What would you like to discuss?" rows="4" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px; font-family: inherit;">${discussion.content}</textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="submitDiscussionEdit('${discussionId}')" class="btn-primary" style="background: var(--success-color);">Update Discussion</button>
+                    <button onclick="loadDiscussions()" class="btn-primary" style="background: var(--border-color);">Cancel</button>
+                </div>
+            </div>
+        `;
+        
+        discussionsList.innerHTML = form + discussionsList.innerHTML;
+    }).catch(error => {
+        console.error('Error loading discussion:', error);
+        showNotification('Error loading discussion', 'error');
+    });
+}
+
+// Submit discussion edit
+async function submitDiscussionEdit(discussionId) {
+    if (!currentUser) {
+        showNotification('Please login to edit discussions', 'error');
+        return;
+    }
+    
+    const title = document.getElementById('discussionTitle').value.trim();
+    const subject = document.getElementById('discussionSubject').value;
+    const content = document.getElementById('discussionContent').value.trim();
+    
+    if (!title || !subject || !content) {
+        showNotification('Please fill all fields', 'error');
+        return;
+    }
+    
+    try {
+        // Update the discussion
+        await database.ref('discussions/' + discussionId).update({
+            title: title,
+            subject: subject,
+            content: content,
+            edited: true,
+            editedTimestamp: Date.now()
+        });
+        
+        showNotification('Discussion updated!', 'success');
+        editingDiscussionId = null;
+        loadDiscussions();
+        
+    } catch (error) {
+        console.error('Error updating discussion:', error);
+        showNotification('Error updating discussion', 'error');
+    }
 }
 
 // Submit new discussion
@@ -106,7 +214,7 @@ async function submitDiscussion() {
     }
 }
 
-// Load discussions
+// Load discussions with edit option
 async function loadDiscussions() {
     const discussionsList = document.getElementById('discussionsList');
     if (!discussionsList) return;
@@ -135,14 +243,17 @@ async function loadDiscussions() {
         discussionsList.innerHTML = discussions.map(discussion => {
             const date = new Date(discussion.timestamp);
             const timeAgo = getTimeAgo(discussion.timestamp);
+            const isAuthor = currentUser && discussion.authorId === currentUser.uid;
+            const editedText = discussion.edited ? ' (edited)' : '';
             
             return `
-                <div class="discussion-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer;" onclick="viewDiscussion('${discussion.id}')">
+                <div class="discussion-card" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; border: 1px solid var(--border-color);" onclick="viewDiscussion('${discussion.id}')">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                         <div>
                             <span style="background: var(--primary-color); padding: 4px 12px; border-radius: 15px; font-size: 12px; margin-right: 10px;">${discussion.subject}</span>
-                            <span style="color: var(--text-secondary); font-size: 13px;">${timeAgo}</span>
+                            <span style="color: var(--text-secondary); font-size: 13px;">${timeAgo}${editedText}</span>
                         </div>
+                        ${isAuthor ? `<button class="btn-primary" style="background: var(--warning-color); padding: 5px 10px; font-size: 12px;" onclick="event.stopPropagation(); editDiscussion('${discussion.id}')"><i class="fas fa-edit"></i> Edit</button>` : ''}
                     </div>
                     <h4 style="margin-bottom: 10px;">${discussion.title}</h4>
                     <p style="color: var(--text-secondary); margin-bottom: 15px;">${discussion.content.substring(0, 150)}${discussion.content.length > 150 ? '...' : ''}</p>
@@ -563,6 +674,8 @@ async function joinGroup(groupId) {
         const members = group.members || [];
         if (members.includes(currentUser.uid)) {
             showNotification('You are already a member of this group', 'info');
+            // Automatically open the chat since they're a member
+            openGroupChat(groupId);
             return;
         }
         
@@ -832,7 +945,7 @@ async function openGroupChat(groupId) {
         
     } catch (error) {
         console.error('Error opening group chat:', error);
-        showNotification('Error accessing group chat', 'error');
+        showNotification('Error accessing group chat: ' + error.message, 'error');
     }
 }
 
@@ -980,6 +1093,377 @@ async function sendGroupMessage() {
 function handleChatKeyPress(event) {
     if (event.key === 'Enter') {
         sendGroupMessage();
+    }
+}
+
+// Direct messaging functions
+function openNewMessageModal() {
+    const messagesList = document.getElementById('messagesList');
+    
+    const form = `
+        <div class="new-message-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+            <h4>Send New Message</h4>
+            <input type="text" id="messageRecipient" placeholder="Recipient's name or email" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
+            <textarea id="messageContent" placeholder="Your message..." rows="3" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px; font-family: inherit;"></textarea>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="sendNewMessage()" class="btn-primary">Send Message</button>
+                <button onclick="loadDirectMessages()" class="btn-primary" style="background: var(--border-color);">Cancel</button>
+            </div>
+        </div>
+    `;
+    
+    messagesList.innerHTML = form + messagesList.innerHTML;
+}
+
+// Send a new message to a user
+async function sendNewMessage() {
+    if (!currentUser) {
+        showNotification('Please login to send messages', 'error');
+        return;
+    }
+    
+    const recipientInput = document.getElementById('messageRecipient');
+    const contentInput = document.getElementById('messageContent');
+    
+    const recipient = recipientInput.value.trim();
+    const content = contentInput.value.trim();
+    
+    if (!recipient || !content) {
+        showNotification('Please fill in all fields', 'error');
+        return;
+    }
+    
+    try {
+        // In a real implementation, you would look up the recipient by name/email
+        // For now, we'll just show a notification that this is a demo
+        showNotification('Message sending functionality would be implemented in a full version', 'info');
+        loadDirectMessages();
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        showNotification('Error sending message: ' + error.message, 'error');
+    }
+}
+
+// Load direct messages
+async function loadDirectMessages() {
+    const messagesList = document.getElementById('messagesList');
+    if (!messagesList) return;
+    
+    if (!currentUser) {
+        messagesList.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-secondary);">Please login to view messages</p>';
+        return;
+    }
+    
+    messagesList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
+    
+    try {
+        // For simplicity, we'll show a list of users you can message
+        // In a real app, you would fetch actual conversations
+        const usersSnapshot = await database.ref('users').orderByChild('name').once('value');
+        const users = [];
+        
+        usersSnapshot.forEach(childSnapshot => {
+            const user = childSnapshot.val();
+            if (childSnapshot.key !== currentUser.uid) { // Don't show current user
+                users.push({
+                    id: childSnapshot.key,
+                    name: user.name || 'Anonymous User',
+                    course: user.course || 'Unknown Course'
+                });
+            }
+        });
+        
+        if (users.length === 0) {
+            messagesList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No other users found. Be the first to connect!</p>';
+            return;
+        }
+        
+        messagesList.innerHTML = `
+            <h4 style="margin-bottom: 20px;">Select a user to message:</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
+                ${users.map(user => `
+                    <div class="user-card" style="background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s ease;" onclick="openDirectMessageChat('${user.id}', '${user.name.replace(/'/g, "\\'")}')">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">${user.name}</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">${user.course}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+    } catch (error) {
+        console.error('Error loading users:', error);
+        messagesList.innerHTML = `<p style="text-align: center; color: var(--danger-color);">Error loading users: ${error.message}</p>`;
+    }
+}
+
+// Open direct message chat
+async function openDirectMessageChat(userId, userName) {
+    if (!currentUser) {
+        showNotification('Please login to send messages', 'error');
+        return;
+    }
+    
+    if (!userId || !userName) {
+        showNotification('Invalid user selection', 'error');
+        return;
+    }
+    
+    try {
+        currentDirectMessageUserId = userId;
+        document.getElementById('directMessageChatName').textContent = 'Chat with ' + userName;
+        document.getElementById('directMessageChatContainer').style.display = 'block';
+        
+        // Load chat messages
+        await loadDirectMessageChatMessages(userId);
+        
+        // Set up real-time listener for new messages
+        setupDirectMessageListener(userId);
+        
+    } catch (error) {
+        console.error('Error opening direct message chat:', error);
+        showNotification('Error opening chat: ' + error.message, 'error');
+        // Hide the chat container on error
+        document.getElementById('directMessageChatContainer').style.display = 'none';
+        currentDirectMessageUserId = null;
+    }
+}
+
+// Close direct message chat
+function closeDirectMessageChat() {
+    document.getElementById('directMessageChatContainer').style.display = 'none';
+    currentDirectMessageUserId = null;
+    
+    // Remove chat listener if it exists
+    if (currentDirectMessageKey) {
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+        database.ref(chatPath).off('child_added', currentDirectMessageKey);
+        currentDirectMessageKey = null;
+    }
+}
+
+// Get direct message chat path (consistent for both users)
+function getDirectMessageChatPath(userId1, userId2) {
+    // Create a consistent path regardless of user order
+    const userIDs = [userId1, userId2].sort();
+    return 'directMessages/' + userIDs[0] + '_' + userIDs[1];
+}
+
+// Set up real-time listener for direct messages
+function setupDirectMessageListener(userId) {
+    // Remove previous listener if it exists
+    if (currentDirectMessageKey) {
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+        database.ref(chatPath).off('child_added', currentDirectMessageKey);
+    }
+    
+    // Set up new listener
+    const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
+    const messagesRef = database.ref(chatPath).orderByChild('timestamp');
+    currentDirectMessageKey = messagesRef.on('child_added', (snapshot) => {
+        const message = snapshot.val();
+        displayNewDirectMessage(message);
+        // Scroll to bottom of chat
+        const chatMessages = document.getElementById('directMessageChatMessages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+}
+
+// Load direct message chat messages
+async function loadDirectMessageChatMessages(userId) {
+    const chatMessages = document.getElementById('directMessageChatMessages');
+    chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
+    
+    try {
+        const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
+        const messagesRef = database.ref(chatPath).orderByChild('timestamp');
+        const snapshot = await messagesRef.once('value');
+        
+        const messages = [];
+        snapshot.forEach(childSnapshot => {
+            messages.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+        
+        if (messages.length === 0) {
+            chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
+            return;
+        }
+        
+        // Display messages
+        chatMessages.innerHTML = '';
+        messages.forEach(message => {
+            displayNewDirectMessage(message);
+        });
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+    } catch (error) {
+        console.error('Error loading chat messages:', error);
+        chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages</p>';
+    }
+}
+
+// Display a new direct message in the chat
+function displayNewDirectMessage(message) {
+    const chatMessages = document.getElementById('directMessageChatMessages');
+    const isOwnMessage = message.senderId === currentUser.uid;
+    
+    // Decrypt message content if it's encrypted
+    let content = message.content;
+    try {
+        const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
+        content = bytes.toString(CryptoJS.enc.Utf8);
+    } catch (e) {
+        // If decryption fails, display as is (might be unencrypted during transition)
+        console.warn('Could not decrypt message:', e);
+    }
+    
+    // Format timestamp
+    const date = new Date(message.timestamp);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
+        </div>
+        <div class="message-content">${escapeHtml(content)}</div>
+        <div class="message-time">${timeString}</div>
+    `;
+    
+    chatMessages.appendChild(messageElement);
+}
+
+// Send direct message
+async function sendDirectMessage() {
+    if (!currentUser || !currentDirectMessageUserId) return;
+    
+    const messageInput = document.getElementById('directMessageInput');
+    const content = messageInput.value.trim();
+    
+    if (!content) {
+        showNotification('Please enter a message', 'error');
+        return;
+    }
+    
+    try {
+        // Get user data
+        const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
+        const userData = userSnapshot.val();
+        
+        // Encrypt message content
+        let encryptedContent = content;
+        if (typeof CryptoJS !== 'undefined') {
+            encryptedContent = CryptoJS.AES.encrypt(content, currentGroupId).toString();
+        }
+        
+        // Save message to database
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+        const messageRef = database.ref(chatPath).push();
+        await messageRef.set({
+            content: encryptedContent,
+            senderId: currentUser.uid,
+            senderName: userData.name,
+            timestamp: Date.now()
+        });
+        
+        // Clear input
+        messageInput.value = '';
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        showNotification('Error sending message', 'error');
+    }
+}
+
+// Handle Enter key press in direct message input
+function handleDirectMessageKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendDirectMessage();
+    }
+}
+
+// Display a new direct message in the chat
+function displayNewDirectMessage(message) {
+    const chatMessages = document.getElementById('directMessageChatMessages');
+    const isOwnMessage = message.senderId === currentUser.uid;
+    
+    // Format timestamp
+    const date = new Date(message.timestamp);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
+        </div>
+        <div class="message-content">${escapeHtml(message.content)}</div>
+        <div class="message-time">${timeString}</div>
+    `;
+    
+    chatMessages.appendChild(messageElement);
+}
+
+// Send direct message
+async function sendDirectMessage() {
+    if (!currentUser || !currentDirectMessageUserId) return;
+    
+    const messageInput = document.getElementById('directMessageInput');
+    const content = messageInput.value.trim();
+    
+    if (!content) {
+        showNotification('Please enter a message', 'error');
+        return;
+    }
+    
+    try {
+        // Get user data
+        const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
+        const userData = userSnapshot.val();
+        
+        // Save message to database
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+        const messageRef = database.ref(chatPath).push();
+        await messageRef.set({
+            content: content,
+            senderId: currentUser.uid,
+            senderName: userData.name,
+            timestamp: Date.now()
+        });
+        
+        // Clear input
+        messageInput.value = '';
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        showNotification('Error sending message', 'error');
+    }
+}
+
+// Handle Enter key press in direct message input
+function handleDirectMessageKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendDirectMessage();
+    }
+}
+
+// Refresh messages
+function refreshMessages() {
+    if (currentCommunityTab === 'messages') {
+        loadDirectMessages();
     }
 }
 

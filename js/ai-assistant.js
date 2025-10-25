@@ -9,12 +9,15 @@ function setAIMode(mode) {
     
     // Highlight selected button
     document.querySelectorAll('.ai-feature-btn').forEach(btn => {
+        btn.classList.remove('active');
         btn.style.borderColor = 'var(--border-color)';
         btn.style.background = 'var(--card-bg)';
+        btn.style.color = 'var(--text-primary)';
     });
     
-    event.target.closest('.ai-feature-btn').style.borderColor = 'var(--primary-color)';
-    event.target.closest('.ai-feature-btn').style.background = 'var(--primary-color)';
+    const targetBtn = event.target.closest('.ai-feature-btn');
+    targetBtn.classList.add('active');
+    targetBtn.style.borderColor = 'var(--primary-color)';
     
     // Add system message
     addAIMessage(`Mode changed to: ${mode}. How can I help you?`, 'bot');

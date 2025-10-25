@@ -202,152 +202,50 @@ document.addEventListener('keydown', (e) => {
         showSection('roadmap');
     }
     
+    // Alt + Q = Quizzes
+    if (e.altKey && e.key === 'q') {
+        e.preventDefault();
+        showSection('quizzes');
+    }
+    
+    // Alt + C = Community
+    if (e.altKey && e.key === 'c') {
+        e.preventDefault();
+        showSection('community');
+    }
+    
+    // Alt + L = Leaderboard
+    if (e.altKey && e.key === 'l') {
+        e.preventDefault();
+        showSection('leaderboard');
+    }
+    
     // Alt + A = AI Assistant
     if (e.altKey && e.key === 'a') {
         e.preventDefault();
         showSection('ai-assistant');
     }
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuToggle = document.querySelector('.menu-toggle');
     
-    if (window.innerWidth > 768) {
-        sidebar.classList.remove('active');
-        if (overlay) overlay.classList.remove('active');
-        document.body.style.overflow = '';
+    // ESC = Close modals
+    if (e.key === 'Escape') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('resetScreen').style.display = 'none';
+        document.getElementById('profileModal').style.display = 'none';
+        document.getElementById('notificationsPanel').style.display = 'none';
         
-        // Reset menu icon
-        if (menuToggle) {
-            const icon = menuToggle.querySelector('i');
-            if (icon) icon.className = 'fas fa-bars';
+        // Close sidebar on mobile
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
         }
-    }
-});
-
-// Service Worker for offline support (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment to enable offline support
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(reg => console.log('Service Worker registered'))
-        //     .catch(err => console.log('Service Worker registration failed'));
-    });
-}
-
-// Export user data (for backup)
-async function exportUserData() {
-    if (!currentUser) {
-        showNotification('Please login first', 'error');
-        return;
-    }
-    
-    try {
-        const snapshot = await database.ref('users/' + currentUser.uid).once('value');
-        const userData = snapshot.val();
-        
-        const dataStr = JSON.stringify(userData, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-        
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'learnify-data-backup.json';
-        link.click();
-        
-        showNotification('Data exported successfully!', 'success');
-    } catch (error) {
-        console.error('Error exporting data:', error);
-        showNotification('Error exporting data', 'error');
-    }
-}
-
-// Print progress report
-function printProgressReport() {
-    window.print();
-}
-
-// Share progress on social media
-function shareProgress() {
-    if (!currentUser) return;
-    
-    database.ref('users/' + currentUser.uid).once('value').then(snapshot => {
-        const userData = snapshot.val();
-        const shareText = `I'm learning on Learnify! 🎓\nLevel ${userData.level} | ${userData.xp} XP | ${userData.completedTopics ? userData.completedTopics.length : 0} topics completed!\n\nJoin me at: [Your Website URL]`;
-        
-        // Copy to clipboard
-        navigator.clipboard.writeText(shareText).then(() => {
-            showNotification('Progress copied to clipboard! Share it anywhere!', 'success');
-        });
-    });
-}
-
-// Initialize app
-window.addEventListener('load', () => {
-    initializeApp();
-});
-
-// Add print styles
-const printStyle = document.createElement('style');
-printStyle.textContent = `
-    @media print {
-        .sidebar, .top-bar, .btn-primary, button {
-            display: none !important;
-        }
-        
-        .main-content {
-            margin-left: 0 !important;
-            padding-top: 0 !important;
-        }
-        
-        .content-section {
-            display: block !important;
-        }
-    }
-`;
-document.head.appendChild(printStyle);
-
-// Performance monitoring
-const perfObserver = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-        console.log(`${entry.name}: ${entry.duration}ms`);
-    }
-});
-
-// Uncomment to enable performance monitoring
-// perfObserver.observe({ entryTypes: ['measure', 'navigation'] });
-
-// Console welcome message
-console.log('%c Welcome to Learnify! ', 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 20px; padding: 10px; border-radius: 5px;');
-console.log('%c Built with ❤️ for learners everywhere', 'color: #6366f1; font-size: 14px;');
-console.log('%c Tip: Press Alt+D for Dashboard, Alt+R for Roadmap, Alt+A for AI Assistant', 'color: #a0a0b0; font-size: 12px;');
-
-// Toggle notifications panel
-function toggleNotifications() {
-    const panel = document.getElementById('notificationsPanel');
-    if (panel.style.display === 'flex') {
-        panel.style.display = 'none';
-    } else {
-        panel.style.display = 'flex';
-        // Load notifications when panel is opened
-        if (typeof displayNotifications === 'function') {
-            displayNotifications();
-        }
-    }
-}
-
-// Close notifications when clicking outside
-document.addEventListener('click', (e) => {
-    const panel = document.getElementById('notificationsPanel');
-    const toggleButton = document.querySelector('.notification-toggle');
-    
-    if (panel && toggleButton && 
-        panel.style.display === 'flex' && 
-        !panel.contains(e.target) && 
-        !toggleButton.contains(e.target)) {
-        panel.style.display = 'none';
     }
 });

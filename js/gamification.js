@@ -100,12 +100,12 @@ async function loadAchievements() {
             badgeCard.className = `badge-card ${isUnlocked ? '' : 'locked'}`;
             
             badgeCard.innerHTML = `
-                <div class="badge-icon" style="color: ${badge.color}">
+                <div class="badge-icon" style="color: ${badge.color}; background: ${isUnlocked ? `rgba(${hexToRgb(badge.color)}, 0.1)` : 'var(--darker-bg)'}">
                     ${badge.icon}
                 </div>
                 <h4>${badge.name}</h4>
                 <p>${badge.description}</p>
-                ${isUnlocked ? '<span style="color: var(--success-color); font-weight: 600;">✓ Unlocked</span>' : '<span style="color: var(--text-secondary);">🔒 Locked</span>'}
+                ${isUnlocked ? '<span>✓ Unlocked</span>' : '<span>🔒 Locked</span>'}
             `;
             
             achievementsGrid.appendChild(badgeCard);
@@ -586,4 +586,17 @@ function showGuestDashboard() {
             }
         });
     }
+}
+
+// Helper function to convert hex to rgb
+function hexToRgb(hex) {
+    // Remove # if present
+    hex = hex.replace('#', '');
+    
+    // Parse r, g, b values
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return `${r}, ${g}, ${b}`;
 }

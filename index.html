@@ -540,12 +540,18 @@
                     <button class="community-tab active" onclick="showCommunityTab('discussions')">Discussions</button>
                     <button class="community-tab" onclick="showCommunityTab('qa')">Q&A</button>
                     <button class="community-tab" onclick="showCommunityTab('groups')">Study Groups</button>
+                    <button class="community-tab" onclick="showCommunityTab('messages')">Messages</button>
                 </div>
 
                 <div id="discussionsTab" class="community-content active">
-                    <button class="btn-primary" onclick="createNewDiscussion()">
-                        <i class="fas fa-plus"></i> New Discussion
-                    </button>
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button class="btn-primary" onclick="createNewDiscussion()">
+                            <i class="fas fa-plus"></i> New Discussion
+                        </button>
+                        <button class="btn-primary" style="background: var(--warning-color);" onclick="openEditDiscussionModal()">
+                            <i class="fas fa-edit"></i> Edit Discussion
+                        </button>
+                    </div>
                     <div id="discussionsList" class="discussions-list">
                         <!-- Discussions will be loaded here -->
                     </div>
@@ -570,18 +576,52 @@
                     
                     <!-- Group Chat Interface -->
                     <div id="groupChatContainer" class="group-chat-container" style="display: none; margin-top: 20px;">
-                        <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--darker-bg); border-radius: 10px 10px 0 0;">
-                            <h3 id="chatGroupName">Group Chat</h3>
-                            <button class="btn-primary" onclick="closeGroupChat()" style="background: var(--danger-color);">
+                        <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--darker-bg); border-radius: 15px 15px 0 0; border: 1px solid var(--border-color);">
+                            <h3 id="chatGroupName" style="margin: 0; font-size: 18px;">Group Chat</h3>
+                            <button class="btn-primary" onclick="closeGroupChat()" style="background: var(--danger-color); padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; gap: 5px;">
                                 <i class="fas fa-times"></i> Close
                             </button>
                         </div>
-                        <div id="chatMessages" class="chat-messages" style="height: 400px; overflow-y: auto; padding: 15px; background: var(--card-bg); border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+                        <div id="chatMessages" class="chat-messages" style="height: 400px; overflow-y: auto; padding: 15px; background: var(--card-bg); border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 15px;">
                             <!-- Messages will be loaded here -->
                         </div>
-                        <div class="chat-input-container" style="display: flex; padding: 15px; background: var(--darker-bg); border-radius: 0 0 10px 10px;">
-                            <input type="text" id="chatMessageInput" placeholder="Type your message..." style="flex: 1; padding: 12px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-right: 10px;" onkeypress="handleChatKeyPress(event)">
-                            <button class="btn-primary" onclick="sendGroupMessage()">
+                        <div class="chat-input-container" style="display: flex; padding: 15px; background: var(--darker-bg); border-radius: 0 0 15px 15px; border: 1px solid var(--border-color); border-top: none;">
+                            <input type="text" id="chatMessageInput" placeholder="Type your message..." style="flex: 1; padding: 12px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-right: 10px; font-size: 14px;" onkeypress="handleChatKeyPress(event)">
+                            <button class="btn-primary" onclick="sendGroupMessage()" style="padding: 12px 20px; display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Direct Messages Tab -->
+                <div id="messagesTab" class="community-content">
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button class="btn-primary" onclick="openNewMessageModal()">
+                            <i class="fas fa-paper-plane"></i> New Message
+                        </button>
+                        <button class="btn-primary" style="background: var(--success-color);" onclick="refreshMessages()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                    <div id="messagesList" class="messages-list">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    
+                    <!-- Direct Message Chat Interface -->
+                    <div id="directMessageChatContainer" class="group-chat-container" style="display: none; margin-top: 20px;">
+                        <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--darker-bg); border-radius: 15px 15px 0 0; border: 1px solid var(--border-color);">
+                            <h3 id="directMessageChatName" style="margin: 0; font-size: 18px;">Direct Message</h3>
+                            <button class="btn-primary" onclick="closeDirectMessageChat()" style="background: var(--danger-color); padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                        </div>
+                        <div id="directMessageChatMessages" class="chat-messages" style="height: 400px; overflow-y: auto; padding: 15px; background: var(--card-bg); border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 15px;">
+                            <!-- Messages will be loaded here -->
+                        </div>
+                        <div class="chat-input-container" style="display: flex; padding: 15px; background: var(--darker-bg); border-radius: 0 0 15px 15px; border: 1px solid var(--border-color); border-top: none;">
+                            <input type="text" id="directMessageInput" placeholder="Type your message..." style="flex: 1; padding: 12px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-right: 10px; font-size: 14px;" onkeypress="handleDirectMessageKeyPress(event)">
+                            <button class="btn-primary" onclick="sendDirectMessage()" style="padding: 12px 20px; display: flex; align-items: center; gap: 5px;">
                                 <i class="fas fa-paper-plane"></i> Send
                             </button>
                         </div>

@@ -95,27 +95,27 @@ async function loadLeaderboard() {
             return `
                 <div class="leaderboard-item ${isCurrentUser ? 'current-user' : ''}" style="${isCurrentUser ? 'background: var(--card-bg); border: 2px solid var(--primary-color);' : ''}">
                     <div class="rank ${rankClass}">${medal || rank}</div>
-                    <div class="user-avatar" style="width: 50px; height: 50px;">
+                    <div class="user-avatar" style="width: 40px; height: 40px; font-size: 16px;">
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="leaderboard-user-info" style="flex: 1;">
-                        <div style="font-weight: 600; margin-bottom: 5px;">
+                        <div style="font-weight: 600; margin-bottom: 3px; font-size: 15px;">
                             ${user.name} ${isCurrentUser ? '(You)' : ''}
                         </div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">
-                            ${user.course} • Level ${user.level} • ${user.completedTopics.length} topics
+                        <div style="font-size: 12px; color: var(--text-secondary);">
+                            ${user.course} • Lvl ${user.level} • ${user.completedTopics.length} topics
                         </div>
                     </div>
-                    <div class="leaderboard-xp" style="text-align: right;">
-                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">
+                    <div class="leaderboard-xp" style="text-align: right; min-width: 80px;">
+                        <div style="font-size: 20px; font-weight: bold; color: var(--primary-color);">
                             ${user.xp}
                         </div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">
+                        <div style="font-size: 11px; color: var(--text-secondary);">
                             XP
                         </div>
                     </div>
-                    <div class="leaderboard-badges" style="margin-left: 20px;">
-                        <i class="fas fa-award" style="color: var(--warning-color); margin-right: 5px;"></i>
+                    <div class="leaderboard-badges" style="margin-left: 15px; font-size: 14px;">
+                        <i class="fas fa-award" style="color: var(--warning-color); margin-right: 3px;"></i>
                         ${user.badges.length}
                     </div>
                 </div>
