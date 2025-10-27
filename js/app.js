@@ -127,7 +127,9 @@ function hideSidebarAndShowContent() {
     const overlay = document.getElementById('sidebarOverlay');
     
     // Hide sidebar
-    sidebar.classList.remove('active');
+    if (sidebar) {
+        sidebar.classList.remove('active');
+    }
     
     if (overlay) {
         overlay.classList.remove('active');
@@ -141,7 +143,9 @@ function hideSidebarAndShowContent() {
     const menuToggles = document.querySelectorAll('.menu-toggle');
     menuToggles.forEach(menuToggle => {
         const icon = menuToggle.querySelector('i');
-        if (icon) icon.className = 'fas fa-bars';
+        if (icon) {
+            icon.className = 'fas fa-bars';
+        }
     });
 }
 
