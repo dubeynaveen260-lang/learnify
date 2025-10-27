@@ -159,6 +159,19 @@ body {
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
     }
+    
+    /* Show mobile menu toggle container on mobile */
+    .mobile-menu-toggle-container {
+        display: block !important;
+        text-align: center;
+    }
+    
+    .mobile-menu-toggle-container .menu-toggle {
+        margin: 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 @media (max-width: 480px) {
