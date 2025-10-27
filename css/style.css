@@ -34,12 +34,22 @@
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--dark-bg);
     color: var(--text-primary);
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Prevent horizontal overflow on all elements */
+* {
+    max-width: 100vw !important;
     overflow-x: hidden;
 }
 
@@ -67,7 +77,8 @@ body {
     
     /* Ensure all elements fit within screen width */
     * {
-        max-width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden;
     }
     
     .menu-toggle {
@@ -97,6 +108,8 @@ body {
     .btn-primary, .btn-secondary, .btn-logout, .auth-tab, .community-tab {
         min-height: 44px;
         padding: 12px 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     /* Improve form inputs for touch */
@@ -104,16 +117,21 @@ body {
     .form-group select {
         min-height: 44px;
         font-size: 16px;
+        box-sizing: border-box;
     }
     
     /* Better spacing for mobile */
     .card {
         padding: 20px;
         margin-bottom: 20px;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .content-section {
         padding: 25px;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     /* Mobile chat improvements */
@@ -164,6 +182,51 @@ body {
     button, a, select, input {
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure proper width for all grid layouts */
+    .dashboard-grid, .stats-grid, .quiz-options, .resources-grid, .achievements-grid, .semesters-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Fix for message containers */
+    .chat-messages, .messages-list {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure modals fit on screen */
+    .modal-content, .auth-container {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 10px;
+        box-sizing: border-box;
+    }
+    
+    /* Fix for roadmap and subject cards */
+    .subject-card, .topic-item, .resource-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure AI chat fits properly */
+    .ai-chat {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Fix for community tabs */
+    .community-tabs {
+        flex-wrap: wrap;
+    }
+    
+    /* Ensure proper padding on all sections */
+    .content-section h1, .content-section h2, .content-section h3, .content-section p, .content-section div {
+        max-width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -174,6 +237,8 @@ body {
     
     .content-section {
         padding: 20px 15px;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .community-tabs {
@@ -184,6 +249,7 @@ body {
     .btn-primary, .btn-secondary, .btn-logout, .auth-tab, .community-tab {
         width: 100%;
         margin-bottom: 10px;
+        box-sizing: border-box;
     }
     
     /* Stacked navigation for very small screens */
@@ -200,6 +266,8 @@ body {
     .auth-container {
         padding: 20px;
         margin: 10px;
+        box-sizing: border-box;
+        width: 95%;
     }
     
     /* Improve top bar for small screens */
@@ -219,10 +287,59 @@ body {
     /* Better spacing for small screens */
     .card {
         padding: 15px;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .content-section {
         padding: 20px 10px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    
+    /* Ensure all elements fit on very small screens */
+    * {
+        max-width: 100vw !important;
+        box-sizing: border-box;
+    }
+    
+    /* Fix for message containers on small screens */
+    .message {
+        max-width: 90% !important;
+    }
+    
+    /* Ensure proper width for all grid layouts */
+    .dashboard-grid, .stats-grid, .quiz-options, .resources-grid, .achievements-grid, .semesters-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Additional fixes for CGPA calculator on very small screens */
+    .subject-input-row, .semester-selector, .semester-inputs-container, .semester-input-card, .cgpa-results, .cgpa-result-grid, .result-card, .semester-wise-sgpa, .sgpa-grid, .sgpa-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .subject-name-input,
+    .credits-input,
+    .grade-select,
+    .semester-selector select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Reduce padding even more for very small screens */
+    .semester-input-card, .result-card, .sgpa-card {
+        padding: 10px;
+    }
+    
+    .result-value {
+        font-size: 20px;
+    }
+    
+    .sgpa-value {
+        font-size: 16px;
     }
 }
 
@@ -280,6 +397,7 @@ body {
     max-width: 500px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     position: relative;
+    box-sizing: border-box;
 }
 
 .close {
@@ -317,6 +435,7 @@ body {
     max-width: 450px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     position: relative;
+    box-sizing: border-box;
 }
 
 .close-auth {
@@ -741,6 +860,8 @@ body {
     margin-left: var(--sidebar-width);
     min-height: 100vh;
     padding-top: var(--topbar-height);
+    width: calc(100% - var(--sidebar-width));
+    box-sizing: border-box;
 }
 
 .top-bar {
@@ -756,6 +877,8 @@ body {
     align-items: center;
     gap: 20px;
     z-index: 1000;
+    box-sizing: border-box;
+    width: calc(100% - var(--sidebar-width));
 }
 
 .menu-toggle {
@@ -891,6 +1014,8 @@ body {
     display: none;
     padding: 30px;
     animation: fadeIn 0.3s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .content-section.active {
@@ -1136,6 +1261,8 @@ body {
 .roadmap-container {
     display: grid;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .subject-card {
@@ -1147,6 +1274,8 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .subject-card::before {
@@ -1217,6 +1346,8 @@ body {
     margin-bottom: 15px;
     transition: all 0.3s;
     border-left: 3px solid var(--border-color);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .topic-item:hover {
@@ -1883,6 +2014,8 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .achievement-card, .badge-card {
@@ -1895,6 +2028,8 @@ body {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .achievement-card::before, .badge-card::before {
@@ -1998,6 +2133,8 @@ body {
     overflow: hidden;
     max-width: 800px;
     margin: 0 auto 25px auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .leaderboard-filters::before {
@@ -2041,6 +2178,8 @@ body {
     overflow: hidden;
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .leaderboard-container::before {
@@ -2175,6 +2314,8 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .resource-card {
@@ -2186,6 +2327,8 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .resource-card::before {
@@ -2302,6 +2445,8 @@ body {
     border: 1px solid var(--border-color);
     margin-bottom: 20px;
     max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .group-chat-container:focus-within {
@@ -2332,6 +2477,8 @@ body {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--darker-bg);
     max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -2358,6 +2505,8 @@ body {
     background: var(--darker-bg);
     border-radius: 0 0 15px 15px;
     border-top: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .chat-input-container input {
@@ -2472,17 +2621,21 @@ body {
         height: 250px;
         padding: 4px;
         gap: 5px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .message {
         max-width: 70%;
         padding: 3px 5px;
         font-size: 9px;
+        box-sizing: border-box;
     }
     
     .message-content {
         font-size: 9px;
         line-height: 1.2;
+        box-sizing: border-box;
     }
     
     .message-header {
@@ -2493,11 +2646,17 @@ body {
         font-size: 6px;
     }
     
+    .chat-input-container {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
     .chat-input-container input {
         margin-right: 0;
         width: 100%;
         padding: 5px;
         font-size: 11px;
+        box-sizing: border-box;
     }
     
     .chat-input-container button {
@@ -2505,12 +2664,14 @@ body {
         justify-content: center;
         padding: 5px;
         font-size: 11px;
+        box-sizing: border-box;
     }
     
     /* Improved mobile message display */
     .message-content {
         font-size: 11px;
         line-height: 1.3;
+        box-sizing: border-box;
     }
     
     .message-header {
@@ -2632,18 +2793,23 @@ body {
         height: 200px;
         padding: 3px;
         gap: 4px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .message {
         max-width: 75%;
         padding: 2px 4px;
         font-size: 10px;
+        box-sizing: border-box;
     }
     
     .chat-input-container {
         padding: 4px;
         flex-direction: column;
         gap: 4px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .chat-input-container input {
@@ -2651,6 +2817,7 @@ body {
         width: 100%;
         padding: 5px;
         font-size: 10px;
+        box-sizing: border-box;
     }
     
     .chat-input-container button {
@@ -2658,12 +2825,14 @@ body {
         justify-content: center;
         padding: 5px;
         font-size: 10px;
+        box-sizing: border-box;
     }
     
     /* Improved mobile message display */
     .message-content {
         font-size: 10px;
         line-height: 1.2;
+        box-sizing: border-box;
     }
     
     .message-header {
@@ -2839,6 +3008,24 @@ body {
     display: none;
     flex-direction: column;
     overflow: hidden;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .notifications-panel {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notifications-panel {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        top: 50px;
+    }
 }
 
 /* ===== Full Screen Modal Styles ===== */
@@ -2902,6 +3089,25 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: calc(100vw - 40px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .toast-container {
+        right: 10px;
+        left: 10px;
+        width: calc(100vw - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        top: 10px;
+        right: 5px;
+        left: 5px;
+        width: calc(100vw - 10px);
+    }
 }
 
 .toast {
@@ -2915,6 +3121,8 @@ body {
     gap: 10px;
     animation: slideInRight 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
     max-width: 350px;
+    box-sizing: border-box;
+    width: calc(100vw - 40px);
 }
 
 @keyframes slideInRight {
@@ -3060,6 +3268,8 @@ body {
     border-top: 1px solid var(--border-color);
     margin-top: 30px;
     border-radius: 15px 15px 0 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .profile-info {
@@ -3069,12 +3279,17 @@ body {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .profile-stats {
     display: flex;
     gap: 20px;
     margin-top: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .profile-stats > div {
@@ -3083,6 +3298,8 @@ body {
     background: var(--darker-bg);
     border-radius: 10px;
     min-width: 80px;
+    flex: 1;
+    box-sizing: border-box;
 }
 
 .profile-avatar-large {
@@ -3099,6 +3316,7 @@ body {
     box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
     border: 3px solid white;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .profile-avatar-large:hover {
@@ -3507,6 +3725,8 @@ body {
     .subject-input-row {
         flex-direction: column;
         align-items: stretch;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .subject-name-input,
@@ -3514,6 +3734,7 @@ body {
     .grade-select {
         width: 100%;
         margin-bottom: 8px;
+        box-sizing: border-box;
     }
     
     .subject-name-input:last-child,
@@ -3525,29 +3746,40 @@ body {
     .semester-selector {
         flex-direction: column;
         align-items: flex-start;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .semester-selector select {
         width: 100%;
         min-width: auto;
+        box-sizing: border-box;
     }
     
     .semesters-grid {
         grid-template-columns: 1fr;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     /* Ensure CGPA results are visible on mobile */
     .cgpa-results {
         margin-top: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .cgpa-result-grid {
         grid-template-columns: 1fr;
         gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .result-card {
         padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .result-value {
@@ -3556,19 +3788,31 @@ body {
     
     .semester-wise-sgpa {
         margin-top: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .sgpa-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .sgpa-card {
         padding: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .sgpa-value {
         font-size: 18px;
+    }
+    
+    /* Ensure all calculator elements fit on screen */
+    .cgpa-calculator-container, .semester-inputs-container, .semester-input-card {
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
