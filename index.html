@@ -654,6 +654,15 @@
                 <h1>🧮 CGPA Calculator</h1>
                 <p class="section-desc">Calculate your SGPA, CGPA, and equivalent percentage</p>
                 
+                <div class="card" style="text-align: center; padding: 40px;">
+                    <h2 style="margin-bottom: 20px;">Full Screen CGPA Calculator</h2>
+                    <p style="margin-bottom: 30px; color: var(--text-secondary);">For the best experience, use our full screen calculator</p>
+                    <button onclick="openCGPAModal()" class="btn-primary" style="padding: 15px 40px; font-size: 18px;">
+                        <i class="fas fa-expand"></i> Open Full Screen Calculator
+                    </button>
+                    <p style="margin-top: 30px; color: var(--text-secondary); font-size: 14px;">Or continue with the inline calculator below</p>
+                </div>
+                
                 <div class="card">
                     <div class="cgpa-calculator-container">
                         <div class="semester-selector">
@@ -745,7 +754,7 @@
                             </div>
                         </div>
                     </div>
-
+                
                     <div class="profile-edit">
                         <h3>Update Profile</h3>
                         <form id="profileUpdateForm">
@@ -761,6 +770,67 @@
                             </select>
                             <button type="submit" class="btn-primary">Update Profile</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CGPA Calculator Full Screen Modal -->
+            <div id="cgpaModal" class="modal">
+                <div class="modal-content full-screen-modal">
+                    <span class="close" onclick="closeCGPAModal()">&times;</span>
+                    <h2 style="text-align: center; margin-bottom: 20px;">🧮 CGPA Calculator</h2>
+                    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">Calculate your SGPA, CGPA, and equivalent percentage</p>
+                    
+                    <div class="cgpa-calculator-container">
+                        <div class="semester-selector">
+                            <label for="numSemestersModal">Number of Semesters:</label>
+                            <select id="numSemestersModal" onchange="generateSemesterInputsModal()">
+                                <option value="">Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+
+                        <div id="semesterInputsContainerModal" class="semester-inputs-container">
+                            <!-- Semester inputs will be generated here -->
+                        </div>
+
+                        <div class="cgpa-actions" style="display: flex; justify-content: center; gap: 20px; margin: 30px 0;">
+                            <button onclick="calculateCGPAModal()" class="btn-primary" style="width: auto; padding: 15px 35px; font-size: 18px;">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                            <button onclick="resetCGPACalculatorModal()" class="btn-primary" style="width: auto; padding: 15px 35px; font-size: 18px; background: var(--warning-color);">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+
+                        <div id="cgpaResultsModal" class="cgpa-results" style="display: none;">
+                            <h3 style="text-align: center; margin-bottom: 25px;">📊 Results</h3>
+                            <div class="cgpa-result-grid">
+                                <div class="result-card">
+                                    <div class="result-label">Overall CGPA</div>
+                                    <div class="result-value" id="overallCGPAModal">0.00</div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-label">Equivalent Percentage</div>
+                                    <div class="result-value" id="equivalentPercentageModal">0.00%</div>
+                                </div>
+                            </div>
+                            <div id="semesterWiseSGPAModal" class="semester-wise-sgpa" style="margin-top: 30px;">
+                                <!-- Semester-wise SGPA will be displayed here -->
+                            </div>
+                            <div style="text-align: center; margin-top: 30px;">
+                                <button onclick="downloadCGPAResultModal()" class="btn-primary" style="width: auto; padding: 15px 35px; font-size: 18px;">
+                                    <i class="fas fa-download"></i> Download Result
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

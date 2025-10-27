@@ -31,6 +31,13 @@ function showSection(sectionName) {
         }, 1000);
     }
     
+    // Special handling for CGPA calculator - open in full screen modal
+    if (sectionName === 'cgpa-calculator') {
+        openCGPAModal();
+        // Keep the section active in the background but show modal on top
+        return;
+    }
+    
     // Load section-specific data
     switch(sectionName) {
         case 'dashboard':
