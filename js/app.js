@@ -35,7 +35,46 @@ function showSection(sectionName) {
     if (sectionName === 'cgpa-calculator') {
         openCGPAModal();
         // Keep the section active in the background but show modal on top
+        // Close sidebar on mobile after selection
+        if (window.innerWidth <= 768) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            sidebar.classList.remove('active');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.style.opacity = '0';
+            }
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
         return;
+    }
+    
+    // Close sidebar on mobile after selecting any section
+    if (window.innerWidth <= 768) {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const menuToggle = document.querySelector('.menu-toggle');
+        
+        sidebar.classList.remove('active');
+        if (overlay) {
+            overlay.classList.remove('active');
+            overlay.style.opacity = '0';
+        }
+        document.body.style.overflow = '';
+        
+        // Reset menu icon
+        if (menuToggle) {
+            const icon = menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
+        }
     }
     
     // Load section-specific data
@@ -101,8 +140,13 @@ function toggleSidebar() {
     if (window.innerWidth <= 768) {
         if (sidebar.classList.contains('active')) {
             document.body.style.overflow = 'hidden';
+            // Add a slight delay to ensure smooth transition
+            setTimeout(() => {
+                if (overlay) overlay.style.opacity = '1';
+            }, 10);
         } else {
             document.body.style.overflow = '';
+            if (overlay) overlay.style.opacity = '0';
         }
     }
 }
@@ -139,7 +183,7 @@ function loadSavedTheme() {
     }
 }
 
-// Close sidebar when clicking outside (mobile)
+// Close sidebar when clicking outside or selecting an item (mobile)
 document.addEventListener('click', (e) => {
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.querySelector('.menu-toggle');
@@ -148,6 +192,18 @@ document.addEventListener('click', (e) => {
     if (window.innerWidth <= 768) {
         // Close sidebar when clicking nav item
         if (e.target.closest('.nav-item')) {
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+        // Close sidebar when clicking overlay
+        else if (e.target === overlay) {
             sidebar.classList.remove('active');
             if (overlay) overlay.classList.remove('active');
             document.body.style.overflow = '';
@@ -175,6 +231,54 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Add touch swipe support for mobile sidebar
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    // Swipe right to open sidebar (only on mobile)
+    if (window.innerWidth <= 768 && touchEndX - touchStartX > 50) {
+        if (!sidebar.classList.contains('active')) {
+            sidebar.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Change menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-times';
+            }
+        }
+    }
+    // Swipe left to close sidebar (only on mobile)
+    else if (window.innerWidth <= 768 && touchStartX - touchEndX > 50) {
+        if (sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+    }
+}
+
 // Initialize app
 function initializeApp() {
     console.log('Learnify initialized');
@@ -194,6 +298,29 @@ function initializeApp() {
 
 // Resources section functionality is now handled in resources.js
 // Removed duplicate loadResources() and filterResources() functions
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    // If window is resized to desktop size, ensure sidebar is visible and overlay is hidden
+    if (window.innerWidth > 768) {
+        sidebar.classList.remove('active');
+        if (overlay) {
+            overlay.classList.remove('active');
+            overlay.style.opacity = '';
+        }
+        document.body.style.overflow = '';
+        
+        // Reset menu icon
+        if (menuToggle) {
+            const icon = menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
+        }
+    }
+});
 
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
