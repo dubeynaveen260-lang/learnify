@@ -61,7 +61,13 @@ body {
     
     .top-bar {
         left: 0;
+        right: 0;
         padding: 0 15px;
+    }
+    
+    /* Ensure all elements fit within screen width */
+    * {
+        max-width: 100% !important;
     }
     
     .menu-toggle {
