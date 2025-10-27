@@ -10,336 +10,405 @@ const COURSE_ROADMAPS = {
         semesters: [
             {
                 semester: 1,
-                name: "Semester 1",
+                name: "Semester I",
                 subjects: [
                     {
-                        id: "computer-fundamentals",
-                        name: "Computer Fundamentals",
-                        description: "Introduction to computers, hardware, software, and basic IT concepts including computer architecture, operating systems, and networking basics",
+                        id: "structured-english",
+                        name: "Structured and Spoken English",
+                        description: "Course Code: LNG 301 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "Computer Fundamentals Complete Course - CodeWithHarry", url: "https://youtu.be/agaLaSafbwc" },
-                            { title: "Computer Basics in Hindi - Knowledge Gate", url: "https://www.youtube.com/watch?v=cJy8i9K5Gg" },
-                            { title: "Introduction to Computers - Gate Smashers", url: "https://www.youtube.com/watch?v=pTdSs8kQY1Y" },
-                            { title: "Computer Fundamentals - College Wallah", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" },
-                            { title: "Basic Computer Skills - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" }
+                            { title: "Chetan Sir English", url: "https://www.youtube.com/@chetansirenglish" },
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" }
                         ]
                     },
                     {
-                        id: "programming-c",
-                        name: "Programming in C",
-                        description: "C programming from basics to advanced concepts with practical examples including data types, control structures, functions, and pointers",
+                        id: "moral-education",
+                        name: "Moral & Value Education",
+                        description: "Course Code: GPT 301 | Credits: 2(2+0+0)",
                         videos: [
-                            { title: "C Programming Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=irqbmMNs2Bo" },
-                            { title: "C Language Complete Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3bEbPIiY7Rw&list=PLdo5W4Nhv31a8UcMN9-35ghv8qyFWD9_S" },
-                            { title: "C Programming in Hindi - Apna College", url: "https://www.youtube.com/watch?v=aZb0iu4uGwA" },
-                            { title: "C Programming - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
-                            { title: "C Language Basics - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "mathematics-i",
-                        name: "Mathematics I",
-                        description: "Calculus, algebra, and mathematical foundations for computer applications including limits, derivatives, integrals, and matrix operations",
+                        id: "foundation-mathematics",
+                        name: "Foundation Course in Mathematics",
+                        description: "Course Code: MAS 341 | Credits: 4(4+0+0)",
                         videos: [
-                            { title: "Engineering Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=LwCRRUa8yTU&list=PLxCzCOWd7aiHVQ2zTKc-GENoLf8lZT6u_" },
-                            { title: "Calculus Complete Course - Knowledge Gate", url: "https://www.youtube.com/watch?v=EiQPz-eFLS0" },
-                            { title: "Mathematics for BCA - College Wallah", url: "https://www.youtube.com/watch?v=9fUXmXVF4FY" },
-                            { title: "Calculus for Beginners - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
-                            { title: "Linear Algebra - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" }
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
-                        id: "digital-electronics",
-                        name: "Digital Electronics",
-                        description: "Logic gates, circuits, and digital systems fundamentals including Boolean algebra, combinational and sequential circuits",
+                        id: "business-communication",
+                        name: "Business Communication",
+                        description: "Course Code: BAM 327 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "Digital Electronics Full Course - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
-                            { title: "Digital Logic Design - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Logic Gates Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" },
-                            { title: "Digital Circuits - College Wallah", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU" },
-                            { title: "Boolean Algebra - Apna College", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "communication-skills",
-                        name: "Communication Skills",
-                        description: "English communication, presentation, and soft skills for professionals including verbal and non-verbal communication, group discussions, and interview preparation",
+                        id: "basic-electronics",
+                        name: "Basic Electronics",
+                        description: "Course Code: ECE 310 | Credits: 4(2+1+2)",
                         videos: [
-                            { title: "Communication Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
-                            { title: "English Speaking Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
-                            { title: "Effective Communication - Jenny's Lectures", url: "https://www.youtube.com/watch?v=VT4VXxxZx5o" },
-                            { title: "Presentation Skills - Love Babbar", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw" }
+                            { title: "Neso Academy Hindi", url: "https://www.youtube.com/@NesoAcademyHindi" },
+                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" }
+                        ]
+                    },
+                    {
+                        id: "problem-solving-c",
+                        name: "Problem Solving & Programming in C",
+                        description: "Course Code: CSIT 404 | Credits: 5(2+1+4)",
+                        videos: [
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Jenny's Lectures CS IT", url: "https://www.youtube.com/@JennyslecturesCSIT" }
+                        ]
+                    },
+                    {
+                        id: "fundamentals-computer-science",
+                        name: "Fundamentals of Computer Science",
+                        description: "Course Code: CSIT 405 | Credits: 4(2+1+2)",
+                        videos: [
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Geeky Shows Hindi", url: "https://www.youtube.com/@GeekyShowsHindi" }
+                        ]
+                    },
+                    {
+                        id: "principles-programming-languages",
+                        name: "Principles of Programming Languages",
+                        description: "Course Code: CSIT 409 | Credits: 4(3–1–0)",
+                        videos: [
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" }
                         ]
                     }
                 ]
             },
             {
                 semester: 2,
-                name: "Semester 2",
+                name: "Semester II",
                 subjects: [
                     {
-                        id: "data-structures-c",
-                        name: "Data Structures in C",
-                        description: "Arrays, linked lists, stacks, queues, trees, and graphs implementation in C",
+                        id: "numerical-statistical-computing",
+                        name: "Numerical & Statistical Computing",
+                        description: "Course Code: MAS 461 | Credits: 4(3+1+0)",
                         videos: [
-                            { title: "Data Structures Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=AT14lCXuMKI&list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi" },
-                            { title: "DSA Complete - Jenny's Lectures", url: "https://www.youtube.com/watch?v=AT14lCXuMKI" },
-                            { title: "Data Structures in Hindi - Apna College", url: "https://www.youtube.com/watch?v=5_5oE5lgrhw&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" }
-                        ]
-                    },
-                    {
-                        id: "discrete-mathematics",
-                        name: "Discrete Mathematics",
-                        description: "Sets, relations, graph theory, combinatorics, and mathematical logic",
-                        videos: [
-                            { title: "Discrete Mathematics - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
-                            { title: "Discrete Math Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=tyDKR4FG3Yw&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Graph Theory - Jenny's Lectures", url: "https://www.youtube.com/watch?v=eQA-m22wjTQ&list=PLmXKhU9FNesSdCsn6YQqu9DmXRMsYdZ2T" }
-                        ]
-                    },
-                    {
-                        id: "dbms",
-                        name: "Database Management Systems (DBMS)",
-                        description: "SQL, relational databases, normalization, and transaction management",
-                        videos: [
-                            { title: "DBMS Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=kBdlM6hNDAE&list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y" },
-                            { title: "Database Management - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "SQL Tutorial - CodeWithHarry", url: "https://www.youtube.com/watch?v=hlGoQC332VM" }
-                        ]
-                    },
-                    {
-                        id: "operating-system",
-                        name: "Operating System",
-                        description: "Process management, memory, file systems, and scheduling algorithms",
-                        videos: [
-                            { title: "Operating System Full Course - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "OS Complete - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Operating Systems - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
                         id: "environmental-studies",
-                        name: "Environmental Studies",
-                        description: "Ecology, pollution, and sustainable development concepts",
+                        name: "Environmental Studies-I",
+                        description: "Course Code: ENV 415 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "Environmental Science - College Wallah", url: "https://www.youtube.com/watch?v=XVmGHl7kvQk" },
-                            { title: "Environment Studies in Hindi", url: "https://www.youtube.com/watch?v=DKdSd9vcwTc" },
-                            { title: "Environmental Studies - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
+                        ]
+                    },
+                    {
+                        id: "principles-management",
+                        name: "Principles of Management",
+                        description: "Course Code: BAM 213 | Credits: 3(3+0+0)",
+                        videos: [
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
+                        ]
+                    },
+                    {
+                        id: "computer-organization",
+                        name: "Fundamentals of Computer Organization",
+                        description: "Course Code: CSIT 406 | Credits: 4(3+1+0)",
+                        videos: [
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" }
+                        ]
+                    },
+                    {
+                        id: "data-structures-c",
+                        name: "Algorithms & Data Structures through C",
+                        description: "Course Code: CSIT 407 | Credits: 4(3+0+2)",
+                        videos: [
+                            { title: "Jenny's Lectures CS IT", url: "https://www.youtube.com/@JennyslecturesCSIT" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
+                        ]
+                    },
+                    {
+                        id: "operating-system",
+                        name: "Fundamentals of Operating System",
+                        description: "Course Code: CSIT 417 | Credits: 4(3+0+2)",
+                        videos: [
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
+                        ]
+                    },
+                    {
+                        id: "data-communication",
+                        name: "Data Communication",
+                        description: "Course Code: CSIT 426 | Credits: 3(3+0+0)",
+                        videos: [
+                            { title: "Neso Academy Hindi", url: "https://www.youtube.com/@NesoAcademyHindi" },
+                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" }
                         ]
                     }
                 ]
             },
             {
                 semester: 3,
-                name: "Semester 3",
+                name: "Semester III",
                 subjects: [
                     {
-                        id: "object-oriented-programming",
-                        name: "Object Oriented Programming (C++)",
-                        description: "Object-oriented concepts with C++ programming",
+                        id: "principles-accounting",
+                        name: "Principles of Accounting",
+                        description: "Course Code: BAM 302 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "C++ OOP for Engineers - CodeWithHarry", url: "https://www.youtube.com/watch?v=yGB9jhsEsr8&list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL" },
-                            { title: "C++ Programming - Apna College", url: "https://www.youtube.com/watch?v=z9bZufPHFLU&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
-                            { title: "Object Oriented Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=wN0x9eZLix4&list=PLdo5W4Nhv31YU5Wx1dopka58teWP9aCee" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "computer-networks",
-                        name: "Computer Networks",
-                        description: "Network protocols, OSI model, routing, and network security",
+                        id: "organization-behaviour",
+                        name: "Organization Behaviour",
+                        description: "Course Code: BAM 317 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Computer Networks - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
-                            { title: "Networking - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "CN Full Course - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "software-engineering",
-                        name: "Software Engineering",
-                        description: "Software development life cycle, design patterns, and project management",
+                        id: "discrete-mathematics",
+                        name: "Discrete Mathematics",
+                        description: "Course Code: MAS 621 | Credits: 4(4+0+0)",
                         videos: [
-                            { title: "Software Engineering - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
-                            { title: "SE for Engineers - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
-                            { title: "Software Development - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
-                        id: "data-communication",
-                        name: "Data Communication",
-                        description: "Data transmission, encoding, error detection, and correction techniques",
+                        id: "environmental-studies-ii",
+                        name: "Environmental Studies-II",
+                        description: "Course Code: ENV 416 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Data Communication - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
-                            { title: "Data Communication Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Data Communication - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "numerical-methods",
-                        name: "Numerical Methods",
-                        description: "Numerical techniques for solving mathematical problems using computers",
+                        id: "dbms",
+                        name: "Fundamentals of DBMS",
+                        description: "Course Code: CSIT 408 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Numerical Methods - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "Numerical Analysis - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Numerical Methods - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" }
+                        ]
+                    },
+                    {
+                        id: "system-analysis-design",
+                        name: "System Analysis and Design",
+                        description: "Course Code: CSIT 416 | Credits: 3(3+0+0)",
+                        videos: [
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" },
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" }
+                        ]
+                    },
+                    {
+                        id: "information-security",
+                        name: "Information Security",
+                        description: "Course Code: CSIT 418 | Credits: 3(3+0+0)",
+                        videos: [
+                            { title: "Simplilearn Hindi", url: "https://www.youtube.com/@SimplilearnHindi" },
+                            { title: "Great Learning Hindi", url: "https://www.youtube.com/@GreatLearningHindi" }
+                        ]
+                    },
+                    {
+                        id: "object-oriented-systems",
+                        name: "Object Oriented Systems",
+                        description: "Course Code: CSIT 503 | Credits: 4(3+0+2)",
+                        videos: [
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Apna College Hindi", url: "https://www.youtube.com/@ApnaCollegeHindi" }
                         ]
                     }
                 ]
             },
             {
                 semester: 4,
-                name: "Semester 4",
+                name: "Semester IV",
                 subjects: [
                     {
-                        id: "java-programming",
-                        name: "Java Programming",
-                        description: "Java programming language, object-oriented concepts, and application development",
+                        id: "financial-management",
+                        name: "Financial Management",
+                        description: "Course Code: BAM 431 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Java Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=ntLJmHOJ0ME" },
-                            { title: "Java Programming - Apna College", url: "https://www.youtube.com/watch?v=UmnCZ7-9yDY" },
-                            { title: "Java OOP Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=3oq-5i-7ITA" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
+                        ]
+                    },
+                    {
+                        id: "java-programming",
+                        name: "Programming with Java",
+                        description: "Course Code: CSIT 423 | Credits: 4(3+0+2)",
+                        videos: [
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Apna College Hindi", url: "https://www.youtube.com/@ApnaCollegeHindi" }
                         ]
                     },
                     {
                         id: "web-technologies",
-                        name: "Web Technologies (HTML, CSS, JS)",
-                        description: "Web development fundamentals including HTML, CSS, and JavaScript",
+                        name: "Internet and Web Technologies",
+                        description: "Course Code: CSIT 504 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "HTML CSS Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
-                            { title: "Web Development Tutorial - Apna College", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
-                            { title: "JavaScript Full Course - Jenny's Lectures", url: "https://www.youtube.com/watch?v=ER9SzCkoIyk" }
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Geeky Shows Hindi", url: "https://www.youtube.com/@GeekyShowsHindi" }
                         ]
                     },
                     {
-                        id: "computer-graphics",
-                        name: "Computer Graphics",
-                        description: "Graphics algorithms, 2D/3D transformations, and rendering techniques",
+                        id: "rdbms",
+                        name: "RDBMS",
+                        description: "Course Code: CSIT 505 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Computer Graphics - Gate Smashers", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe" },
-                            { title: "Computer Graphics - Knowledge Gate", url: "https://www.youtube.com/watch?v=tKAS_Wqr6v4" },
-                            { title: "Graphics Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=M0mx8S05v60&list=PLV8vIYTIdSnYz3fl-LP87l3qv9j-sQ3gB" }
+                            { title: "Jenny's Lectures CS IT", url: "https://www.youtube.com/@JennyslecturesCSIT" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
-                        id: "microprocessor",
-                        name: "Microprocessor",
-                        description: "Microprocessor architecture, instruction sets, and interfacing techniques",
+                        id: "computer-networks",
+                        name: "Computer Network Principles",
+                        description: "Course Code: CSIT 511 | Credits: 4(3+1+0)",
                         videos: [
-                            { title: "Microprocessor - Gate Smashers", url: "https://www.youtube.com/watch?v=VqwUdc84cLw&list=PLxCzCOWd7aiH2wwES9vPWsEL6ipTaUSl3" },
-                            { title: "Microprocessor Architecture - Knowledge Gate", url: "https://www.youtube.com/watch?v=dl00fOOYLOM&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Microprocessor Programming - Jenny's Lectures", url: "https://www.youtube.com/watch?v=9vq3LdVYvcA" }
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
-                        id: "management-information-systems",
-                        name: "Management Information Systems",
-                        description: "Information systems in organizations, data processing, and decision support",
+                        id: "software-engineering",
+                        name: "Software Engineering Principles",
+                        description: "Course Code: CSIT 515 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "MIS - Gate Smashers", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
-                            { title: "Management Information Systems - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
-                            { title: "MIS Concepts - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" },
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     }
                 ]
             },
             {
                 semester: 5,
-                name: "Semester 5",
+                name: "Semester V",
                 subjects: [
                     {
-                        id: "python-programming",
-                        name: "Python Programming",
-                        description: "Python programming language, libraries, and application development",
+                        id: "management-information-system",
+                        name: "Management Information System",
+                        description: "Course Code: BAM 544 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Python Full Course - CodeWithHarry", url: "https://www.youtube.com/watch?v=gfDE2a7MKjA" },
-                            { title: "Python Programming - Apna College", url: "https://www.youtube.com/watch?v=QXeEoD0pB3E" },
-                            { title: "Python Tutorial - Jenny's Lectures", url: "https://www.youtube.com/watch?v=YYXdXT2l-Gg&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" }
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
-                        id: "data-analytics",
-                        name: "Data Analytics / Machine Learning Basics",
-                        description: "Introduction to data analysis, visualization, and basic machine learning concepts",
+                        id: "artificial-intelligence",
+                        name: "Principles of Artificial Intelligence",
+                        description: "Course Code: CSIT 506 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Data Analytics - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
-                            { title: "Machine Learning Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" },
-                            { title: "Introduction to ML - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" }
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" }
                         ]
                     },
                     {
-                        id: "cloud-computing",
-                        name: "Cloud Computing",
-                        description: "Cloud architecture, services, deployment models, and virtualization",
+                        id: "computer-graphics",
+                        name: "Computer Graphics and Multimedia",
+                        description: "Course Code: CSIT 507 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Cloud Computing - Gate Smashers", url: "https://www.youtube.com/watch?v=uJpQJMcW8ws&list=PLxCzCOWd7aiFjZP4z1_3Kr18hkYRXqFLp" },
-                            { title: "Cloud Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=pZ9pQMS3Z9Q&list=PLmXKhU9FNesS8O4E6lLMxYmQ3LXlmYMh6" },
-                            { title: "Cloud Technologies - College Wallah", url: "https://www.youtube.com/watch?v=ZNsRTFOLWnk" }
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" }
                         ]
                     },
                     {
-                        id: "project-management",
-                        name: "Project Management",
-                        description: "Project planning, execution, monitoring, and closure techniques",
+                        id: "dotnet-framework",
+                        name: ".NET Framework and C#",
+                        description: "Course Code: CSIT 510 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Project Management - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "Project Management Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Project Management - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Geeky Shows Hindi", url: "https://www.youtube.com/@GeekyShowsHindi" }
                         ]
                     },
                     {
-                        id: "cyber-security",
-                        name: "Cyber Security",
-                        description: "Network security, cryptography, and information security principles",
+                        id: "computer-architecture",
+                        name: "Computer Architecture",
+                        description: "Course Code: CSIT 517 | Credits: 4(3+1+0)",
                         videos: [
-                            { title: "Cyber Security - Gate Smashers", url: "https://www.youtube.com/watch?v=vBURTt97EkA&list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" },
-                            { title: "Information Security - Knowledge Gate", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Network Security - Jenny's Lectures", url: "https://www.youtube.com/watch?v=bkSWJJZNgf8" }
+                            { title: "Knowledge Gate Hindi", url: "https://www.youtube.com/@KnowledgeGateHindi" },
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" }
+                        ]
+                    },
+                    {
+                        id: "xml-applications",
+                        name: "XML Applications",
+                        description: "Course Code: CSIT 641 | Credits: 3(3+0+0)",
+                        videos: [
+                            { title: "Simplilearn Hindi", url: "https://www.youtube.com/@SimplilearnHindi" },
+                            { title: "Great Learning Hindi", url: "https://www.youtube.com/@GreatLearningHindi" }
+                        ]
+                    },
+                    {
+                        id: "project-formulation",
+                        name: "Project (Formulation)",
+                        description: "Course Code: CSIT 699a | Credits: 2(0+0+4)",
+                        videos: [
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
+                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     }
                 ]
             },
             {
                 semester: 6,
-                name: "Semester 6",
+                name: "Semester VI",
                 subjects: [
                     {
-                        id: "artificial-intelligence",
-                        name: "Artificial Intelligence / Data Science",
-                        description: "AI concepts, search algorithms, knowledge representation, and data science techniques",
+                        id: "data-warehousing",
+                        name: "Data Warehousing",
+                        description: "Course Code: CSIT 522 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Artificial Intelligence - CodeWithHarry", url: "https://www.youtube.com/watch?v=_tA5cinv0U8" },
-                            { title: "AI Complete Course - Gate Smashers", url: "https://www.youtube.com/watch?v=VwN91x5i25g" },
-                            { title: "AI Fundamentals - Apna College", url: "https://www.youtube.com/watch?v=ua-CiDNNj30" }
+                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
+                            { title: "Simplilearn Hindi", url: "https://www.youtube.com/@SimplilearnHindi" }
                         ]
                     },
                     {
-                        id: "big-data",
-                        name: "Big Data Concepts",
-                        description: "Big data technologies, Hadoop, Spark, and data processing frameworks",
+                        id: "linux-shell-programming",
+                        name: "Linux and Shell Programming",
+                        description: "Course Code: CSIT 601 | Credits: 4(3+0+2)",
                         videos: [
-                            { title: "Big Data - Gate Smashers", url: "https://www.youtube.com/watch?v=JFF2vJaN0Cw&list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_" },
-                            { title: "Big Data Concepts - Knowledge Gate", url: "https://www.youtube.com/watch?v=VwN91x5i25g&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV" },
-                            { title: "Big Data Applications - Jenny's Lectures", url: "https://www.youtube.com/watch?v=qiQR5rTSshw&list=PLdo5W4Nhv31ZdpYvTzw3Q2-BnOu4LCnXX" }
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" }
                         ]
                     },
                     {
-                        id: "internship-project",
-                        name: "Internship / Major Project",
-                        description: "Practical application of learned concepts through a major project or internship",
+                        id: "latest-trends-it",
+                        name: "Latest Trends in IT",
+                        description: "Course Code: CSIT 602 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Project Development - CodeWithHarry", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" },
-                            { title: "Internship Guidance - Apna College", url: "https://www.youtube.com/watch?v=hKB-YGF14SY" },
-                            { title: "Project Management - Love Babbar", url: "https://www.youtube.com/watch?v=Vi9bxu-M-ag" }
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "TechSimplified Hindi", url: "https://www.youtube.com/@TechSimplifiedHindi" }
                         ]
                     },
                     {
-                        id: "soft-skills",
-                        name: "Soft Skills & Interview Preparation",
-                        description: "Communication skills, interview techniques, and professional development",
+                        id: "enterprise-resource-planning",
+                        name: "Enterprise Resource Planning",
+                        description: "Course Code: CSIT 609 | Credits: 3(3+0+0)",
                         videos: [
-                            { title: "Interview Preparation - CodeWithHarry", url: "https://www.youtube.com/watch?v=BCZvT0T5J7U" },
-                            { title: "Soft Skills - Apna College", url: "https://www.youtube.com/watch?v=vtXwPqQo0oc" },
-                            { title: "Professional Communication - College Wallah", url: "https://www.youtube.com/watch?v=BsDoLVMnmZs" }
+                            { title: "Great Learning Hindi", url: "https://www.youtube.com/@GreatLearningHindi" },
+                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" }
+                        ]
+                    },
+                    {
+                        id: "project-execution",
+                        name: "Project (Execution & Report)",
+                        description: "Course Code: CSIT 699b | Credits: 6(0+0+12)",
+                        videos: [
+                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
+                            { title: "Apna College Hindi", url: "https://www.youtube.com/@ApnaCollegeHindi" }
                         ]
                     }
                 ]
