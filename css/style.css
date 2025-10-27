@@ -81,6 +81,39 @@ body {
         overflow-x: hidden;
     }
     
+    /* Prevent horizontal overflow */
+    html, body {
+        overflow-x: hidden !important;
+        position: relative;
+    }
+    
+    /* Ensure fixed position elements don't cause overflow */
+    [style*="position: fixed"],
+    [style*="position: absolute"] {
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Ensure all elements with specific widths fit on screen */
+    [style*="width:"],
+    [style*="min-width:"],
+    [style*="max-width:"] {
+        max-width: 100% !important;
+    }
+    
+    /* Ensure all elements with positioning fit on screen */
+    [style*="left:"],
+    [style*="right:"] {
+        max-width: 100% !important;
+    }
+    
+    /* Ensure main content and all children fit on screen */
+    .main-content,
+    .main-content * {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    
     .menu-toggle {
         display: block;
         /* Make menu toggle more touch-friendly */
