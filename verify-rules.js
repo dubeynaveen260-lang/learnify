@@ -51,8 +51,8 @@ async function testGroupChatAccess() {
         console.log('2. Verify the groupChats rules match:');
         console.log('   "groupChats": {');
         console.log('     "$groupId": {');
-        console.log('       ".read": "auth != null && root.child(\'studyGroups/\' + $groupId + \'/members/\' + auth.uid).exists()",');
-        console.log('       ".write": "auth != null && root.child(\'studyGroups/\' + $groupId + \'/members/\' + auth.uid).exists()",');
+        console.log('       ".read": "auth != null && (root.child(\'studyGroups/\' + $groupId + \'/members/\' + auth.uid).exists() || root.child(\'studyGroups/\' + $groupId + \'/pendingMembers/\' + auth.uid).exists() || root.child(\'studyGroups/\' + $groupId + \'/creatorId\').val() === auth.uid)",');
+        console.log('       ".write": "auth != null && (root.child(\'studyGroups/\' + $groupId + \'/members/\' + auth.uid).exists() || root.child(\'studyGroups/\' + $groupId + \'/pendingMembers/\' + auth.uid).exists() || root.child(\'studyGroups/\' + $groupId + \'/creatorId\').val() === auth.uid)",');
         console.log('       "$messageId": {');
         console.log('         ".validate": "newData.hasChildren([\'content\', \'senderId\', \'senderName\', \'timestamp\'])",');
         console.log('         ...');

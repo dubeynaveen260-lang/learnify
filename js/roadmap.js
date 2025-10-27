@@ -17,7 +17,7 @@ const COURSE_ROADMAPS = {
                         name: "Structured and Spoken English",
                         description: "Course Code: LNG 301 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "Chetan Sir English", url: "https://www.youtube.com/@chetansirenglish" },
+                            { title: "Chetan Sir English", url: "https://youtu.be/FPmP9WR-l6Q?si=ZMCJuke47TjZB1EG" },
                             { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" }
                         ]
                     },

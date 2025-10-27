@@ -57,7 +57,7 @@ function generateSubjectInputs(semesterNum) {
                 <input type="number" placeholder="Credits" id="sem${semesterNum}_sub${i}_credits" 
                        min="1" max="10" value="4" class="credits-input">
                 <select id="sem${semesterNum}_sub${i}_grade" class="grade-select">
-                    <option value="">Grade</option>
+                    <option value="">Select Grade</option>
                     <option value="10">O (Outstanding) - 10</option>
                     <option value="9">A+ (Excellent) - 9</option>
                     <option value="8">A (Very Good) - 8</option>
@@ -144,14 +144,14 @@ function displayCGPAResults(cgpa, percentage, semesterResults) {
     percentageEl.textContent = percentage + '%';
     
     // Display semester-wise SGPA
-    let semesterHTML = '<h4>Semester-wise SGPA:</h4><div class=\"sgpa-grid\">';
+    let semesterHTML = '<h4>Semester-wise SGPA:</h4><div class="sgpa-grid">';
     
     semesterResults.forEach(result => {
         semesterHTML += `
-            <div class=\"sgpa-card\">
-                <div class=\"sgpa-semester\">Semester ${result.semester}</div>
-                <div class=\"sgpa-value\">${result.sgpa}</div>
-                <div class=\"sgpa-credits\">${result.credits} Credits</div>
+            <div class="sgpa-card">
+                <div class="sgpa-semester">Semester ${result.semester}</div>
+                <div class="sgpa-value">${result.sgpa}</div>
+                <div class="sgpa-credits">${result.credits} Credits</div>
             </div>
         `;
     });

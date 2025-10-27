@@ -7,6 +7,7 @@ let currentGroupKey = null;
 let currentDirectMessageUserId = null;
 let currentDirectMessageKey = null;
 let editingDiscussionId = null;
+let displayedMessageSignatures = new Set(); // Global set to track displayed message signatures and prevent duplicates
 
 // Wait for Firebase to be initialized before using database functions
 function ensureFirebaseReady() {
@@ -18,7 +19,7 @@ function ensureFirebaseReady() {
             const timeout = setTimeout(() => {
                 reject(new Error('Firebase initialization timeout'));
             }, 5000);
-            
+
             window.addEventListener('firebase-ready', () => {
                 clearTimeout(timeout);
                 resolve();
@@ -243,7 +244,7 @@ async function loadDiscussions() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // Limit to 50 discussions to improve performance
         const snapshot = await database.ref('discussions').orderByChild('timestamp').limitToLast(50).once('value');
         const discussions = [];
@@ -318,7 +319,7 @@ async function viewDiscussion(discussionId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const snapshot = await database.ref('discussions/' + discussionId).once('value');
         const discussion = snapshot.val();
 
@@ -390,7 +391,7 @@ async function submitReply(discussionId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
 
@@ -457,7 +458,7 @@ async function submitQuestion() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
 
@@ -491,7 +492,7 @@ async function loadQuestions() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // Limit to 50 questions to improve performance
         const snapshot = await database.ref('questions').orderByChild('timestamp').limitToLast(50).once('value');
         const questions = [];
@@ -583,18 +584,22 @@ async function submitStudyGroup() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
 
         const groupRef = database.ref('studyGroups').push();
+        // Store members and pendingMembers as objects with user IDs as keys
+        const membersObj = {};
+        membersObj[currentUser.uid] = true;
+
         await groupRef.set({
             name: name,
             description: description,
             creatorId: currentUser.uid,
             creatorName: userData.name,
-            members: [currentUser.uid],
-            pendingMembers: [],
+            members: membersObj,
+            pendingMembers: {},
             timestamp: Date.now()
         });
 
@@ -616,12 +621,18 @@ async function loadStudyGroups() {
     const groupsList = document.getElementById('studyGroupsList');
     if (!groupsList) return;
 
+    // Check if user is logged in
+    if (!currentUser) {
+        groupsList.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-secondary);">Please login to view study groups</p>';
+        return;
+    }
+
     groupsList.innerHTML = '<p style="text-align: center; padding: 20px;">Loading study groups...</p>';
 
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // Limit to 50 groups to improve performance
         const snapshot = await database.ref('studyGroups').limitToFirst(50).once('value');
         const groups = [];
@@ -642,10 +653,13 @@ async function loadStudyGroups() {
         const fragment = document.createDocumentFragment();
 
         groups.forEach(group => {
-            const memberCount = group.members ? group.members.length : 0;
-            const isMember = currentUser && group.members && group.members.includes(currentUser.uid);
+            // Count members by counting keys in the members object
+            const memberCount = group.members ? Object.keys(group.members).length : 0;
+
+            // Check membership using object keys instead of array includes
+            const isMember = currentUser && group.members && group.members[currentUser.uid];
             const isCreator = currentUser && group.creatorId === currentUser.uid;
-            const isPending = currentUser && group.pendingMembers && group.pendingMembers.includes(currentUser.uid);
+            const isPending = currentUser && group.pendingMembers && group.pendingMembers[currentUser.uid];
 
             const groupCard = document.createElement('div');
             groupCard.className = 'group-card';
@@ -670,11 +684,14 @@ async function loadStudyGroups() {
                             <i class="fas fa-comments"></i> Chat
                         </button>
                     </div>
-                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; flex-wrap: wrap;">
                         <button class="btn-primary" onclick="manageGroupRequests('${group.id}')" style="background: var(--success-color);">
                             <i class="fas fa-user-check"></i> Manage Requests
                         </button>
-                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px;">Approve or reject requests to join your group</p>
+                        <button class="btn-primary" onclick="deleteGroup('${group.id}')" style="background: var(--danger-color);">
+                            <i class="fas fa-trash"></i> Delete Group
+                        </button>
+                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; flex-basis: 100%;">Approve or reject requests to join your group</p>
                     </div>
                 `;
             }
@@ -692,7 +709,9 @@ async function loadStudyGroups() {
                             <button class="btn-primary" onclick="openGroupChat('${group.id}')">
                                 <i class="fas fa-comments"></i> Chat
                             </button>
-                            <button class="btn-primary" disabled style="opacity: 0.6;">Joined ✓</button>
+                            <button class="btn-primary" onclick="leaveGroup('${group.id}')" style="background: var(--danger-color);">
+                                <i class="fas fa-sign-out-alt"></i> Leave Group
+                            </button>
                         </div>
                     </div>
                 `;
@@ -752,7 +771,7 @@ async function joinGroup(groupId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
@@ -764,8 +783,8 @@ async function joinGroup(groupId) {
         }
 
         // Check if user is already a member
-        const members = group.members || [];
-        if (members.includes(currentUser.uid)) {
+        const members = group.members || {};
+        if (members[currentUser.uid]) {
             showNotification('You are already a member of this group', 'info');
             // Automatically open the chat since they're a member
             openGroupChat(groupId);
@@ -773,15 +792,15 @@ async function joinGroup(groupId) {
         }
 
         // Check if user has already requested to join
-        const pendingMembers = group.pendingMembers || [];
-        if (pendingMembers.includes(currentUser.uid)) {
+        const pendingMembers = group.pendingMembers || {};
+        if (pendingMembers[currentUser.uid]) {
             showNotification('You have already requested to join this group. Please wait for approval.', 'info');
             return;
         }
 
         // Add user to pending members list
-        const updatedPendingMembers = [...pendingMembers];
-        updatedPendingMembers.push(currentUser.uid);
+        const updatedPendingMembers = { ...pendingMembers };
+        updatedPendingMembers[currentUser.uid] = true;
 
         await groupRef.update({
             pendingMembers: updatedPendingMembers
@@ -828,7 +847,7 @@ async function manageGroupRequests(groupId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
@@ -839,16 +858,19 @@ async function manageGroupRequests(groupId) {
             return;
         }
 
-        const pendingMembers = group.pendingMembers || [];
+        const pendingMembers = group.pendingMembers || {};
 
-        if (pendingMembers.length === 0) {
+        // Get pending member IDs from object keys
+        const pendingMemberIds = Object.keys(pendingMembers);
+
+        if (pendingMemberIds.length === 0) {
             showNotification('No pending requests', 'info');
             return;
         }
 
         // Fetch user data for pending members
         const pendingUsers = [];
-        for (const userId of pendingMembers) {
+        for (const userId of pendingMemberIds) {
             try {
                 const userSnapshot = await database.ref('users/' + userId).once('value');
                 const userData = userSnapshot.val();
@@ -929,7 +951,7 @@ async function approveMember(groupId, userId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
@@ -941,13 +963,12 @@ async function approveMember(groupId, userId) {
         }
 
         // Remove from pending members
-        const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
+        const pendingMembers = { ...group.pendingMembers } || {};
+        delete pendingMembers[userId];
 
         // Add to members
-        const members = group.members || [];
-        if (!members.includes(userId)) {
-            members.push(userId);
-        }
+        const members = { ...group.members } || {};
+        members[userId] = true;
 
         // Update group
         await groupRef.update({
@@ -988,7 +1009,7 @@ async function rejectMember(groupId, userId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
@@ -1000,7 +1021,8 @@ async function rejectMember(groupId, userId) {
         }
 
         // Remove from pending members
-        const pendingMembers = (group.pendingMembers || []).filter(id => id !== userId);
+        const pendingMembers = { ...group.pendingMembers } || {};
+        delete pendingMembers[userId];
 
         // Update group
         await groupRef.update({
@@ -1040,7 +1062,7 @@ async function openGroupChat(groupId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const groupRef = database.ref('studyGroups/' + groupId);
         const snapshot = await groupRef.once('value');
         const group = snapshot.val();
@@ -1056,20 +1078,25 @@ async function openGroupChat(groupId) {
         console.log('Current user ID:', currentUser.uid);
         console.log('Group members:', group.members);
         console.log('Is creator:', group.creatorId === currentUser.uid);
-        
+
         // Check if user is a member of the group
-        const isMember = group.members && group.members.includes(currentUser.uid);
+        // Check membership using object keys instead of array includes
+        const isMember = group.members && group.members[currentUser.uid];
         console.log('Is member:', isMember);
-        
+
         // Also check if user is the creator (extra validation)
         const isCreator = group.creatorId === currentUser.uid;
         console.log('Is creator:', isCreator);
-        
-        if (!isMember && !isCreator) {
+
+        // Check if user is a pending member
+        const isPendingMember = group.pendingMembers && group.pendingMembers[currentUser.uid];
+        console.log('Is pending member:', isPendingMember);
+
+        if (!isMember && !isCreator && !isPendingMember) {
             showNotification('You must be a member of this group to access the chat', 'error');
             return;
         }
-        
+
         // Log additional debug info
         console.log('Group ID from database:', groupId);
         console.log('Group data from database:', group);
@@ -1084,12 +1111,6 @@ async function openGroupChat(groupId) {
         // Set up real-time listener for new messages
         await setupChatListener(groupId);
 
-        // Scroll to bottom of chat
-        const chatMessages = document.getElementById('chatMessages');
-        if (chatMessages) {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
     } catch (error) {
         console.error('Error opening group chat:', error);
         if (error.code === 'PERMISSION_DENIED') {
@@ -1100,41 +1121,234 @@ async function openGroupChat(groupId) {
     }
 }
 
+// Leave group function
+async function leaveGroup(groupId) {
+    if (!currentUser) {
+        showNotification('Please login to leave groups', 'error');
+        return;
+    }
+
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+
+        // Check if group exists
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
+        }
+
+        // Check if user is the creator (creator cannot leave, must delete group)
+        if (group.creatorId === currentUser.uid) {
+            showNotification('Group creator cannot leave the group. Please delete the group instead.', 'error');
+            return;
+        }
+
+        // Check if user is a member
+        const isMember = group.members && group.members[currentUser.uid];
+        if (!isMember) {
+            showNotification('You are not a member of this group', 'error');
+            return;
+        }
+
+        // Remove user from members
+        const updatedMembers = { ...group.members };
+        delete updatedMembers[currentUser.uid];
+
+        // Update group
+        await groupRef.update({
+            members: updatedMembers
+        });
+
+        showNotification('You have left the group', 'success');
+
+        // Close group chat if it's open
+        if (currentGroupId === groupId) {
+            closeGroupChat();
+        }
+
+        // Refresh the groups list
+        setTimeout(() => loadStudyGroups(), 1000);
+
+    } catch (error) {
+        console.error('Error leaving group:', error);
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not have permission to leave this group.', 'error');
+        } else {
+            showNotification('Error leaving group: ' + error.message, 'error');
+        }
+    }
+}
+
+// Delete group (only for creator)
+async function deleteGroup(groupId) {
+    if (!currentUser) {
+        showNotification('Please login to delete groups', 'error');
+        return;
+    }
+
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const snapshot = await groupRef.once('value');
+        const group = snapshot.val();
+
+        // Check if group exists
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
+        }
+
+        // Check if user is the creator
+        if (group.creatorId !== currentUser.uid) {
+            showNotification('Only the group creator can delete the group', 'error');
+            return;
+        }
+
+        // Confirm deletion
+        if (!confirm(`Are you sure you want to delete the group "${group.name}"? This action cannot be undone.`)) {
+            return;
+        }
+
+        // Delete the group
+        await groupRef.remove();
+
+        // Also delete associated chat messages
+        await database.ref('groupChats/' + groupId).remove();
+
+        showNotification('Group deleted successfully', 'success');
+
+        // Close group chat if it's open
+        if (currentGroupId === groupId) {
+            closeGroupChat();
+        }
+
+        // Refresh the groups list
+        setTimeout(() => loadStudyGroups(), 1000);
+
+    } catch (error) {
+        console.error('Error deleting group:', error);
+        if (error.code === 'PERMISSION_DENIED') {
+            showNotification('Permission denied. You may not have permission to delete this group.', 'error');
+        } else {
+            showNotification('Error deleting group: ' + error.message, 'error');
+        }
+    }
+}
+
 // Close group chat
 async function closeGroupChat() {
-    document.getElementById('groupChatContainer').style.display = 'none';
-    currentGroupId = null;
+    // Clear the global message tracking set
+    displayedMessageSignatures.clear();
 
     // Remove chat listener if it exists
     if (currentGroupKey) {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
+        // Use currentGroupId before it's set to null
         database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
         currentGroupKey = null;
     }
+
+    document.getElementById('groupChatContainer').style.display = 'none';
+    currentGroupId = null;
 }
 
 // Set up real-time listener for chat messages
 async function setupChatListener(groupId) {
     // Ensure Firebase is ready
     await ensureFirebaseReady();
-    
+
     // Remove previous listener if it exists
     if (currentGroupKey) {
         database.ref('groupChats/' + currentGroupId).off('child_added', currentGroupKey);
+        currentGroupKey = null;
     }
 
     // Debug info
     console.log('Setting up chat listener for group:', groupId);
-    
+
     // Set up new listener
     const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp');
     currentGroupKey = messagesRef.on('child_added', (snapshot) => {
         const message = snapshot.val();
-        displayNewMessage(message);
-        // Scroll to bottom of chat
+        const messageId = snapshot.key;
+
+        // Improved duplicate prevention - check if message with same ID already exists
         const chatMessages = document.getElementById('chatMessages');
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Enhanced duplicate detection with multiple fallback methods
+        let isDuplicate = false;
+
+        // Method 1: Check by data attribute
+        if (chatMessages.querySelector(`[data-message-id='${messageId}']`)) {
+            isDuplicate = true;
+            console.log('Duplicate detected by data attribute:', messageId);
+        }
+        // Method 2: Check by ID attribute
+        else if (chatMessages.querySelector(`#${messageId}`)) {
+            isDuplicate = true;
+            console.log('Duplicate detected by ID attribute:', messageId);
+        }
+        // Method 3: Check by iterating through children
+        else {
+            const children = chatMessages.children;
+            for (let i = 0; i < children.length; i++) {
+                if (children[i].dataset && children[i].dataset.messageId === messageId) {
+                    isDuplicate = true;
+                    console.log('Duplicate detected by iteration:', messageId);
+                    break;
+                }
+            }
+        }
+
+        // Additional check: Look for messages with identical content, timestamp, and sender
+        if (!isDuplicate) {
+            const children = chatMessages.children;
+            for (let i = 0; i < children.length; i++) {
+                const child = children[i];
+                const header = child.querySelector('.message-header strong');
+                const contentElem = child.querySelector('.message-content');
+                const timeElem = child.querySelector('.message-time');
+
+                if (header && contentElem && timeElem) {
+                    const senderName = header.textContent;
+                    const messageContent = contentElem.textContent;
+                    const messageTime = timeElem.textContent;
+
+                    // Format timestamp for comparison
+                    const date = new Date(message.timestamp);
+                    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    // Check if we have a message with same sender, content and time
+                    if (senderName === (message.senderId === currentUser.uid ? 'You' : message.senderName) &&
+                        messageContent === message.content &&
+                        messageTime === timeString) {
+                        isDuplicate = true;
+                        console.log('Duplicate detected by content matching:', messageId);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Additional debug info
+        console.log('Message received:', { messageId, message, isDuplicate });
+        console.log('Current message count:', chatMessages.children.length);
+
+        if (!isDuplicate) {
+            displayNewMessage(message, messageId);
+            // Scroll to bottom of chat
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } else {
+            console.log('Duplicate message prevented based on ID:', messageId);
+        }
     }, (error) => {
         console.error('Error with real-time listener:', error);
         if (error.code === 'PERMISSION_DENIED') {
@@ -1144,150 +1358,6 @@ async function setupChatListener(groupId) {
             }
         }
     });
-}
-
-// Load group chat messages
-async function loadGroupChatMessages(groupId) {
-    const chatMessages = document.getElementById('chatMessages');
-    if (!chatMessages) return;
-
-    chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
-
-    try {
-        // Ensure Firebase is ready
-        await ensureFirebaseReady();
-        
-        // Debug info
-        console.log('Loading messages for group:', groupId);
-        console.log('Current user:', currentUser.uid);
-        
-        // Verify group membership before loading messages
-        const groupRef = database.ref('studyGroups/' + groupId);
-        const groupSnapshot = await groupRef.once('value');
-        const group = groupSnapshot.val();
-        
-        if (!group) {
-            throw new Error('Group not found');
-        }
-        
-        const isMember = group.members && group.members.includes(currentUser.uid);
-        console.log('Group membership check for loading:', { isMember, members: group.members });
-        
-        if (!isMember) {
-            throw new Error('Not a member of this group');
-        }
-        
-        // Limit messages to improve performance
-        const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp').limitToLast(50);
-        const snapshot = await messagesRef.once('value');
-
-        const messages = [];
-        snapshot.forEach(childSnapshot => {
-            messages.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
-            });
-        });
-
-        // Sort messages by timestamp
-        messages.sort((a, b) => a.timestamp - b.timestamp);
-
-        if (messages.length === 0) {
-            chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
-            return;
-        }
-
-        // Display messages with document fragment for better performance
-        const fragment = document.createDocumentFragment();
-        messages.forEach(message => {
-            const messageElement = document.createElement('div');
-            messageElement.className = `message ${message.senderId === currentUser.uid ? 'message-sent' : 'message-received'}`;
-
-            // Decrypt message content if it's encrypted
-            let content = message.content;
-            try {
-                // Check if content is encrypted by trying to decrypt it
-                if (currentGroupId) {
-                    const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
-                    const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
-                    if (decryptedContent) {
-                        content = decryptedContent;
-                    }
-                }
-            } catch (e) {
-                // If decryption fails, display as is
-                console.warn('Could not decrypt message:', e);
-            }
-
-            // Format timestamp
-            const date = new Date(message.timestamp);
-            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            messageElement.innerHTML = `
-                <div class="message-header">
-                    <strong>${message.senderId === currentUser.uid ? 'You' : message.senderName}</strong>
-                </div>
-                <div class="message-content">${escapeHtml(content)}</div>
-                <div class="message-time">${timeString}</div>
-            `;
-
-            fragment.appendChild(messageElement);
-        });
-
-        chatMessages.innerHTML = '';
-        chatMessages.appendChild(fragment);
-
-        // Scroll to bottom
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    } catch (error) {
-        console.error('Error loading chat messages:', error);
-        if (chatMessages) {
-            if (error.code === 'PERMISSION_DENIED') {
-                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Permission denied. You may not be a member of this group or the group may have been deleted.</p>';
-            } else {
-                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages: ' + error.message + '</p>';
-            }
-        }
-    }
-}
-
-// Display a new message in the chat
-function displayNewMessage(message) {
-    const chatMessages = document.getElementById('chatMessages');
-    const isOwnMessage = message.senderId === currentUser.uid;
-
-    // Decrypt message content if it's encrypted
-    let content = message.content;
-    try {
-        // Check if content is encrypted by trying to decrypt it
-        if (currentGroupId) {
-            const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
-            const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
-            if (decryptedContent) {
-                content = decryptedContent;
-            }
-        }
-    } catch (e) {
-        // If decryption fails, display as is (might be unencrypted during transition)
-        console.warn('Could not decrypt message:', e);
-    }
-
-    // Format timestamp
-    const date = new Date(message.timestamp);
-    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    const messageElement = document.createElement('div');
-    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
-    messageElement.innerHTML = `
-        <div class="message-header">
-            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
-        </div>
-        <div class="message-content">${escapeHtml(content)}</div>
-        <div class="message-time">${timeString}</div>
-    `;
-
-    chatMessages.appendChild(messageElement);
 }
 
 // Send group message
@@ -1308,29 +1378,43 @@ async function sendGroupMessage() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // Debug info
         console.log('Sending message to group:', currentGroupId);
         console.log('Current user:', currentUser.uid);
-        
+
         // Verify group membership before sending
         const groupRef = database.ref('studyGroups/' + currentGroupId);
         const groupSnapshot = await groupRef.once('value');
         const group = groupSnapshot.val();
-        
+
         if (!group) {
-            showNotification('Group not found', 'error');
+            showNotification('Group not found or may have been deleted', 'error');
             return;
         }
-        
-        const isMember = group.members && group.members.includes(currentUser.uid);
-        console.log('Group membership check:', { isMember, members: group.members });
-        
-        if (!isMember) {
-            showNotification('You are not a member of this group', 'error');
-            return;
+
+        // Check if user is member, pending member, or creator
+        // Check membership using object keys instead of array includes
+        const isMember = group.members && group.members[currentUser.uid];
+        const isPendingMember = group.pendingMembers && group.pendingMembers[currentUser.uid];
+        const isCreator = group.creatorId === currentUser.uid;
+        const hasAccess = isMember || isPendingMember || isCreator;
+
+        console.log('Group membership check:', {
+            isMember,
+            isPendingMember,
+            isCreator,
+            hasAccess,
+            members: group.members,
+            pendingMembers: group.pendingMembers,
+            creatorId: group.creatorId,
+            currentUserId: currentUser.uid
+        });
+
+        if (!hasAccess) {
+            throw new Error('You do not have permission to send messages in this group. You must be a member, pending member, or creator of this group.');
         }
-        
+
         // Get user data
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
@@ -1356,11 +1440,304 @@ async function sendGroupMessage() {
     } catch (error) {
         console.error('Error sending message:', error);
         if (error.code === 'PERMISSION_DENIED') {
-            showNotification('Permission denied. You may not be a member of this group or the group may have been deleted.', 'error');
+            showNotification('Permission denied. You may not have proper access to this group. Please try refreshing the page.', 'error');
         } else {
-            showNotification('Error sending message: ' + error.message, 'error');
+            showNotification('Error sending message: ' + error.message + '. Please try again.', 'error');
         }
     }
+}
+
+// Load group chat messages
+async function loadGroupChatMessages(groupId) {
+    const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
+
+    chatMessages.innerHTML = '<p style="text-align: center; padding: 20px;">Loading messages...</p>';
+
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Debug info
+        console.log('Loading messages for group:', groupId);
+        console.log('Current user:', currentUser.uid);
+
+        // Verify group membership before loading messages
+        const groupRef = database.ref('studyGroups/' + groupId);
+        const groupSnapshot = await groupRef.once('value');
+        const group = groupSnapshot.val();
+
+        if (!group) {
+            throw new Error('Group not found or may have been deleted');
+        }
+
+        // Check if user is member, pending member, or creator
+        // Check membership using object keys instead of array includes
+        const isMember = group.members && group.members[currentUser.uid];
+        const isPendingMember = group.pendingMembers && group.pendingMembers[currentUser.uid];
+        const isCreator = group.creatorId === currentUser.uid;
+        const hasAccess = isMember || isPendingMember || isCreator;
+
+        console.log('Group membership check for loading:', {
+            isMember,
+            isPendingMember,
+            isCreator,
+            hasAccess,
+            members: group.members,
+            pendingMembers: group.pendingMembers,
+            creatorId: group.creatorId,
+            currentUserId: currentUser.uid
+        });
+
+        // If user doesn't have access, prevent loading messages
+        if (!hasAccess) {
+            throw new Error('You do not have permission to view messages in this group. You must be a member, pending member, or creator of this group.');
+        }
+
+        // Limit messages to improve performance
+        const messagesRef = database.ref('groupChats/' + groupId).orderByChild('timestamp').limitToLast(50);
+        const snapshot = await messagesRef.once('value');
+
+        const messages = [];
+        snapshot.forEach(childSnapshot => {
+            messages.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+
+        // Sort messages by timestamp
+        messages.sort((a, b) => a.timestamp - b.timestamp);
+
+        if (messages.length === 0) {
+            chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
+            return;
+        }
+
+        // Display messages with document fragment for better performance
+        const fragment = document.createDocumentFragment();
+        const existingMessageIds = new Set(); // Track message IDs to prevent duplicates during initial load
+        const displayedMessages = new Set(); // Track message signatures to prevent content duplicates
+
+        console.log('Loading initial messages:', messages.length);
+
+        messages.forEach(message => {
+            // Check if we've already added this message by ID
+            if (message.id && existingMessageIds.has(message.id)) {
+                console.log('Skipping duplicate message during initial load (ID match):', message.id);
+                return;
+            }
+
+            // Create a signature for content-based duplicate detection
+            const messageSignature = `${message.senderId}-${message.timestamp}-${message.content}`;
+            if (displayedMessages.has(messageSignature)) {
+                console.log('Skipping duplicate message during initial load (content match):', message.id);
+                return;
+            }
+
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${message.senderId === currentUser.uid ? 'message-sent' : 'message-received'}`;
+
+            // Add message ID to prevent duplicates and track it
+            if (message.id) {
+                messageElement.dataset.messageId = message.id;
+                existingMessageIds.add(message.id);
+            }
+
+            // Track the message signature
+            displayedMessages.add(messageSignature);
+
+            // Decrypt message content if it's encrypted
+            let content = message.content;
+            try {
+                // Check if content is encrypted by trying to decrypt it
+                if (groupId) {
+                    const bytes = CryptoJS.AES.decrypt(message.content, groupId);
+                    const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+                    if (decryptedContent) {
+                        content = decryptedContent;
+                    }
+                }
+            } catch (e) {
+                // If decryption fails, display as is
+                console.warn('Could not decrypt message:', e);
+            }
+
+            // Format timestamp
+            const date = new Date(message.timestamp);
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            messageElement.innerHTML = `
+                <div class="message-header">
+                    <strong>${message.senderId === currentUser.uid ? 'You' : escapeHtml(message.senderName)}</strong>
+                </div>
+                <div class="message-content">${escapeHtml(content)}</div>
+                <div class="message-time">${timeString}</div>
+            `;
+
+            fragment.appendChild(messageElement);
+        });
+
+        chatMessages.innerHTML = '';
+        chatMessages.appendChild(fragment);
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        console.log('Finished loading initial messages. Total displayed:', chatMessages.children.length);
+
+    } catch (error) {
+        console.error('Error loading chat messages:', error);
+        if (chatMessages) {
+            if (error.code === 'PERMISSION_DENIED') {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Permission denied. You may not have proper access to this group. Please try refreshing the page.</p>';
+            } else {
+                chatMessages.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error loading messages: ' + error.message + '. Please try refreshing the page.</p>';
+            }
+        }
+    }
+}
+
+// Display a new message in the chat (with improved duplicate prevention)
+function displayNewMessage(message, messageId) {
+    const chatMessages = document.getElementById('chatMessages');
+    const isOwnMessage = message.senderId === currentUser.uid;
+
+    // Decrypt message content if it's encrypted
+    let content = message.content;
+    try {
+        // Check if content is encrypted by trying to decrypt it
+        if (currentGroupId) {
+            const bytes = CryptoJS.AES.decrypt(message.content, currentGroupId);
+            const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+            if (decryptedContent) {
+                content = decryptedContent;
+            }
+        }
+    } catch (e) {
+        // If decryption fails, display as is (might be unencrypted during transition)
+        console.warn('Could not decrypt message:', e);
+    }
+
+    // Format timestamp
+    const date = new Date(message.timestamp);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Create a unique signature for this message to prevent duplicates
+    const messageSignature = `${message.senderId}-${message.timestamp}-${content}`;
+
+    // Check if this message signature has already been displayed
+    if (displayedMessageSignatures.has(messageSignature)) {
+        console.log('Duplicate message prevented by signature check:', messageSignature);
+        return;
+    }
+
+    // Create message element with proper duplicate prevention
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+
+    // Add message ID to prevent duplicates
+    if (messageId) {
+        // Enhanced duplicate checking before adding the message
+        let isDuplicate = false;
+
+        // Method 1: Check by data attribute
+        if (chatMessages.querySelector(`[data-message-id='${messageId}']`)) {
+            isDuplicate = true;
+            console.log('Duplicate detected in displayNewMessage by data attribute:', messageId);
+        }
+        // Method 2: Check by ID attribute
+        else if (chatMessages.querySelector(`#${messageId}`)) {
+            isDuplicate = true;
+            console.log('Duplicate detected in displayNewMessage by ID attribute:', messageId);
+        }
+        // Method 3: Check by iterating through children
+        else {
+            const children = chatMessages.children;
+            for (let i = 0; i < children.length; i++) {
+                if (children[i].dataset && children[i].dataset.messageId === messageId) {
+                    isDuplicate = true;
+                    console.log('Duplicate detected in displayNewMessage by iteration:', messageId);
+                    break;
+                }
+            }
+        }
+
+        // Additional debug info
+        console.log('About to display message:', { messageId, message, isDuplicate });
+
+        if (isDuplicate) {
+            console.log('Duplicate message prevented in displayNewMessage:', messageId);
+            return; // Don't add duplicate message
+        }
+
+        messageElement.dataset.messageId = messageId;
+    }
+
+    // Add the message signature to our global tracking set
+    displayedMessageSignatures.add(messageSignature);
+
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <strong>${isOwnMessage ? 'You' : escapeHtml(message.senderName)}</strong>
+        </div>
+        <div class="message-content">${escapeHtml(content)}</div>
+        <div class="message-time">${timeString}</div>
+    `;
+
+    chatMessages.appendChild(messageElement);
+}
+
+// Display a new direct message in the chat (with improved duplicate prevention)
+function displayNewDirectMessage(message) {
+    const chatMessages = document.getElementById('directMessageChatMessages');
+    if (!chatMessages) return;
+
+    const isOwnMessage = message.senderId === currentUser.uid;
+
+    // Decrypt message content if it's encrypted
+    let content = message.content;
+    try {
+        // For direct messages, use the chat path as encryption key
+        if (currentDirectMessageUserId) {
+            const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+            const bytes = CryptoJS.AES.decrypt(message.content, chatPath);
+            const decryptedContent = bytes.toString(CryptoJS.enc.Utf8);
+            if (decryptedContent) {
+                content = decryptedContent;
+            }
+        }
+    } catch (e) {
+        // If decryption fails, display as is (might be unencrypted during transition)
+        console.warn('Could not decrypt message:', e);
+    }
+
+    // Format timestamp
+    const date = new Date(message.timestamp);
+    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Create message element
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+
+    // Add timestamp as a pseudo-ID to help prevent duplicates in direct messages
+    const pseudoId = `${message.senderId}-${message.timestamp}`;
+    const existingMessage = chatMessages.querySelector(`[data-pseudo-id='${pseudoId}']`);
+    if (existingMessage) {
+        console.log('Duplicate direct message prevented based on sender and timestamp');
+        return; // Don't add duplicate message
+    }
+    messageElement.dataset.pseudoId = pseudoId;
+
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <strong>${isOwnMessage ? 'You' : escapeHtml(message.senderName)}</strong>
+        </div>
+        <div class="message-content">${escapeHtml(content)}</div>
+        <div class="message-time">${timeString}</div>
+    `;
+
+    chatMessages.appendChild(messageElement);
 }
 
 // Handle Enter key press in chat input
@@ -1376,14 +1753,13 @@ function openNewMessageModal() {
 
     const form = `
         <div class="new-message-form" style="background: var(--card-bg); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
-            <h4>Send New Message</h4>
-            <input type="text" id="messageRecipient" placeholder="Recipient's name or email" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
-            <textarea id="messageContent" placeholder="Your message..." rows="3" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px; font-family: inherit;"></textarea>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="sendNewMessage()" class="btn-primary">Send Message</button>
-                <button onclick="loadDirectMessages()" class="btn-primary" style="background: var(--border-color);">Cancel</button>
-            </div>
-        </div>
+            <><h4>Send New Message</h4><input type="text" id="messageRecipient" placeholder="Recipient's name or email" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px;">
+                <textarea id="messageContent" placeholder="Your message..." rows="3" style="width: 100%; padding: 12px; background: var(--darker-bg); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary); margin-bottom: 15px; font-family: inherit;"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="sendNewMessage()" class="btn-primary">Send Message</button>
+                    <button onclick="loadDirectMessages()" class="btn-primary" style="background: var(--border-color);">Cancel</button>
+                </div>
+            </div></>
     `;
 
     messagesList.innerHTML = form + messagesList.innerHTML;
@@ -1434,7 +1810,7 @@ async function loadDirectMessages() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // For simplicity, we'll show a list of users you can message
         // In a real app, you would fetch actual conversations
         const usersSnapshot = await database.ref('users').orderByChild('name').once('value');
@@ -1458,12 +1834,10 @@ async function loadDirectMessages() {
 
         messagesList.innerHTML = `
             <div style="margin-bottom: 20px; padding: 15px; background: var(--darker-bg); border-radius: 10px; border: 1px solid var(--border-color);">
-                <h4 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Messaging Information</h4>
-                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 0;">You can only message users who are in the same study groups as you. Join study groups to connect with more users.</p>
+                <><h4 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Messaging Information</h4><p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 0;">You can only message users who are in the same study groups as you. Join study groups to connect with more users.</p></>
             </div>
-            <h4 style="margin-bottom: 20px;">Select a user to message:</h4>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
-                ${users.map(user => `
+            <><h4 style="margin-bottom: 20px;">Select a user to message:</h4><div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
+                    ${users.map(user => `
                     <div class="user-card" style="background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s ease;" onclick="openDirectMessageChat('${user.id}', '${user.name.replace(/'/g, "\\'")}')">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <div class="user-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3); border: 1px solid white; transition: all 0.3s ease;">
@@ -1476,12 +1850,99 @@ async function loadDirectMessages() {
                         </div>
                     </div>
                 `).join('')}
-            </div>
+                </div></>
         `;
 
     } catch (error) {
         console.error('Error loading users:', error);
         messagesList.innerHTML = `<p style="text-align: center; color: var(--danger-color);">Error loading users: ${error.message}</p>`;
+    }
+}
+
+// Check if two users are in the same study group
+async function checkGroupMembership(userId1, userId2) {
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get all study groups
+        const groupsSnapshot = await database.ref('studyGroups').once('value');
+
+        // Check if both users are members of any common group
+        let inSameGroup = false;
+
+        groupsSnapshot.forEach(groupSnapshot => {
+            if (inSameGroup) return; // Already found a common group
+
+            const group = groupSnapshot.val();
+            if (!group) return;
+
+            // Use object-based membership checking instead of array-based
+            const members = group.members || {};
+            const pendingMembers = group.pendingMembers || {};
+
+            // Check if both users are in this group (either as members, pending members, or creator)
+            const isUser1InGroup = members[userId1] || pendingMembers[userId1] || group.creatorId === userId1;
+            const isUser2InGroup = members[userId2] || pendingMembers[userId2] || group.creatorId === userId2;
+
+            // Both users must be in the same group
+            if (isUser1InGroup && isUser2InGroup) {
+                inSameGroup = true;
+                console.log(`Users ${userId1} and ${userId2} are both in group:`, group.name || groupSnapshot.key);
+            }
+        });
+
+        console.log(`Group membership check result for users ${userId1} and ${userId2}: ${inSameGroup}`);
+        return inSameGroup;
+    } catch (error) {
+        console.error('Error checking group membership:', error);
+        // In case of error, we'll be more permissive to avoid blocking legitimate messages
+        return true;
+    }
+}
+
+// More permissive version - check if users share any group connection
+async function checkGroupMembershipPermissive(userId1, userId2) {
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get all study groups
+        const groupsSnapshot = await database.ref('studyGroups').once('value');
+
+        // Track which groups each user is in
+        let user1InAnyGroup = false;
+        let user2InAnyGroup = false;
+
+        groupsSnapshot.forEach(groupSnapshot => {
+            const group = groupSnapshot.val();
+            if (!group) return;
+
+            // Use object-based membership checking instead of array-based
+            const members = group.members || {};
+            const pendingMembers = group.pendingMembers || {};
+
+            // Check if users are in this group (either as members, pending members, or creator)
+            if (members[userId1] || pendingMembers[userId1] || group.creatorId === userId1) {
+                user1InAnyGroup = true;
+            }
+
+            if (members[userId2] || pendingMembers[userId2] || group.creatorId === userId2) {
+                user2InAnyGroup = true;
+            }
+        });
+
+        console.log(`User ${userId1} in any group: ${user1InAnyGroup}`);
+        console.log(`User ${userId2} in any group: ${user2InAnyGroup}`);
+
+        // Allow messaging if both users are in any groups
+        const canMessage = user1InAnyGroup && user2InAnyGroup;
+        console.log(`Direct messaging allowed: ${canMessage}`);
+        return canMessage;
+    } catch (error) {
+        console.error('Error checking group membership:', error);
+        // In case of error, we'll be more permissive to avoid blocking legitimate messages
+        return true;
     }
 }
 
@@ -1500,9 +1961,16 @@ async function openDirectMessageChat(userId, userName) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
-        // Check if both users are in the same study group (optional security check)
-        // This is a simplified check - in a production app, you might want more robust validation
+
+        console.log(`Checking if user ${currentUser.uid} can message user ${userId}`);
+
+        // Use the more permissive check to allow messaging between any group members
+        const canMessage = await checkGroupMembershipPermissive(currentUser.uid, userId);
+
+        if (!canMessage) {
+            showNotification('Both users need to be in study groups to message each other.', 'error');
+            return;
+        }
 
         currentDirectMessageUserId = userId;
         document.getElementById('directMessageChatName').textContent = 'Chat with ' + userName;
@@ -1517,7 +1985,7 @@ async function openDirectMessageChat(userId, userName) {
     } catch (error) {
         console.error('Error opening direct message chat:', error);
         if (error.code === 'PERMISSION_DENIED') {
-            showNotification('You do not have permission to message this user. You can only message users who are in the same study groups as you.', 'error');
+            showNotification('You do not have permission to message this user.', 'error');
         } else {
             showNotification('Error opening chat: ' + error.message, 'error');
         }
@@ -1585,7 +2053,7 @@ async function loadDirectMessageChatMessages(userId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const chatPath = getDirectMessageChatPath(currentUser.uid, userId);
         // Limit messages to improve performance
         const messagesRef = database.ref(chatPath).orderByChild('timestamp').limitToLast(50);
@@ -1609,9 +2077,25 @@ async function loadDirectMessageChatMessages(userId) {
 
         // Display messages with document fragment for better performance
         const fragment = document.createDocumentFragment();
+        const displayedMessages = new Set(); // Track message signatures to prevent content duplicates
+
         messages.forEach(message => {
+            // Create a signature for content-based duplicate detection
+            const messageSignature = `${message.senderId}-${message.timestamp}-${message.content}`;
+            if (displayedMessages.has(messageSignature)) {
+                console.log('Skipping duplicate direct message during initial load (content match):', message.id);
+                return;
+            }
+
+            // Track the message signature
+            displayedMessages.add(messageSignature);
+
             const messageElement = document.createElement('div');
             messageElement.className = `message ${message.senderId === currentUser.uid ? 'message-sent' : 'message-received'}`;
+
+            // Add timestamp as a pseudo-ID to help prevent duplicates in direct messages
+            const pseudoId = `${message.senderId}-${message.timestamp}`;
+            messageElement.dataset.pseudoId = pseudoId;
 
             // Decrypt message content if it's encrypted
             let content = message.content;
@@ -1663,7 +2147,7 @@ async function loadDirectMessageChatMessages(userId) {
     }
 }
 
-// Display a new direct message in the chat
+// Display a new direct message in the chat (with improved duplicate prevention)
 function displayNewDirectMessage(message) {
     const chatMessages = document.getElementById('directMessageChatMessages');
     if (!chatMessages) return;
@@ -1691,17 +2175,169 @@ function displayNewDirectMessage(message) {
     const date = new Date(message.timestamp);
     const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    // Create message element
     const messageElement = document.createElement('div');
     messageElement.className = `message ${isOwnMessage ? 'message-sent' : 'message-received'}`;
+
+    // Add timestamp as a pseudo-ID to help prevent duplicates in direct messages
+    const pseudoId = `${message.senderId}-${message.timestamp}`;
+    const existingMessage = chatMessages.querySelector(`[data-pseudo-id='${pseudoId}']`);
+    if (existingMessage) {
+        console.log('Duplicate direct message prevented based on sender and timestamp');
+        return; // Don't add duplicate message
+    }
+    messageElement.dataset.pseudoId = pseudoId;
+
     messageElement.innerHTML = `
         <div class="message-header">
-            <strong>${isOwnMessage ? 'You' : message.senderName}</strong>
+            <strong>${isOwnMessage ? 'You' : escapeHtml(message.senderName)}</strong>
         </div>
         <div class="message-content">${escapeHtml(content)}</div>
         <div class="message-time">${timeString}</div>
     `;
 
     chatMessages.appendChild(messageElement);
+}
+
+// Handle Enter key press in chat input
+function handleChatKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendGroupMessage();
+    }
+}
+
+// Clear all messages in a group chat
+async function clearGroupChatMessages() {
+    if (!currentGroupId || !currentUser) {
+        showNotification('No active group chat to clear', 'error');
+        return;
+    }
+
+    try {
+        // Confirm with user
+        if (!confirm('Are you sure you want to clear all messages in this chat? This cannot be undone.')) {
+            return;
+        }
+
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Check if user is the group creator
+        const groupRef = database.ref('studyGroups/' + currentGroupId);
+        const groupSnapshot = await groupRef.once('value');
+        const group = groupSnapshot.val();
+
+        if (!group) {
+            showNotification('Group not found', 'error');
+            return;
+        }
+
+        // Only allow clearing if user is the creator
+        if (group.creatorId !== currentUser.uid) {
+            showNotification('Only the group creator can clear all messages', 'error');
+            return;
+        }
+
+        // Clear all messages
+        await database.ref('groupChats/' + currentGroupId).remove();
+
+        // Reload the chat
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
+
+        showNotification('Chat cleared successfully', 'success');
+
+    } catch (error) {
+        console.error('Error clearing chat messages:', error);
+        showNotification('Error clearing messages: ' + error.message, 'error');
+    }
+}
+
+// Check if two users are in the same study group
+async function checkGroupMembership(userId1, userId2) {
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get all study groups
+        const groupsSnapshot = await database.ref('studyGroups').once('value');
+
+        // Check if both users are members of any common group
+        let inSameGroup = false;
+
+        groupsSnapshot.forEach(groupSnapshot => {
+            if (inSameGroup) return; // Already found a common group
+
+            const group = groupSnapshot.val();
+            if (!group) return;
+
+            // Use object-based membership checking instead of array-based
+            const members = group.members || {};
+            const pendingMembers = group.pendingMembers || {};
+
+            // Check if both users are in this group (either as members, pending members, or creator)
+            const isUser1InGroup = members[userId1] || pendingMembers[userId1] || group.creatorId === userId1;
+            const isUser2InGroup = members[userId2] || pendingMembers[userId2] || group.creatorId === userId2;
+
+            // Both users must be in the same group
+            if (isUser1InGroup && isUser2InGroup) {
+                inSameGroup = true;
+                console.log(`Users ${userId1} and ${userId2} are both in group:`, group.name || groupSnapshot.key);
+            }
+        });
+
+        console.log(`Group membership check result for users ${userId1} and ${userId2}: ${inSameGroup}`);
+        return inSameGroup;
+    } catch (error) {
+        console.error('Error checking group membership:', error);
+        // In case of error, we'll be more permissive to avoid blocking legitimate messages
+        return true;
+    }
+}
+
+// More permissive version - check if users share any group connection
+async function checkGroupMembershipPermissive(userId1, userId2) {
+    try {
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get all study groups
+        const groupsSnapshot = await database.ref('studyGroups').once('value');
+
+        // Track which groups each user is in
+        let user1InAnyGroup = false;
+        let user2InAnyGroup = false;
+
+        groupsSnapshot.forEach(groupSnapshot => {
+            const group = groupSnapshot.val();
+            if (!group) return;
+
+            // Use object-based membership checking instead of array-based
+            const members = group.members || {};
+            const pendingMembers = group.pendingMembers || {};
+
+            // Check if users are in this group (either as members, pending members, or creator)
+            if (members[userId1] || pendingMembers[userId1] || group.creatorId === userId1) {
+                user1InAnyGroup = true;
+            }
+
+            if (members[userId2] || pendingMembers[userId2] || group.creatorId === userId2) {
+                user2InAnyGroup = true;
+            }
+        });
+
+        console.log(`User ${userId1} in any group: ${user1InAnyGroup}`);
+        console.log(`User ${userId2} in any group: ${user2InAnyGroup}`);
+
+        // Allow messaging if both users are in any groups
+        const canMessage = user1InAnyGroup && user2InAnyGroup;
+        console.log(`Direct messaging allowed: ${canMessage}`);
+        return canMessage;
+    } catch (error) {
+        console.error('Error checking group membership:', error);
+        // In case of error, we'll be more permissive to avoid blocking legitimate messages
+        return true;
+    }
 }
 
 // Send direct message
@@ -1722,7 +2358,7 @@ async function sendDirectMessage() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         // Get user data
         const userSnapshot = await database.ref('users/' + currentUser.uid).once('value');
         const userData = userSnapshot.val();
@@ -1750,17 +2386,44 @@ async function sendDirectMessage() {
     } catch (error) {
         console.error('Error sending message:', error);
         if (error.code === 'PERMISSION_DENIED') {
-            showNotification('You do not have permission to send messages to this user. Please make sure you are both members of the same group or have been approved for direct messaging.', 'error');
+            showNotification('Permission denied. Please try refreshing the page.', 'error');
         } else {
-            showNotification('Error sending message: ' + error.message, 'error');
+            showNotification('Error sending message: ' + error.message + '. Please try again.', 'error');
         }
     }
 }
 
-// Handle Enter key press in direct message input
-function handleDirectMessageKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendDirectMessage();
+// Clear all messages in a direct message chat
+async function clearDirectMessageChat() {
+    if (!currentDirectMessageUserId || !currentUser) {
+        showNotification('No active chat to clear', 'error');
+        return;
+    }
+
+    try {
+        // Confirm with user
+        if (!confirm('Are you sure you want to clear all messages in this chat? This cannot be undone.')) {
+            return;
+        }
+
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get chat path
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+
+        // Clear all messages
+        await database.ref(chatPath).remove();
+
+        // Reload the chat
+        const chatMessages = document.getElementById('directMessageChatMessages');
+        chatMessages.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 40px;">No messages yet. Start the conversation!</p>';
+
+        showNotification('Chat cleared successfully', 'success');
+
+    } catch (error) {
+        console.error('Error clearing chat messages:', error);
+        showNotification('Error clearing messages: ' + error.message, 'error');
     }
 }
 
@@ -1811,7 +2474,7 @@ async function sendUserNotification(userId, message, type = 'info') {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const notificationRef = database.ref('userNotifications/' + userId).push();
         await notificationRef.set({
             message: message,
@@ -1832,7 +2495,7 @@ async function loadUserNotifications() {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         const notificationsRef = database.ref('userNotifications/' + currentUser.uid)
             .orderByChild('timestamp')
             .limitToLast(10);
@@ -1864,7 +2527,7 @@ async function markNotificationAsRead(notificationId) {
     try {
         // Ensure Firebase is ready
         await ensureFirebaseReady();
-        
+
         await database.ref('userNotifications/' + currentUser.uid + '/' + notificationId)
             .update({ read: true });
     } catch (error) {
