@@ -231,54 +231,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Add touch swipe support for mobile sidebar
-let touchStartX = 0;
-let touchEndX = 0;
-
-document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, false);
-
-document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-}, false);
-
-function handleSwipe() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuToggle = document.querySelector('.menu-toggle');
-    
-    // Swipe right to open sidebar (only on mobile)
-    if (window.innerWidth <= 768 && touchEndX - touchStartX > 50) {
-        if (!sidebar.classList.contains('active')) {
-            sidebar.classList.add('active');
-            if (overlay) overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Change menu icon
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-times';
-            }
-        }
-    }
-    // Swipe left to close sidebar (only on mobile)
-    else if (window.innerWidth <= 768 && touchStartX - touchEndX > 50) {
-        if (sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            // Reset menu icon
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-            }
-        }
-    }
-}
-
 // Initialize app
 function initializeApp() {
     console.log('Learnify initialized');
