@@ -37,14 +37,44 @@ function showSection(sectionName) {
         // Keep the section active in the background but show modal on top
         // Close sidebar on mobile after selection
         if (window.innerWidth <= 768) {
-            hideSidebarAndShowContent();
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            sidebar.classList.remove('active');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.style.opacity = '0';
+            }
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
         }
         return;
     }
     
-    // Close sidebar on mobile after selecting any section and show full screen content
+    // Close sidebar on mobile after selecting any section
     if (window.innerWidth <= 768) {
-        hideSidebarAndShowContent();
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const menuToggle = document.querySelector('.menu-toggle');
+        
+        sidebar.classList.remove('active');
+        if (overlay) {
+            overlay.classList.remove('active');
+            overlay.style.opacity = '0';
+        }
+        document.body.style.overflow = '';
+        
+        // Reset menu icon
+        if (menuToggle) {
+            const icon = menuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
+        }
     }
     
     // Load section-specific data
@@ -121,34 +151,6 @@ function toggleSidebar() {
     }
 }
 
-// Hide sidebar and show full screen content (new mobile behavior)
-function hideSidebarAndShowContent() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    
-    // Hide sidebar
-    if (sidebar) {
-        sidebar.classList.remove('active');
-    }
-    
-    if (overlay) {
-        overlay.classList.remove('active');
-        overlay.style.opacity = '0';
-    }
-    
-    // Prevent body scroll
-    document.body.style.overflow = '';
-    
-    // Update menu toggle icon
-    const menuToggles = document.querySelectorAll('.menu-toggle');
-    menuToggles.forEach(menuToggle => {
-        const icon = menuToggle.querySelector('i');
-        if (icon) {
-            icon.className = 'fas fa-bars';
-        }
-    });
-}
-
 // Toggle dark/light theme
 function toggleTheme() {
     const html = document.documentElement;
@@ -190,16 +192,40 @@ document.addEventListener('click', (e) => {
     if (window.innerWidth <= 768) {
         // Close sidebar when clicking nav item
         if (e.target.closest('.nav-item')) {
-            hideSidebarAndShowContent();
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
         }
         // Close sidebar when clicking overlay
         else if (e.target === overlay) {
-            hideSidebarAndShowContent();
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset menu icon
+            if (menuToggle) {
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
         }
         // Don't close when clicking inside sidebar or menu toggle
         else if (!sidebar.contains(e.target) && !menuToggle?.contains(e.target)) {
             if (sidebar.classList.contains('active')) {
-                hideSidebarAndShowContent();
+                sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Reset menu icon
+                if (menuToggle) {
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) icon.className = 'fas fa-bars';
+                }
             }
         }
     }
