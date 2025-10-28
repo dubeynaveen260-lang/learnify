@@ -96,6 +96,29 @@
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/modern-ui.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
+    
+    <!-- Additional Mobile Styles -->
+    <style>
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none !important;
+                width: 0 !important;
+                min-width: 0 !important;
+                max-width: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                position: absolute !important;
+                left: -100% !important;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Login Screen (sidebar modal, hidden by default) -->
@@ -192,40 +215,11 @@
                 <span>Learnify</span>
             </div>
 
-            <!-- User Profile Section -->
-            <div class="user-profile" onclick="showProfile()">
-                <div class="user-avatar" id="userAvatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="user-info">
-                    <div class="user-name" id="userName">Guest</div>
-                    <div class="user-level" id="userLevel">Not logged in</div>
-                </div>
-            </div>
-
-            <!-- XP Progress Bar -->
-            <div class="xp-container">
-                <div class="xp-label">
-                    <span>XP</span>
-                    <span id="xpText">0 / 100</span>
-                </div>
-                <div class="xp-bar">
-                    <div class="xp-progress" id="xpProgress" style="width: 0%"></div>
-                </div>
-            </div>
-
             <!-- Navigation Menu (Removed - now in top bar) -->
             <nav class="sidebar-nav">
                 <!-- Navigation moved to top bar -->
             </nav>
 
-            <!-- Login/Logout Button -->
-            <div class="sidebar-footer">
-                <button class="btn-logout" id="authButton" onclick="toggleAuth()">
-                    <i class="fas fa-sign-in-alt" id="authIcon"></i>
-                    <span id="authText">Login</span>
-                </button>
-            </div>
         </aside>
 
         <!-- Main Content Area -->
@@ -239,45 +233,6 @@
                 <div class="nav-brand">
                     <i class="fas fa-graduation-cap"></i>
                     <span>Learnify</span>
-                </div>
-                        
-                <div class="nav-links">
-                    <a href="#" class="nav-link active" onclick="showSection('dashboard')">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('roadmap')">
-                        <i class="fas fa-map"></i>
-                        <span>Course Roadmap</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('resources')">
-                        <i class="fas fa-book"></i>
-                        <span>Resources</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('ai-assistant')">
-                        <i class="fas fa-robot"></i>
-                        <span>AI Assistant</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('quizzes')">
-                        <i class="fas fa-clipboard-question"></i>
-                        <span>Quizzes</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('leaderboard')">
-                        <i class="fas fa-trophy"></i>
-                        <span>Leaderboard</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('community')">
-                        <i class="fas fa-users"></i>
-                        <span>Community</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('achievements')">
-                        <i class="fas fa-award"></i>
-                        <span>Achievements</span>
-                    </a>
-                    <a href="#" class="nav-link" onclick="showSection('cgpa-calculator')">
-                        <i class="fas fa-calculator"></i>
-                        <span>CGPA Calculator</span>
-                    </a>
                 </div>
                         
                 <div class="nav-actions">

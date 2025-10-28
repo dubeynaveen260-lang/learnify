@@ -895,11 +895,20 @@ body {
 
 /* ===== Sidebar (Hidden) ===== */
 .sidebar {
-    display: none;
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    position: absolute !important;
+    left: -100% !important;
+    overflow: hidden !important;
 }
 
 .sidebar-overlay {
-    display: none;
+    display: none !important;
 }
 
 /* ===== Main Content ===== */
@@ -922,6 +931,54 @@ body {
     flex-grow: 1;
     /* Ensure proper flexbox layout */
     align-self: stretch;
+}
+
+/* Ensure sidebar is completely hidden on all screen sizes */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        position: absolute !important;
+        left: -100% !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Ensure top navigation bar takes full width on mobile */
+    .top-nav {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        position: absolute !important;
+        left: -100% !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 }
 
 /* Top bar styles moved to nav.css */

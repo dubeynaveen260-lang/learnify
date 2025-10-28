@@ -16,6 +16,7 @@
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  width: 100%;
 }
 
 .top-nav .nav-brand {
@@ -51,16 +52,8 @@
   text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
 }
 
+/* Hide regular nav links - all navigation will be in menu */
 .nav-links {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  overflow-x: auto;
-  padding: 5px 0;
-  scrollbar-width: none;
-}
-
-.nav-links::-webkit-scrollbar {
   display: none;
 }
 
@@ -197,9 +190,8 @@
   box-shadow: 0 7px 20px rgba(99, 102, 241, 0.5);
 }
 
-/* Mobile Navigation Toggle */
+/* Mobile Navigation Toggle - Always visible on all devices */
 .mobile-nav-toggle {
-  display: none;
   background: var(--card-bg);
   border: 2px solid var(--border-color);
   color: var(--text-primary);
@@ -212,6 +204,9 @@
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   transition: all 0.3s ease;
+  display: block; /* Always display the toggle */
+  /* Ensure it's on the left */
+  margin-right: auto;
 }
 
 .mobile-nav-toggle:hover {
@@ -263,11 +258,30 @@
   font-weight: 600;
 }
 
+/* Navigation for all screen sizes */
+@media (min-width: 769px) {
+  /* Keep regular nav links hidden - all navigation in menu */
+  .nav-links {
+    display: none;
+  }
+  
+  /* Mobile menu can be toggled on desktop */
+  .mobile-nav-menu.active {
+    display: flex;
+  }
+  
+  /* Always show mobile nav toggle on desktop */
+  .mobile-nav-toggle {
+    display: block;
+  }
+}
+
 /* Mobile Navigation */
 @media (max-width: 768px) {
   .top-nav {
     padding: 0 15px;
     height: 60px;
+    width: 100%;
   }
   
   .nav-brand {
@@ -286,8 +300,8 @@
   }
   
   .mobile-nav-toggle {
-    display: block;
     order: 1;
+    display: block; /* Always show on mobile */
   }
   
   .nav-actions {
@@ -326,6 +340,13 @@
   
   .mobile-nav-menu.active {
     display: flex;
+  }
+  
+  /* Ensure top nav takes full width */
+  .top-nav {
+    left: 0;
+    right: 0;
+    width: 100%;
   }
 }
 
@@ -394,12 +415,23 @@
   padding: 30px;
   min-height: calc(100vh - 70px - 70px);
   transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
   .main-content {
     margin-top: 60px;
     padding: 20px 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure content takes full width on mobile */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 

@@ -818,6 +818,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     margin-bottom: 5px;
   }
+  
+  /* Ensure sidebar is completely hidden on mobile */
+  .sidebar {
+    display: none !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -852,5 +857,12 @@ h1, h2, h3, h4, h5, h6 {
   .btn-secondary {
     padding: 12px 20px;
     font-size: 14px;
+  }
+  
+  /* Additional mobile fixes */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }

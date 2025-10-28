@@ -127,13 +127,11 @@ document.addEventListener('click', (e) => {
     const mobileNavMenu = document.querySelector('.mobile-nav-menu');
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     
-    if (window.innerWidth <= 768) {
-        // Close mobile nav when clicking outside
-        if (mobileNavMenu && mobileNavMenu.classList.contains('active') && 
-            !e.target.closest('.mobile-nav-menu') && 
-            !e.target.closest('.mobile-nav-toggle')) {
-            mobileNavMenu.classList.remove('active');
-        }
+    // Close mobile nav when clicking outside (works on both mobile and desktop)
+    if (mobileNavMenu && mobileNavMenu.classList.contains('active') && 
+        !e.target.closest('.mobile-nav-menu') && 
+        !e.target.closest('.mobile-nav-toggle')) {
+        mobileNavMenu.classList.remove('active');
     }
 });
 
@@ -155,6 +153,14 @@ function initializeApp() {
     
     // Test layout on different screen sizes
     testLayoutResponsiveness();
+    
+    // Ensure sidebar is hidden on mobile devices
+    if (window.innerWidth <= 768) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.display = 'none';
+        }
+    }
 }
 
 // Test layout responsiveness on different screen sizes
@@ -215,10 +221,18 @@ function testLayoutResponsiveness() {
 window.addEventListener('resize', () => {
     const mobileNavMenu = document.querySelector('.mobile-nav-menu');
     
-    // If window is resized to desktop size, ensure mobile nav is hidden
+    // If window is resized to desktop size, ensure mobile nav is hidden unless manually opened
     if (window.innerWidth > 768) {
-        if (mobileNavMenu) {
-            mobileNavMenu.classList.remove('active');
+        // Show sidebar on desktop
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.display = 'block';
+        }
+    } else {
+        // Hide sidebar on mobile
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.display = 'none';
         }
     }
 });
@@ -272,6 +286,24 @@ document.addEventListener('keydown', (e) => {
         const mobileNavMenu = document.querySelector('.mobile-nav-menu');
         if (mobileNavMenu && mobileNavMenu.classList.contains('active')) {
             mobileNavMenu.classList.remove('active');
+        }
+    }
+});
+
+// Ensure proper layout on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) {
+        // Hide sidebar on mobile devices
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.display = 'none';
+        }
+        
+        // Ensure main content takes full width
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.style.marginLeft = '0';
+            mainContent.style.width = '100%';
         }
     }
 });
