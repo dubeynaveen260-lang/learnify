@@ -7,7 +7,7 @@
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
     --dark-bg: #1e1e2e;
-    --darker-bg: #181825;
+    --darker-bg: #151520; /* Slightly darker for sidebar */
     --card-bg: #2a2a3e;
     --text-primary: #e0e0e0;
     --text-secondary: #a0a0b0;
@@ -30,6 +30,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Ensure all elements respect box-sizing */
+    max-width: 100%;
 }
 
 html {
@@ -40,6 +42,8 @@ html {
     max-width: 100vw;
     /* Prevent iOS Safari from zooming on input focus */
     -webkit-text-size-adjust: 100%;
+    /* Ensure proper padding */
+    padding: 0;
 }
 
 body {
@@ -54,6 +58,9 @@ body {
     display: flex; /* Use flexbox for body layout */
     min-height: 100vh; /* Ensure body takes at least full viewport height */
     position: relative;
+    /* Responsive font sizing */
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.5;
 }
 
 #mainApp {
@@ -63,6 +70,8 @@ body {
     flex: 1;
     overflow-x: hidden;
     position: relative;
+    /* Ensure proper padding */
+    padding: 0;
 }
 
 /* Prevent horizontal overflow on all elements */
@@ -78,58 +87,63 @@ body {
 }
 
 /* ===== Responsive Design ===== */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 481px) {
     /* Ensure proper viewport handling */
     @viewport {
         width: device-width;
         zoom: 1.0;
     }
     
-    /* Keep sidebar visible on mobile */
+    /* Keep sidebar visible on mobile with proper sizing (65-75% of screen width) */
     .sidebar {
         transform: translateX(0) !important;
-        width: 140px;
+        width: clamp(120px, 70vw, 250px); /* 65-75% of screen width */
         box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+        transition: width 0.3s ease;
     }
     
     .sidebar.active {
         transform: translateX(0) !important;
-        width: 140px;
+        width: clamp(120px, 70vw, 250px); /* 65-75% of screen width */
     }
     
     .sidebar-header span {
-        font-size: 18px; /* Reduce font size for smaller screens */
+        font-size: clamp(16px, 4vw, 20px); /* Responsive font size */
     }
     
     .sidebar-header i {
-        font-size: 24px; /* Reduce icon size for smaller screens */
+        font-size: clamp(20px, 5vw, 28px); /* Responsive icon size */
     }
     
     .sidebar-header {
-        padding: 15px 10px; /* Reduce padding for smaller screens */
+        padding: clamp(10px, 3vw, 15px) clamp(8px, 2vw, 10px); /* Responsive padding */
     }
     
     .main-content {
-        margin-left: 140px;
-        width: calc(100% - 140px);
-        max-width: calc(100% - 140px);
+        margin-left: clamp(120px, 70vw, 250px);
+        width: calc(100% - clamp(120px, 70vw, 250px));
+        max-width: calc(100% - clamp(120px, 70vw, 250px));
         overflow-x: hidden;
+        transition: all 0.3s ease;
     }
     
     /* Remove shifting behavior on mobile */
     .main-content.shifted {
         transform: none;
-        max-width: calc(100% - 140px);
+        margin-left: clamp(120px, 70vw, 250px);
+        width: calc(100% - clamp(120px, 70vw, 250px));
+        max-width: calc(100% - clamp(120px, 70vw, 250px));
         overflow-x: hidden;
     }
     
     .top-bar {
-        left: 140px;
-        width: calc(100% - 140px);
-        padding: 0 15px;
+        left: clamp(120px, 70vw, 250px);
+        width: calc(100% - clamp(120px, 70vw, 250px));
+        padding: 0 clamp(10px, 2vw, 15px);
         /* Ensure top bar doesn't cause horizontal overflow */
-        max-width: calc(100% - 140px);
+        max-width: calc(100% - clamp(120px, 70vw, 250px));
         overflow-x: hidden;
+        transition: all 0.3s ease;
     }
     
     /* Ensure all elements fit within screen width */
@@ -253,22 +267,38 @@ body {
         font-size: 12px;
     }
     
-    /* Improve navigation item touch targets */
+    /* Improve navigation item touch targets with flexbox alignment */
     .nav-item {
-        padding: clamp(12px, 2vw, 15px) clamp(5px, 1vw, 10px);
+        padding: clamp(12px, 2vw, 15px) clamp(8px, 2vw, 15px);
         min-height: 50px;
-        gap: clamp(5px, 1vw, 10px);
+        gap: clamp(8px, 2vw, 15px);
         /* Ensure nav items don't take too much horizontal space */
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: clamp(12px, 2vw, 14px); /* Reduce font size for smaller screens */
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
     }
     
     .nav-item i {
-        font-size: 18px;
-        width: 20px;
+        font-size: clamp(16px, 3vw, 20px);
+        width: clamp(20px, 3vw, 25px);
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+    
+    /* Add hover/tap highlights for sidebar icons */
+    .nav-item:hover {
+        background: rgba(99, 102, 241, 0.2);
+        transform: translateX(5px);
+    }
+    
+    .nav-item:active {
+        background: rgba(99, 102, 241, 0.3);
+        transform: translateX(3px);
     }
     
     /* Better overlay for mobile */
@@ -751,16 +781,19 @@ body {
 
 .btn-primary {
     width: 100%;
-    padding: 15px;
+    padding: clamp(12px, 2vw, 15px);
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     border: none;
-    border-radius: 10px;
+    border-radius: clamp(8px, 2vw, 10px);
     color: white;
-    font-size: 16px;
+    font-size: clamp(14px, 2vw, 16px);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    margin-top: 10px;
+    margin-top: clamp(8px, 1vw, 10px);
+    /* Ensure proper sizing on mobile */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .btn-primary:hover {
@@ -803,6 +836,10 @@ body {
     /* Ensure sidebar is always visible */
     transform: translateX(0) !important;
     box-sizing: border-box;
+    /* Add smooth transitions */
+    transition: width 0.3s ease, transform 0.3s ease;
+    /* Add subtle shadow for depth */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-overlay {
@@ -974,12 +1011,14 @@ body {
     padding: 15px 20px;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     border-left: 3px solid transparent;
     /* Prevent text overflow */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* Add smooth transitions */
+    transition: all 0.3s ease, transform 0.2s ease;
 }
 
 .nav-item:hover {
@@ -1043,6 +1082,11 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    /* Add smooth transitions */
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    /* Ensure proper sizing on all devices */
+    max-width: calc(100% - var(--sidebar-width));
+    flex: 1;
 }
 
 .top-bar {
@@ -1193,16 +1237,23 @@ body {
 /* ===== Content Sections ===== */
 .content-section {
     display: none;
-    padding: 30px;
+    padding: clamp(15px, 3vw, 30px) clamp(8px, 2vw, 12px);
     animation: fadeIn 0.3s;
     width: 100%;
     box-sizing: border-box;
     flex: 1; /* Allow content section to grow and fill available space */
+    /* Ensure no horizontal overflow */
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .content-section.active {
     display: block;
     flex: 1; /* Allow active content section to grow and fill available space */
+    /* Ensure no horizontal overflow */
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: clamp(15px, 3vw, 30px) clamp(8px, 2vw, 12px);
 }
 
 @keyframes fadeIn {
@@ -1211,8 +1262,11 @@ body {
 }
 
 .content-section h1 {
-    font-size: clamp(24px, 4vw, 32px);
-    margin-bottom: 10px;
+    font-size: clamp(20px, 4vw, 32px);
+    margin-bottom: clamp(8px, 1vw, 10px);
+    /* Ensure proper sizing on mobile */
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 .section-desc {
@@ -1223,8 +1277,15 @@ body {
 /* ===== Cards and Grids ===== */
 .card {
     background: var(--card-bg);
-    padding: 25px;
-    border-radius: 15px;
+    padding: clamp(15px, 3vw, 25px) clamp(10px, 2vw, 20px);
+    border-radius: clamp(10px, 2vw, 15px);
+    /* Ensure proper sizing on mobile */
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: clamp(15px, 2vw, 25px);
+    /* Ensure proper horizontal padding */
+    margin-left: clamp(5px, 1vw, 10px);
+    margin-right: clamp(5px, 1vw, 10px);
 }
 
 .card h3 {
@@ -4090,51 +4151,52 @@ body {
         zoom: 1.0;
     }
     
-    /* Keep sidebar visible but smaller on very small screens */
+    /* Keep sidebar visible but smaller on very small screens (65-75% of screen width) */
     .sidebar {
-        width: 100px;
-        max-width: 100px;
+        width: clamp(80px, 70vw, 120px);
+        max-width: clamp(80px, 70vw, 120px);
     }
     
     .sidebar.active {
-        width: 100px;
-        max-width: 100px;
+        width: clamp(80px, 70vw, 120px);
+        max-width: clamp(80px, 70vw, 120px);
     }
     
     .main-content {
-        margin-left: 100px;
-        width: calc(100% - 100px);
-        max-width: calc(100% - 100px);
+        margin-left: clamp(80px, 70vw, 120px);
+        width: calc(100% - clamp(80px, 70vw, 120px));
+        max-width: calc(100% - clamp(80px, 70vw, 120px));
         overflow-x: hidden;
     }
     
     .main-content.shifted {
-        margin-left: 100px;
-        width: calc(100% - 100px);
-        max-width: calc(100% - 100px);
+        margin-left: clamp(80px, 70vw, 120px);
+        width: calc(100% - clamp(80px, 70vw, 120px));
+        max-width: calc(100% - clamp(80px, 70vw, 120px));
         overflow-x: hidden;
     }
     
     .top-bar {
-        left: 100px;
-        width: calc(100% - 100px);
-        max-width: calc(100% - 100px);
+        left: clamp(80px, 70vw, 120px);
+        width: calc(100% - clamp(80px, 70vw, 120px));
+        max-width: calc(100% - clamp(80px, 70vw, 120px));
+        padding: 0 clamp(5px, 1vw, 8px);
     }
     
     /* Further reduce navigation item size on very small screens */
     .nav-item {
-        padding: 12px 5px;
-        gap: 5px;
-        font-size: 12px;
+        padding: clamp(8px, 2vw, 12px) clamp(3px, 1vw, 5px);
+        gap: clamp(3px, 1vw, 5px);
+        font-size: clamp(10px, 2vw, 12px);
     }
     
     .nav-item i {
-        font-size: 16px;
-        width: 16px;
+        font-size: clamp(14px, 2vw, 16px);
+        width: clamp(14px, 2vw, 16px);
     }
     
     .nav-item span {
-        display: none; /* Hide text labels on very small screens */
+        display: none; /* Hide text labels on very small screens for better fit */
     }
     
     /* Adjust XP container for very small screens */
@@ -4148,6 +4210,12 @@ body {
     
     .xp-bar {
         height: clamp(4px, 1vw, 6px);
+    }
+    
+    /* Ensure all elements fit on very small screens */
+    * {
+        max-width: 100vw !important;
+        box-sizing: border-box;
     }
     
     /* Adjust user profile for very small screens */
