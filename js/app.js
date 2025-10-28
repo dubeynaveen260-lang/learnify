@@ -15,12 +15,14 @@ function showSection(sectionName) {
     }
     
     // Update navigation active state
-    document.querySelectorAll('.nav-item').forEach(item => {
+    document.querySelectorAll('.nav-link').forEach(item => {
         item.classList.remove('active');
     });
-    if (event && event.target) {
-        event.target.closest('.nav-item').classList.add('active');
-    }
+    
+    // Also update mobile nav links if they exist
+    document.querySelectorAll('.mobile-nav-link').forEach(item => {
+        item.classList.remove('active');
+    });
     
     // Check if login required for certain sections
     const loginRequiredSections = ['quizzes', 'community', 'achievements'];
@@ -34,55 +36,13 @@ function showSection(sectionName) {
     // Special handling for CGPA calculator - open in full screen modal
     if (sectionName === 'cgpa-calculator') {
         openCGPAModal();
-        // Keep the section active in the background but show modal on top
-        // Close sidebar on mobile after selection
-        if (window.innerWidth <= 768) {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const menuToggle = document.querySelector('.menu-toggle');
-            const mainContent = document.querySelector('.main-content');
-            
-            sidebar.classList.remove('active');
-            if (mainContent) {
-                mainContent.classList.remove('shifted');
-            }
-            if (overlay) {
-                overlay.classList.remove('active');
-                overlay.style.opacity = '0';
-            }
-            document.body.style.overflow = '';
-            
-            // Reset menu icon
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-            }
-        }
         return;
     }
     
-    // Close sidebar on mobile after selecting any section
-    if (window.innerWidth <= 768) {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainContent = document.querySelector('.main-content');
-        
-        sidebar.classList.remove('active');
-        if (mainContent) {
-            mainContent.classList.remove('shifted');
-        }
-        if (overlay) {
-            overlay.classList.remove('active');
-            overlay.style.opacity = '0';
-        }
-        document.body.style.overflow = '';
-        
-        // Reset menu icon
-        if (menuToggle) {
-            const icon = menuToggle.querySelector('i');
-            if (icon) icon.className = 'fas fa-bars';
-        }
+    // Close mobile nav menu after selecting any section
+    const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+    if (mobileNavMenu) {
+        mobileNavMenu.classList.remove('active');
     }
     
     // Load section-specific data
@@ -122,50 +82,11 @@ function showSection(sectionName) {
     }
 }
 
-// Toggle sidebar (for mobile)
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainContent = document.querySelector('.main-content');
-    
-    sidebar.classList.toggle('active');
-    
-    if (overlay) {
-        overlay.classList.toggle('active');
-    }
-    
-    // Shift main content when sidebar is active
-    if (mainContent) {
-        if (sidebar.classList.contains('active')) {
-            mainContent.classList.add('shifted');
-        } else {
-            mainContent.classList.remove('shifted');
-        }
-    }
-    
-    // Add visual feedback to menu toggle
-    if (menuToggle) {
-        const icon = menuToggle.querySelector('i');
-        if (sidebar.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-        } else {
-            icon.className = 'fas fa-bars';
-        }
-    }
-    
-    // Prevent body scroll when sidebar is open on mobile
-    if (window.innerWidth <= 768) {
-        if (sidebar.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-            // Add a slight delay to ensure smooth transition
-            setTimeout(() => {
-                if (overlay) overlay.style.opacity = '1';
-            }, 10);
-        } else {
-            document.body.style.overflow = '';
-            if (overlay) overlay.style.opacity = '0';
-        }
+// Toggle mobile navigation menu
+function toggleMobileNav() {
+    const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+    if (mobileNavMenu) {
+        mobileNavMenu.classList.toggle('active');
     }
 }
 
@@ -201,46 +122,18 @@ function loadSavedTheme() {
     }
 }
 
-// Close sidebar when clicking navigation items (mobile)
+// Close mobile nav menu when clicking outside
 document.addEventListener('click', (e) => {
-    const sidebar = document.getElementById('sidebar');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const overlay = document.getElementById('sidebarOverlay');
-    const mainContent = document.querySelector('.main-content');
+    const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     
     if (window.innerWidth <= 768) {
-        // Close sidebar when clicking nav item
-        if (e.target.closest('.nav-item')) {
-            sidebar.classList.remove('active');
-            if (mainContent) {
-                mainContent.classList.remove('shifted');
-            }
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            // Reset menu icon
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-            }
+        // Close mobile nav when clicking outside
+        if (mobileNavMenu && mobileNavMenu.classList.contains('active') && 
+            !e.target.closest('.mobile-nav-menu') && 
+            !e.target.closest('.mobile-nav-toggle')) {
+            mobileNavMenu.classList.remove('active');
         }
-        // Close sidebar when clicking overlay
-        else if (e.target === overlay) {
-            sidebar.classList.remove('active');
-            if (mainContent) {
-                mainContent.classList.remove('shifted');
-            }
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            // Reset menu icon
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-            }
-        }
-        // Removed: auto-close when clicking outside sidebar
-        // This allows the menu to stay open when clicking on main content
     }
 });
 
@@ -259,6 +152,60 @@ function initializeApp() {
             console.log('No user authenticated');
         }
     });
+    
+    // Test layout on different screen sizes
+    testLayoutResponsiveness();
+}
+
+// Test layout responsiveness on different screen sizes
+function testLayoutResponsiveness() {
+    // Test screen sizes: 320px, 375px, 425px, 768px
+    const testSizes = [320, 375, 425, 768];
+    
+    // Create a test element to check layout
+    const testElement = document.createElement('div');
+    testElement.style.position = 'fixed';
+    testElement.style.top = '0';
+    testElement.style.left = '0';
+    testElement.style.width = '100vw';
+    testElement.style.height = '1px';
+    testElement.style.backgroundColor = 'transparent';
+    testElement.style.zIndex = '9999';
+    testElement.id = 'layout-test-element';
+    document.body.appendChild(testElement);
+    
+    // Check each test size
+    testSizes.forEach(size => {
+        // Set viewport width for testing
+        const originalWidth = window.innerWidth;
+        
+        // Check if main content fits properly
+        const mainContent = document.querySelector('.main-content');
+        
+        if (mainContent) {
+            const mainContentWidth = mainContent.offsetWidth;
+            
+            // Log test results
+            console.log(`Screen width: ${size}px`);
+            console.log(`Main content width: ${mainContentWidth}px`);
+            console.log(`Window inner width: ${window.innerWidth}px`);
+            
+            // Check if layout is valid (no horizontal overflow)
+            if (mainContentWidth <= window.innerWidth + 1) { // +1 for potential rounding
+                console.log(`✓ Layout valid for ${size}px screen width`);
+            } else {
+                console.log(`✗ Layout invalid for ${size}px screen width - total width exceeds screen`);
+            }
+        }
+    });
+    
+    // Clean up test element
+    setTimeout(() => {
+        const testEl = document.getElementById('layout-test-element');
+        if (testEl) {
+            testEl.remove();
+        }
+    }, 5000);
 }
 
 // Resources section functionality is now handled in resources.js
@@ -266,27 +213,12 @@ function initializeApp() {
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainContent = document.querySelector('.main-content');
+    const mobileNavMenu = document.querySelector('.mobile-nav-menu');
     
-    // If window is resized to desktop size, ensure sidebar is visible and overlay is hidden
+    // If window is resized to desktop size, ensure mobile nav is hidden
     if (window.innerWidth > 768) {
-        sidebar.classList.remove('active');
-        if (mainContent) {
-            mainContent.classList.remove('shifted');
-        }
-        if (overlay) {
-            overlay.classList.remove('active');
-            overlay.style.opacity = '';
-        }
-        document.body.style.overflow = '';
-        
-        // Reset menu icon
-        if (menuToggle) {
-            const icon = menuToggle.querySelector('i');
-            if (icon) icon.className = 'fas fa-bars';
+        if (mobileNavMenu) {
+            mobileNavMenu.classList.remove('active');
         }
     }
 });
@@ -336,23 +268,10 @@ document.addEventListener('keydown', (e) => {
         document.getElementById('profileModal').style.display = 'none';
         document.getElementById('notificationsPanel').style.display = 'none';
         
-        // Close sidebar on mobile
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        const mainContent = document.querySelector('.main-content');
-        if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
-            if (mainContent) {
-                mainContent.classList.remove('shifted');
-            }
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            const menuToggle = document.querySelector('.menu-toggle');
-            if (menuToggle) {
-                const icon = menuToggle.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-            }
+        // Close mobile nav menu
+        const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+        if (mobileNavMenu && mobileNavMenu.classList.contains('active')) {
+            mobileNavMenu.classList.remove('active');
         }
     }
 });

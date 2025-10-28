@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Test</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Test container for different screen sizes */
+        .test-container {
+            width: 100%;
+            height: 100vh;
+            border: 2px solid red;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Test frames for different screen sizes */
+        .screen-320 { width: 320px; height: 568px; }
+        .screen-375 { width: 375px; height: 667px; }
+        .screen-425 { width: 425px; height: 768px; }
+        .screen-768 { width: 768px; height: 1024px; }
+        
+        .test-frame {
+            border: 1px solid #ccc;
+            margin: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .test-frame h3 {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .test-content {
+            width: 100%;
+            height: 100%;
+            transform: scale(0.5);
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Layout Testing for Different Screen Sizes</h1>
+    
+    <div class="test-frame screen-320">
+        <h3>320px Width Test</h3>
+        <div class="test-content">
+            <div id="mainApp">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learnify</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">Test User</div>
+                            <div class="user-level">Level 1</div>
+                        </div>
+                    </div>
+                    <div class="xp-container">
+                        <div class="xp-label">
+                            <span>XP</span>
+                            <span>50 / 100</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-map"></i>
+                            <span>Course Roadmap</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <button class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </aside>
+                <main class="main-content">
+                    <header class="top-bar">
+                        <button class="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="streak-display">
+                            <i class="fas fa-fire"></i>
+                            <span>3</span> Day Streak
+                        </div>
+                        <div class="daily-quote">"Learning is a treasure that follows its owner everywhere."</div>
+                        <div class="top-bar-icons">
+                            <button class="theme-toggle">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                            <button class="notification-toggle">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <section class="content-section active">
+                        <h1>Welcome back, Test User! 🎉</h1>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <div class="stat-value">150</div>
+                                <div class="stat-label">Total XP</div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Topics Completed</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Your Progress</h3>
+                            <p>This is a test content to check if the layout works properly on small screens.</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-frame screen-375">
+        <h3>375px Width Test</h3>
+        <div class="test-content">
+            <div id="mainApp">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learnify</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">Test User</div>
+                            <div class="user-level">Level 1</div>
+                        </div>
+                    </div>
+                    <div class="xp-container">
+                        <div class="xp-label">
+                            <span>XP</span>
+                            <span>50 / 100</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-map"></i>
+                            <span>Course Roadmap</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <button class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </aside>
+                <main class="main-content">
+                    <header class="top-bar">
+                        <button class="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="streak-display">
+                            <i class="fas fa-fire"></i>
+                            <span>3</span> Day Streak
+                        </div>
+                        <div class="daily-quote">"Learning is a treasure that follows its owner everywhere."</div>
+                        <div class="top-bar-icons">
+                            <button class="theme-toggle">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                            <button class="notification-toggle">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <section class="content-section active">
+                        <h1>Welcome back, Test User! 🎉</h1>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <div class="stat-value">150</div>
+                                <div class="stat-label">Total XP</div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Topics Completed</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Your Progress</h3>
+                            <p>This is a test content to check if the layout works properly on small screens.</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-frame screen-425">
+        <h3>425px Width Test</h3>
+        <div class="test-content">
+            <div id="mainApp">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learnify</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">Test User</div>
+                            <div class="user-level">Level 1</div>
+                        </div>
+                    </div>
+                    <div class="xp-container">
+                        <div class="xp-label">
+                            <span>XP</span>
+                            <span>50 / 100</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-map"></i>
+                            <span>Course Roadmap</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <button class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </aside>
+                <main class="main-content">
+                    <header class="top-bar">
+                        <button class="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="streak-display">
+                            <i class="fas fa-fire"></i>
+                            <span>3</span> Day Streak
+                        </div>
+                        <div class="daily-quote">"Learning is a treasure that follows its owner everywhere."</div>
+                        <div class="top-bar-icons">
+                            <button class="theme-toggle">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                            <button class="notification-toggle">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <section class="content-section active">
+                        <h1>Welcome back, Test User! 🎉</h1>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <div class="stat-value">150</div>
+                                <div class="stat-label">Total XP</div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Topics Completed</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Your Progress</h3>
+                            <p>This is a test content to check if the layout works properly on small screens.</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-frame screen-768">
+        <h3>768px Width Test</h3>
+        <div class="test-content">
+            <div id="mainApp">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Learnify</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">Test User</div>
+                            <div class="user-level">Level 1</div>
+                        </div>
+                    </div>
+                    <div class="xp-container">
+                        <div class="xp-label">
+                            <span>XP</span>
+                            <span>50 / 100</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-map"></i>
+                            <span>Course Roadmap</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <button class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </aside>
+                <main class="main-content">
+                    <header class="top-bar">
+                        <button class="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="streak-display">
+                            <i class="fas fa-fire"></i>
+                            <span>3</span> Day Streak
+                        </div>
+                        <div class="daily-quote">"Learning is a treasure that follows its owner everywhere."</div>
+                        <div class="top-bar-icons">
+                            <button class="theme-toggle">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                            <button class="notification-toggle">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <section class="content-section active">
+                        <h1>Welcome back, Test User! 🎉</h1>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <div class="stat-value">150</div>
+                                <div class="stat-label">Total XP</div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Topics Completed</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Your Progress</h3>
+                            <p>This is a test content to check if the layout works properly on small screens.</p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://use.fontawesome.com/releases/v6.4.0/js/all.js"></script>
+</body>
+</html>
