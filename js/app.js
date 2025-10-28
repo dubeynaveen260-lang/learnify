@@ -40,8 +40,12 @@ function showSection(sectionName) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const menuToggle = document.querySelector('.menu-toggle');
+            const mainContent = document.querySelector('.main-content');
             
             sidebar.classList.remove('active');
+            if (mainContent) {
+                mainContent.classList.remove('shifted');
+            }
             if (overlay) {
                 overlay.classList.remove('active');
                 overlay.style.opacity = '0';
@@ -62,8 +66,12 @@ function showSection(sectionName) {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const menuToggle = document.querySelector('.menu-toggle');
+        const mainContent = document.querySelector('.main-content');
         
         sidebar.classList.remove('active');
+        if (mainContent) {
+            mainContent.classList.remove('shifted');
+        }
         if (overlay) {
             overlay.classList.remove('active');
             overlay.style.opacity = '0';
@@ -119,11 +127,21 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     const menuToggle = document.querySelector('.menu-toggle');
+    const mainContent = document.querySelector('.main-content');
     
     sidebar.classList.toggle('active');
     
     if (overlay) {
         overlay.classList.toggle('active');
+    }
+    
+    // Shift main content when sidebar is active
+    if (mainContent) {
+        if (sidebar.classList.contains('active')) {
+            mainContent.classList.add('shifted');
+        } else {
+            mainContent.classList.remove('shifted');
+        }
     }
     
     // Add visual feedback to menu toggle
@@ -183,16 +201,20 @@ function loadSavedTheme() {
     }
 }
 
-// Close sidebar when clicking outside or selecting an item (mobile)
+// Close sidebar when clicking navigation items (mobile)
 document.addEventListener('click', (e) => {
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.querySelector('.menu-toggle');
     const overlay = document.getElementById('sidebarOverlay');
+    const mainContent = document.querySelector('.main-content');
     
     if (window.innerWidth <= 768) {
         // Close sidebar when clicking nav item
         if (e.target.closest('.nav-item')) {
             sidebar.classList.remove('active');
+            if (mainContent) {
+                mainContent.classList.remove('shifted');
+            }
             if (overlay) overlay.classList.remove('active');
             document.body.style.overflow = '';
             
@@ -205,6 +227,9 @@ document.addEventListener('click', (e) => {
         // Close sidebar when clicking overlay
         else if (e.target === overlay) {
             sidebar.classList.remove('active');
+            if (mainContent) {
+                mainContent.classList.remove('shifted');
+            }
             if (overlay) overlay.classList.remove('active');
             document.body.style.overflow = '';
             
@@ -214,20 +239,8 @@ document.addEventListener('click', (e) => {
                 if (icon) icon.className = 'fas fa-bars';
             }
         }
-        // Don't close when clicking inside sidebar or menu toggle
-        else if (!sidebar.contains(e.target) && !menuToggle?.contains(e.target)) {
-            if (sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                if (overlay) overlay.classList.remove('active');
-                document.body.style.overflow = '';
-                
-                // Reset menu icon
-                if (menuToggle) {
-                    const icon = menuToggle.querySelector('i');
-                    if (icon) icon.className = 'fas fa-bars';
-                }
-            }
-        }
+        // Removed: auto-close when clicking outside sidebar
+        // This allows the menu to stay open when clicking on main content
     }
 });
 
@@ -256,10 +269,14 @@ window.addEventListener('resize', () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     const menuToggle = document.querySelector('.menu-toggle');
+    const mainContent = document.querySelector('.main-content');
     
     // If window is resized to desktop size, ensure sidebar is visible and overlay is hidden
     if (window.innerWidth > 768) {
         sidebar.classList.remove('active');
+        if (mainContent) {
+            mainContent.classList.remove('shifted');
+        }
         if (overlay) {
             overlay.classList.remove('active');
             overlay.style.opacity = '';
@@ -322,8 +339,12 @@ document.addEventListener('keydown', (e) => {
         // Close sidebar on mobile
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
+        const mainContent = document.querySelector('.main-content');
         if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
             sidebar.classList.remove('active');
+            if (mainContent) {
+                mainContent.classList.remove('shifted');
+            }
             if (overlay) overlay.classList.remove('active');
             document.body.style.overflow = '';
             
