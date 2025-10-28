@@ -17,8 +17,8 @@ const COURSE_ROADMAPS = {
                         name: "Structured and Spoken English",
                         description: "Course Code: LNG 301 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "Chetan Sir English", url: "https://youtu.be/FPmP9WR-l6Q?si=ZMCJuke47TjZB1EG" },
-                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" }
+                            { title: "BCA complete course", url: "https://youtube.com/playlist?list=PLXIPR4CD0nooyGygyIQAFBAMBpinydiSk&si=QiECRy487gcw-OI1" },
+                            { title: "Complete Ensglish Playlist", url: "https://www.youtube.com/@studyiqhindi" }
                         ]
                     },
                     {
@@ -26,8 +26,8 @@ const COURSE_ROADMAPS = {
                         name: "Moral & Value Education",
                         description: "Course Code: GPT 301 | Credits: 2(2+0+0)",
                         videos: [
-                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
-                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
+                            { title: "Moral value education", url: "https://youtu.be/KbzMLxqdf0g?si=yea-lftDfTPZzUk2" },
+                            { title: "Drishti IAS MVA", url: "https://www.youtube.com/@DrishtiIASHindi" }
                         ]
                     },
                     {
@@ -35,8 +35,8 @@ const COURSE_ROADMAPS = {
                         name: "Foundation Course in Mathematics",
                         description: "Course Code: MAS 341 | Credits: 4(4+0+0)",
                         videos: [
-                            { title: "Easy Engineering Classes Hindi", url: "https://www.youtube.com/@EasyEngineeringClasses" },
-                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" }
+                            { title: "Maths complete playlist", url: "https://youtube.com/playlist?list=PLEHGYFbPuuMFFRcRRQaBDreTD3SUDFQ5k&si=k2-8yGZ1ng7q-K5q" },
+                            { title: "BCA complete Maths playlist", url: "https://www.youtube.com/@GateSmashersHindi" }
                         ]
                     },
                     {
@@ -44,8 +44,8 @@ const COURSE_ROADMAPS = {
                         name: "Business Communication",
                         description: "Course Code: BAM 327 | Credits: 3(2+1+0)",
                         videos: [
-                            { title: "StudyIQ Hindi", url: "https://www.youtube.com/@studyiqhindi" },
-                            { title: "Drishti IAS Hindi", url: "https://www.youtube.com/@DrishtiIASHindi" }
+                            { title: "BUS complete oneshot", url: "https://youtu.be/AUiJEE0mfU4?si=BzeLnDUTGqqKMZJS" },
+                            { title: "BUS playlist ", url: "https://youtube.com/playlist?list=PLaAhQ2ofZZRBjpgXHPpWF0sYwiLD5Gh1k&si=iT-6viPpIHUMEqU6" }
                         ]
                     },
                     {
@@ -53,8 +53,8 @@ const COURSE_ROADMAPS = {
                         name: "Basic Electronics",
                         description: "Course Code: ECE 310 | Credits: 4(2+1+2)",
                         videos: [
-                            { title: "Neso Academy Hindi", url: "https://www.youtube.com/@NesoAcademyHindi" },
-                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" }
+                            { title: "Basic electronics", url: "https://youtube.com/playlist?list=PLaJk-M7-F2rzdmwSvUi_elZLvJVLFQa1J&si=K2KkWBHpjUcEavK6" },
+                            { title: "Basic electronics playlist", url: "https://youtube.com/playlist?list=PLgwJf8NK-2e76qHT4VOu9uTw8wj0i4blS&si=FeFbrk4ZVkJemg8a" }
                         ]
                     },
                     {
@@ -62,8 +62,8 @@ const COURSE_ROADMAPS = {
                         name: "Problem Solving & Programming in C",
                         description: "Course Code: CSIT 404 | Credits: 5(2+1+4)",
                         videos: [
-                            { title: "CodeWithHarry Hindi", url: "https://www.youtube.com/@CodeWithHarry" },
-                            { title: "Jenny's Lectures CS IT", url: "https://www.youtube.com/@JennyslecturesCSIT" }
+                            { title: "CodeWithHarry Hindi", url: "https://youtu.be/aZb0iu4uGwA?si=8pTlQQpK3VWISL4h" },
+                            { title: "Apna college Hindi", url: "https://youtu.be/irqbmMNs2Bo?si=AONVQ-cukcw6Xsn0" }
                         ]
                     },
                     {
@@ -71,8 +71,8 @@ const COURSE_ROADMAPS = {
                         name: "Fundamentals of Computer Science",
                         description: "Course Code: CSIT 405 | Credits: 4(2+1+2)",
                         videos: [
-                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
-                            { title: "Geeky Shows Hindi", url: "https://www.youtube.com/@GeekyShowsHindi" }
+                            { title: "Fundamentals of Computer Science Oneshot", url: "https://youtu.be/gkoAxqNjS1Y?si=o8om7FQwoH8UdVfG" },
+                            { title: "Fundamentals of Computer Science lecture", url: "https://youtu.be/tIfRDPekybU?si=A_HXhUEYttbCFSvk" }
                         ]
                     },
                     {
@@ -80,8 +80,8 @@ const COURSE_ROADMAPS = {
                         name: "Principles of Programming Languages",
                         description: "Course Code: CSIT 409 | Credits: 4(3–1–0)",
                         videos: [
-                            { title: "Gate Smashers Hindi", url: "https://www.youtube.com/@GateSmashersHindi" },
-                            { title: "Education 4u Hindi", url: "https://www.youtube.com/@Education4uHindi" }
+                            { title: "principles of programming languages playlist", url: "https://youtube.com/playlist?list=PLbWkMgLvWbDF3bErg6Ejo8d1QtTSqtWwN&si=R9DGl-YrzcKzUc9-" },
+                            { title: "principles of programming languages course", url: "https://youtube.com/playlist?list=PL-JvKqQx2AtdIkEFDrqsHyKWzb5PWniI1&si=HW19pFwniodNWlLk" }
                         ]
                     }
                 ]
