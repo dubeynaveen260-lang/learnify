@@ -1567,9 +1567,13 @@ async function loadGroupChatMessages(groupId) {
             const date = new Date(message.timestamp);
             const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+            // Add delete button for own messages
+            const deleteButton = message.senderId === currentUser.uid ? `<button class="delete-message-btn" onclick="deleteGroupMessage('${message.id}')" title="Delete message">×</button>` : '';
+
             messageElement.innerHTML = `
                 <div class="message-header">
                     <strong>${message.senderId === currentUser.uid ? 'You' : escapeHtml(message.senderName)}</strong>
+                    ${deleteButton}
                 </div>
                 <div class="message-content">${escapeHtml(content)}</div>
                 <div class="message-time">${timeString}</div>
@@ -1677,9 +1681,13 @@ function displayNewMessage(message, messageId) {
     // Add the message signature to our global tracking set
     displayedMessageSignatures.add(messageSignature);
 
+    // Add delete button for own messages
+    const deleteButton = isOwnMessage ? `<button class="delete-message-btn" onclick="deleteGroupMessage('${messageId}')" title="Delete message">×</button>` : '';
+
     messageElement.innerHTML = `
         <div class="message-header">
             <strong>${isOwnMessage ? 'You' : escapeHtml(message.senderName)}</strong>
+            ${deleteButton}
         </div>
         <div class="message-content">${escapeHtml(content)}</div>
         <div class="message-time">${timeString}</div>
@@ -2118,9 +2126,13 @@ async function loadDirectMessageChatMessages(userId) {
             const date = new Date(message.timestamp);
             const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+            // Add delete button for own messages
+            const deleteButton = message.senderId === currentUser.uid ? `<button class="delete-message-btn" onclick="deleteDirectMessage('${pseudoId}', '${escapeHtml(content)}')" title="Delete message">×</button>` : '';
+
             messageElement.innerHTML = `
                 <div class="message-header">
                     <strong>${message.senderId === currentUser.uid ? 'You' : message.senderName}</strong>
+                    ${deleteButton}
                 </div>
                 <div class="message-content">${escapeHtml(content)}</div>
                 <div class="message-time">${timeString}</div>
@@ -2431,6 +2443,109 @@ async function clearDirectMessageChat() {
 function handleDirectMessageKeyPress(event) {
     if (event.key === 'Enter') {
         sendDirectMessage();
+    }
+}
+
+// Delete a group message
+async function deleteGroupMessage(messageId) {
+    if (!currentUser || !currentGroupId) {
+        showNotification('No active group chat', 'error');
+        return;
+    }
+
+    try {
+        // Confirm deletion
+        if (!confirm('Are you sure you want to delete this message?')) {
+            return;
+        }
+
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get the message to check if user is the sender
+        const messageRef = database.ref('groupChats/' + currentGroupId + '/' + messageId);
+        const snapshot = await messageRef.once('value');
+        const message = snapshot.val();
+
+        if (!message) {
+            showNotification('Message not found', 'error');
+            return;
+        }
+
+        // Check if user is the sender
+        if (message.senderId !== currentUser.uid) {
+            showNotification('You can only delete your own messages', 'error');
+            return;
+        }
+
+        // Delete the message
+        await messageRef.remove();
+
+        // Remove the message from the UI
+        const messageElement = document.querySelector(`[data-message-id='${messageId}']`);
+        if (messageElement) {
+            messageElement.remove();
+        }
+
+        showNotification('Message deleted', 'success');
+
+    } catch (error) {
+        console.error('Error deleting message:', error);
+        showNotification('Error deleting message: ' + error.message, 'error');
+    }
+}
+
+// Delete a direct message
+async function deleteDirectMessage(pseudoId, messageContent) {
+    if (!currentUser || !currentDirectMessageUserId) {
+        showNotification('No active chat', 'error');
+        return;
+    }
+
+    try {
+        // Confirm deletion
+        if (!confirm('Are you sure you want to delete this message?')) {
+            return;
+        }
+
+        // Ensure Firebase is ready
+        await ensureFirebaseReady();
+
+        // Get the chat path
+        const chatPath = getDirectMessageChatPath(currentUser.uid, currentDirectMessageUserId);
+
+        // Find the message by content and sender
+        const messagesRef = database.ref(chatPath);
+        const snapshot = await messagesRef.once('value');
+        
+        let messageIdToDelete = null;
+        snapshot.forEach(childSnapshot => {
+            const message = childSnapshot.val();
+            // Check if message matches sender and content
+            if (message.senderId === currentUser.uid && message.content === messageContent) {
+                messageIdToDelete = childSnapshot.key;
+            }
+        });
+
+        if (!messageIdToDelete) {
+            showNotification('Message not found', 'error');
+            return;
+        }
+
+        // Delete the message
+        await database.ref(chatPath + '/' + messageIdToDelete).remove();
+
+        // Remove the message from the UI
+        const messageElement = document.querySelector(`[data-pseudo-id='${pseudoId}']`);
+        if (messageElement) {
+            messageElement.remove();
+        }
+
+        showNotification('Message deleted', 'success');
+
+    } catch (error) {
+        console.error('Error deleting message:', error);
+        showNotification('Error deleting message: ' + error.message, 'error');
     }
 }
 
